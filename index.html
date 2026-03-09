@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pressed Cafe — Training Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --cream:     #f5f0e8;
+      --cream-dk:  #ede6d6;
+      --ink:       #1a1a18;
+      --ink-lt:    #3d3d38;
+      --coral:     #c94f37;
+      --coral-lt:  #e06b52;
+      --tan:       #b8a98a;
+      --border:    rgba(26,26,24,0.12);
+      --radius:    8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Header ── */
+    header {
+      position: relative;
+      z-index: 1;
+      background: var(--cream-dk);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 90px;
+      border-bottom: 3px solid var(--coral);
+      box-shadow: 0 2px 12px rgba(26,26,24,0.08);
+    }
+
+    .logo-wrap { display: flex; align-items: center; gap: 20px; }
+    .logo-img { height: 64px; width: auto; }
+    .header-divider { width: 1px; height: 40px; background: var(--border); }
+    .header-label { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tan); }
+    .header-meta { font-size: 12px; color: var(--tan); letter-spacing: 0.04em; }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      background: var(--ink);
+      padding: 32px 48px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .hero-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; line-height: 1; color: #fff; }
+    .hero-title span { color: var(--coral); }
+    .hero-sub { font-size: 13px; font-weight: 300; color: var(--tan); margin-top: 8px; letter-spacing: 0.04em; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 48px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      min-height: 44px;
+    }
+
+    .breadcrumb-item { color: var(--tan); cursor: pointer; transition: color 0.15s; }
+    .breadcrumb-item:hover { color: var(--coral); }
+    .breadcrumb-item.active { color: var(--ink); cursor: default; }
+    .breadcrumb-sep { color: var(--border); font-size: 16px; line-height: 1; }
+
+    /* ── Main ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 48px 80px;
+    }
+
+    .section-rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+    .section-rule-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tan); white-space: nowrap; }
+    .section-rule-line { flex: 1; height: 1px; background: var(--border); }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── Category grid ── */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .category-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 26px 22px;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.35s ease both;
+    }
+
+    .category-card:nth-child(1) { animation-delay: 0.04s; }
+    .category-card:nth-child(2) { animation-delay: 0.08s; }
+    .category-card:nth-child(3) { animation-delay: 0.12s; }
+    .category-card:nth-child(4) { animation-delay: 0.16s; }
+
+    .category-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--coral);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .category-card:hover { border-color: rgba(201,79,55,0.25); box-shadow: 0 8px 28px rgba(26,26,24,0.1); transform: translateY(-2px); }
+    .category-card:hover::before { opacity: 1; }
+
+    .cat-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+    .cat-desc { font-size: 13px; font-weight: 300; color: var(--ink-lt); line-height: 1.6; flex: 1; }
+
+    .cat-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+
+    .cat-count { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tan); }
+
+    .explore-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--coral);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: gap 0.2s;
+    }
+    .category-card:hover .explore-btn { gap: 10px; }
+
+    /* ── Video grid ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-lt);
+      cursor: pointer;
+      margin-bottom: 24px;
+      padding: 8px 14px 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .back-btn:hover { border-color: var(--coral); color: var(--coral); }
+    .back-btn svg { width: 13px; height: 13px; }
+
+    .video-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.32s ease both;
+    }
+
+    .video-card:nth-child(1) { animation-delay: 0.03s; }
+    .video-card:nth-child(2) { animation-delay: 0.07s; }
+    .video-card:nth-child(3) { animation-delay: 0.11s; }
+    .video-card:nth-child(4) { animation-delay: 0.15s; }
+
+    .video-card:hover { border-color: rgba(201,79,55,0.25); box-shadow: 0 8px 28px rgba(26,26,24,0.1); transform: translateY(-2px); }
+
+    /* thumbnail area */
+    .video-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .play-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--coral);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .video-card:hover .play-circle { transform: scale(1.1); background: var(--coral-lt); }
+
+    .play-circle svg { width: 18px; height: 18px; margin-left: 3px; }
+
+    .video-info { padding: 18px 20px 16px; display: flex; flex-direction: column; gap: 8px; }
+
+    .video-num { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tan); }
+    .video-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+    .video-desc { font-size: 13px; font-weight: 300; color: var(--ink-lt); line-height: 1.6; }
+
+    .video-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px 14px;
+      border-top: 1px solid var(--border);
+      margin-top: 2px;
+    }
+
+    .video-duration {
+      font-size: 11px;
+      color: var(--tan);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .watch-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--coral);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: gap 0.2s;
+    }
+    .video-card:hover .watch-btn { gap: 10px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26,26,24,0.88);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      padding: 24px;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: var(--ink);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      animation: modalIn 0.22s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      flex-shrink: 0;
+    }
+
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: #fff; }
+    .modal-actions { display: flex; gap: 8px; }
+
+    .btn-close {
+      width: 30px; height: 30px;
+      border: 1px solid rgba(201,79,55,0.4);
+      border-radius: 5px;
+      background: transparent;
+      color: var(--coral-lt);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .btn-close:hover { background: rgba(201,79,55,0.2); }
+    .btn-close svg { width: 14px; height: 14px; }
+
+    /* 16:9 video container */
+    .video-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .modal-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: var(--tan);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #000;
+      z-index: 2;
+    }
+
+    .spinner {
+      width: 28px; height: 28px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: var(--coral);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* SharePoint note strip */
+    .modal-note {
+      padding: 10px 20px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.04em;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    footer {
+      position: relative; z-index: 1;
+      background: var(--ink);
+      text-align: center;
+      padding: 16px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.06em;
+    }
+    footer span { color: var(--coral); }
+
+    @media (max-width: 640px) {
+      header { padding: 0 20px; height: 72px; }
+      .logo-img { height: 50px; }
+      .hero, .breadcrumb { padding-left: 20px; padding-right: 20px; }
+      main { padding: 28px 20px 60px; }
+      .hero-title { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-wrap">
+      <img class="logo-img" src="logo.jpg" alt="Pressed Cafe" />
+      <div class="header-divider"></div>
+      <div class="header-label">Training Portal</div>
+    </div>
+    <div class="header-meta" id="header-meta"></div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="hero-title">Team <span>Training</span></div>
+      <div class="hero-sub">Coffee &bull; Juice &bull; Panini &nbsp;&mdash;&nbsp; Food &bull; Love &bull; Community</div>
+    </div>
+  </div>
+
+  <div class="breadcrumb" id="breadcrumb">
+    <span class="breadcrumb-item active" onclick="showCategories()">All Categories</span>
+  </div>
+
+  <main>
+    <div class="view active" id="view-categories">
+      <div class="section-rule">
+        <div class="section-rule-label">Training Categories</div>
+        <div class="section-rule-line"></div>
+      </div>
+      <div class="category-grid" id="category-grid"></div>
+    </div>
+
+    <div class="view" id="view-videos">
+      <button class="back-btn" onclick="showCategories()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+        </svg>
+        All Categories
+      </button>
+      <div class="section-rule">
+        <div class="section-rule-label" id="videos-section-label">Videos</div>
+        <div class="section-rule-line"></div>
+      </div>
+      <div class="video-grid" id="video-grid"></div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; Pressed Cafe &nbsp;&bull;&nbsp; <span>Training Portal</span> &nbsp;&bull;&nbsp; For internal use only
+  </footer>
+
+  <!-- Video Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">Loading&hellip;</div>
+        <div class="modal-actions">
+          <button class="btn-close" title="Close" onclick="closeModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="video-container">
+        <div class="modal-loading" id="modal-loading">
+          <div class="spinner"></div>
+          <span>Loading video&hellip;</span>
+        </div>
+        <iframe id="video-frame"
+          title="Video player"
+          allowfullscreen
+          allow="autoplay; fullscreen"
+          onload="frameLoaded()">
+        </iframe>
+      </div>
+      <div class="modal-note">
+        Make sure you are signed into your Microsoft account to view SharePoint videos.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * ─────────────────────────────────────────────────────────────
+     *  CATALOGUE — edit this to manage categories and videos
+     *
+     *  HOW TO GET A SHAREPOINT EMBED LINK:
+     *  1. Open the video in SharePoint/OneDrive
+     *  2. Click Share → Embed
+     *  3. Copy the src="..." URL from the iframe code
+     *  4. Paste it as the "embed" value below
+     *
+     *  Each category has:
+     *    id       → unique slug
+     *    title    → display name
+     *    desc     → short description
+     *    videos   → array of video objects
+     *
+     *  Each video has:
+     *    embed    → SharePoint embed URL (from Share → Embed)
+     *    title    → display name
+     *    desc     → short description
+     *    duration → estimated length string
+     * ─────────────────────────────────────────────────────────────
+     */
+    const CATALOGUE = [
+      {
+        id: "Pressed Cafe Curriculum",
+        title: "Pressed Cafe Curriculum",
+        desc: "Everything you need to learn to Succeed at Pressed!",
+        videos: [
+          {
+            embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=2e8f4696-d8cd-47be-8f72-7b78de0ff767&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+            title: "Burger Bun Prep",
+            desc: "The Basics of Prepping a Pressed Cafe Smash Burger Bun",
+            duration: "3 min"
+          },
+          {
+            embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=814d0488-6a4c-4ae8-a528-3eea6fc229f3&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+            title: "Smash Burger",
+            desc: "How to properly Grill a Pressed Cafe Smash Burger",
+            duration: "3 min"
+          }
+        ]
+      },
+      {
+        id: "onboarding",
+        title: "Onboarding",
+        desc: "Welcome to Pressed — brand standards, values, and day-one essentials.",
+        videos: [
+          {
+            embed: "https://your-org.sharepoint.com/sites/YourSite/_layouts/15/embed.aspx?UniqueId=YOUR-VIDEO-ID",
+            title: "Welcome to Pressed",
+            desc: "Our story, mission, and what makes Pressed different.",
+            duration: "5 min"
+          },
+          {
+            embed: "https://your-org.sharepoint.com/sites/YourSite/_layouts/15/embed.aspx?UniqueId=YOUR-VIDEO-ID",
+            title: "Brand Standards",
+            desc: "How we look, sound, and show up for every guest, every time.",
+            duration: "7 min"
+          }
+        ]
+      },
+      {
+        id: "pos-register",
+        title: "POS & Register",
+        desc: "Register operations, order accuracy, and handling common issues.",
+        videos: [
+          {
+            embed: "https://your-org.sharepoint.com/sites/YourSite/_layouts/15/embed.aspx?UniqueId=YOUR-VIDEO-ID",
+            title: "POS Basics",
+            desc: "Ringing orders, applying modifiers, and navigating the system.",
+            duration: "10 min"
+          },
+          {
+            embed: "https://your-org.sharepoint.com/sites/YourSite/_layouts/15/embed.aspx?UniqueId=YOUR-VIDEO-ID",
+            title: "Voids & Refunds",
+            desc: "How to handle order mistakes, voids, and refunds correctly.",
+            duration: "5 min"
+          }
+        ]
+      },
+      {
+        id: "guest-experience",
+        title: "Guest Experience",
+        desc: "Hospitality, service recovery, and creating regulars.",
+        videos: [
+          {
+            embed: "https://your-org.sharepoint.com/sites/YourSite/_layouts/15/embed.aspx?UniqueId=YOUR-VIDEO-ID",
+            title: "Hospitality Standards",
+            desc: "Greetings, speed, accuracy, and going above and beyond.",
+            duration: "8 min"
+          },
+          {
+            embed: "https://your-org.sharepoint.com/sites/YourSite/_layouts/15/embed.aspx?UniqueId=YOUR-VIDEO-ID",
+            title: "Service Recovery",
+            desc: "Turning a negative experience into a loyal guest.",
+            duration: "6 min"
+          }
+        ]
+      }
+    ];
+
+    // ── Render categories ──────────────────────────
+    const catGrid = document.getElementById("category-grid");
+    const headerMeta = document.getElementById("header-meta");
+    headerMeta.textContent = CATALOGUE.length + " categories";
+
+    CATALOGUE.forEach(function(cat) {
+      var card = document.createElement("div");
+      card.className = "category-card";
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      var word = cat.videos.length === 1 ? "video" : "videos";
+      card.innerHTML =
+        '<div class="cat-title">' + cat.title + '</div>' +
+        '<div class="cat-desc">' + cat.desc + '</div>' +
+        '<div class="cat-footer">' +
+          '<div class="cat-count">' + cat.videos.length + ' ' + word + '</div>' +
+          '<div class="explore-btn">Explore ' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+          '</div>' +
+        '</div>';
+      card.addEventListener("click", function() { showVideos(cat); });
+      card.addEventListener("keydown", function(e) { if (e.key === "Enter" || e.key === " ") showVideos(cat); });
+      catGrid.appendChild(card);
+    });
+
+    // ── Navigation ─────────────────────────────────
+    function showCategories() {
+      document.getElementById("view-categories").classList.add("active");
+      document.getElementById("view-videos").classList.remove("active");
+      document.getElementById("breadcrumb").innerHTML =
+        '<span class="breadcrumb-item active" onclick="showCategories()">All Categories</span>';
+      headerMeta.textContent = CATALOGUE.length + " categories";
+      window.scrollTo(0, 0);
+    }
+
+    function showVideos(cat) {
+      var grid = document.getElementById("video-grid");
+      grid.innerHTML = "";
+      document.getElementById("videos-section-label").textContent = cat.title;
+
+      cat.videos.forEach(function(video, i) {
+        var card = document.createElement("div");
+        card.className = "video-card";
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.innerHTML =
+          '<div class="video-thumb">' +
+            '<div class="play-circle">' +
+              '<svg viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>' +
+            '</div>' +
+          '</div>' +
+          '<div class="video-info">' +
+            '<div class="video-num">Video ' + String(i + 1).padStart(2, "0") + '</div>' +
+            '<div class="video-title">' + video.title + '</div>' +
+            '<div class="video-desc">' + video.desc + '</div>' +
+          '</div>' +
+          '<div class="video-footer">' +
+            '<div class="video-duration">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+              video.duration +
+            '</div>' +
+            '<div class="watch-btn">Watch ' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+            '</div>' +
+          '</div>';
+        card.addEventListener("click", function() { launchVideo(video); });
+        card.addEventListener("keydown", function(e) { if (e.key === "Enter" || e.key === " ") launchVideo(video); });
+        grid.appendChild(card);
+      });
+
+      document.getElementById("breadcrumb").innerHTML =
+        '<span class="breadcrumb-item" onclick="showCategories()">All Categories</span>' +
+        '<span class="breadcrumb-sep">/</span>' +
+        '<span class="breadcrumb-item active">' + cat.title + '</span>';
+
+      headerMeta.textContent = cat.videos.length + " video" + (cat.videos.length !== 1 ? "s" : "");
+      document.getElementById("view-categories").classList.remove("active");
+      document.getElementById("view-videos").classList.add("active");
+      window.scrollTo(0, 0);
+    }
+
+    // ── Modal ──────────────────────────────────────
+    function launchVideo(video) {
+      document.getElementById("modal-title").textContent = video.title;
+      document.getElementById("modal-loading").style.display = "flex";
+      document.getElementById("video-frame").style.opacity = "0";
+      document.getElementById("modal-overlay").classList.add("active");
+      document.getElementById("video-frame").src = video.embed;
+      document.body.style.overflow = "hidden";
+    }
+
+    function frameLoaded() {
+      document.getElementById("modal-loading").style.display = "none";
+      document.getElementById("video-frame").style.opacity = "1";
+    }
+
+    function closeModal() {
+      document.getElementById("modal-overlay").classList.remove("active");
+      document.getElementById("video-frame").src = "";
+      document.body.style.overflow = "";
+    }
+
+    document.getElementById("modal-overlay").addEventListener("click", function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeModal(); });
+  </script>
+</body>
+</html>
