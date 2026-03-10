@@ -298,6 +298,26 @@
     }
     .video-card:hover .watch-btn { gap: 10px; }
 
+    .pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-lt);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      margin: 0 20px 14px;
+      align-self: flex-start;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .pdf-btn:hover { border-color: var(--coral); color: var(--coral); background: rgba(201,79,55,0.04); }
+    .pdf-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -573,7 +593,21 @@
           }
         ]
       },
-      
+      {
+        id: "smoothies",
+        title: "Smoothies",
+        desc: "Step by step guides for building Pressed Cafe smoothies.",
+        videos: [
+          {
+            embed: "https://your-org.sharepoint.com/sites/YourSite/_layouts/15/embed.aspx?UniqueId=YOUR-VIDEO-ID",
+            title: "Smoothie Title",
+            desc: "Description of the smoothie video.",
+            duration: "3 min",
+	    pdf: "https://netorg3754994.sharepoint.com/:b:/r/sites/Corporate/Shared%20Documents/LMS/Training/Documents/Pressed%20Cafe%20Drink%20Build%20Booklet%20(4).pdf?csf=1&web=1&e=XWeQgP"
+          }
+        ]
+      },
+
     ];
 
     // ── Render categories ──────────────────────────
@@ -621,6 +655,13 @@
         card.className = "video-card";
         card.setAttribute("role", "button");
         card.setAttribute("tabindex", "0");
+        var pdfHtml = video.pdf
+          ? '<a class="pdf-btn" href="' + video.pdf + '" target="_blank" onclick="event.stopPropagation()">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>' +
+              'Download PDF' +
+            '</a>'
+          : '';
+
         card.innerHTML =
           '<div class="video-thumb">' +
             '<div class="play-circle">' +
@@ -632,6 +673,7 @@
             '<div class="video-title">' + video.title + '</div>' +
             '<div class="video-desc">' + video.desc + '</div>' +
           '</div>' +
+          pdfHtml +
           '<div class="video-footer">' +
             '<div class="video-duration">' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
