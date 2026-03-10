@@ -59,6 +59,24 @@
     .header-label { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tan); }
     .header-meta { font-size: 12px; color: var(--tan); letter-spacing: 0.04em; }
 
+    /* ── Lang Toggle ── */
+    .lang-toggle { display: flex; align-items: center; gap: 6px; }
+    .lang-sep { color: var(--border); font-size: 14px; }
+    .lang-btn {
+      background: none;
+      border: none;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--tan);
+      cursor: pointer;
+      padding: 4px 2px;
+      transition: color 0.15s;
+    }
+    .lang-btn:hover { color: var(--coral); }
+    .lang-btn.active { color: var(--coral); border-bottom: 2px solid var(--coral); }
+
     /* ── Hero ── */
     .hero {
       position: relative;
@@ -457,7 +475,14 @@
       <div class="header-divider"></div>
       <div class="header-label">Training Portal</div>
     </div>
-    <div class="header-meta" id="header-meta"></div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="header-meta" id="header-meta"></div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+      </div>
+    </div>
   </header>
 
   <div class="hero">
@@ -531,65 +556,118 @@
   </div>
 
   <script>
+    // ── Translations ───────────────────────────────
+    var LANG = 'en';
+
+    var UI = {
+      en: {
+        headerLabel:      "Training Portal",
+        heroBullets:      "Coffee &bull; Juice &bull; Panini &nbsp;&mdash;&nbsp; Food &bull; Love &bull; Community",
+        heroTitle:        "Team <span>Training</span>",
+        allCategories:    "All Categories",
+        trainingCats:     "Training Categories",
+        videos:           "videos",
+        video:            "video",
+        categories:       "categories",
+        explore:          "Explore",
+        watch:            "Watch",
+        videoLabel:       "Video",
+        backBtn:          "All Categories",
+        pdfBtn:           "Click to view Recipe Build",
+        modalNote:        "Make sure you are signed into your Microsoft account to view SharePoint videos.",
+        footer:           "For internal use only",
+        loading:          "Loading video…"
+      },
+      es: {
+        headerLabel:      "Portal de Capacitación",
+        heroBullets:      "Café &bull; Jugos &bull; Panini &nbsp;&mdash;&nbsp; Comida &bull; Amor &bull; Comunidad",
+        heroTitle:        "Capacitación del <span>Equipo</span>",
+        allCategories:    "Todas las Categorías",
+        trainingCats:     "Categorías de Capacitación",
+        videos:           "videos",
+        video:            "video",
+        categories:       "categorías",
+        explore:          "Explorar",
+        watch:            "Ver",
+        videoLabel:       "Video",
+        backBtn:          "Todas las Categorías",
+        pdfBtn:           "Ver Receta",
+        modalNote:        "Asegúrate de haber iniciado sesión en tu cuenta de Microsoft para ver los videos.",
+        footer:           "Solo para uso interno",
+        loading:          "Cargando video…"
+      }
+    };
+
     /**
      * ─────────────────────────────────────────────────────────────
      *  CATALOGUE — edit this to manage categories and videos
      *
-     *  HOW TO GET A SHAREPOINT EMBED LINK:
-     *  1. Open the video in SharePoint/OneDrive
-     *  2. Click Share → Embed
-     *  3. Copy the src="..." URL from the iframe code
-     *  4. Paste it as the "embed" value below
-     *
      *  Each category has:
-     *    id       → unique slug
-     *    title    → display name
-     *    desc     → short description
-     *    videos   → array of video objects
+     *    id        → unique slug
+     *    title     → English display name
+     *    title_es  → Spanish display name
+     *    desc      → English description
+     *    desc_es   → Spanish description
+     *    videos    → array of video objects
      *
      *  Each video has:
-     *    embed    → SharePoint embed URL (from Share → Embed)
-     *    title    → display name
-     *    desc     → short description
-     *    duration → estimated length string
+     *    embed     → SharePoint embed URL (from Share → Embed)
+     *    title     → English title
+     *    title_es  → Spanish title
+     *    desc      → English description
+     *    desc_es   → Spanish description
+     *    duration  → estimated length string
+     *    pdf       → (optional) SharePoint share link for recipe build
      * ─────────────────────────────────────────────────────────────
      */
-    const CATALOGUE = [
+    var CATALOGUE = [
       {
-        id: "Pressed Cafe Curriculum",
+        id: "pressed-curriculum",
         title: "Pressed Cafe Curriculum",
+        title_es: "Plan de Estudios de Pressed Cafe",
         desc: "Everything you need to learn to Succeed at Pressed!",
+        desc_es: "¡Todo lo que necesitas aprender para tener éxito en Pressed!",
         videos: [
           {
             embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=2e8f4696-d8cd-47be-8f72-7b78de0ff767&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
             title: "Burger Bun Prep",
+            title_es: "Preparación del Pan de Hamburguesa",
             desc: "The Basics of Prepping a Pressed Cafe Smash Burger Bun",
+            desc_es: "Lo básico para preparar el pan de la Smash Burger de Pressed Cafe",
             duration: "3 min"
           },
           {
             embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=814d0488-6a4c-4ae8-a528-3eea6fc229f3&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
             title: "Smash Burger",
+            title_es: "Smash Burger",
             desc: "How to properly Grill a Pressed Cafe Smash Burger",
+            desc_es: "Cómo cocinar correctamente una Smash Burger de Pressed Cafe",
             duration: "3 min"
           }
         ]
       },
       {
-        id: "Spring Menu Refresh",
+        id: "spring-menu",
         title: "Spring Menu Refresh",
+        title_es: "Actualización del Menú de Primavera",
         desc: "Everything you need for the Spring Menu Refresh!",
+        desc_es: "¡Todo lo que necesitas para la actualización del menú de primavera!",
         videos: [
           {
             embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=f274f87b-336a-4f50-99fb-24081c35bfba&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
             title: "Choochi Smash Burger",
-            desc: "The step by Step on how to build the Choochi Smash Burger",
+            title_es: "Choochi Smash Burger",
+            desc: "The step by step on how to build the Choochi Smash Burger",
+            desc_es: "Paso a paso cómo preparar la Choochi Smash Burger",
             duration: "3 min",
             pdf: "https://netorg3754994.sharepoint.com/:i:/r/sites/Corporate/Shared%20Documents/LMS/Training/Documents/Food/Choochi%20Smash%20Burger.jpg?csf=1&web=1&e=I7DAWV"
           },
           {
             embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=6a8011b4-0520-481d-b4f9-457fae666371&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
             title: "Schnitzel Panini (American Version)",
-            desc: "The Step by Step on how we build the Schnitzel Panini (American Version)",
+            title_es: "Panini Schnitzel (Versión Americana)",
+            desc: "The step by step on how we build the Schnitzel Panini (American Version)",
+            desc_es: "Paso a paso cómo preparamos el Panini Schnitzel (Versión Americana)",
             duration: "3 min",
             pdf: "https://netorg3754994.sharepoint.com/:i:/r/sites/Corporate/Shared%20Documents/LMS/Training/Documents/Food/Schnitzel%20Panini_American.jpg?csf=1&web=1&e=K860a1"
           }
@@ -598,69 +676,125 @@
       {
         id: "smoothies",
         title: "Smoothies",
+        title_es: "Batidos",
         desc: "Step by step guides for building Pressed Cafe smoothies.",
+        desc_es: "Guías paso a paso para preparar los batidos de Pressed Cafe.",
         videos: [
           {
             embed: "https://your-org.sharepoint.com/sites/YourSite/_layouts/15/embed.aspx?UniqueId=YOUR-VIDEO-ID",
             title: "Smoothie Title",
+            title_es: "Título del Batido",
             desc: "Description of the smoothie video.",
+            desc_es: "Descripción del video del batido.",
             duration: "3 min",
             pdf: "https://netorg3754994.sharepoint.com/:b:/r/sites/Corporate/Shared%20Documents/LMS/Training/Documents/Beverage/Pressed%20Cafe%20Drink%20Build%20Booklet%20(4).pdf?e=4%3aee45742c05d147be82df99f0df285fa7&web=1&sharingv2=true&fromShare=true&at=9"
           }
         ]
-      },
-
+      }
     ];
 
-    // ── Render categories ──────────────────────────
-    const catGrid = document.getElementById("category-grid");
-    const headerMeta = document.getElementById("header-meta");
-    headerMeta.textContent = CATALOGUE.length + " categories";
+    // ── Language switcher ──────────────────────────
+    function setLang(lang) {
+      LANG = lang;
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+      var t = UI[lang];
 
-    CATALOGUE.forEach(function(cat) {
-      var card = document.createElement("div");
-      card.className = "category-card";
-      card.setAttribute("role", "button");
-      card.setAttribute("tabindex", "0");
-      var word = cat.videos.length === 1 ? "video" : "videos";
-      card.innerHTML =
-        '<div class="cat-title">' + cat.title + '</div>' +
-        '<div class="cat-desc">' + cat.desc + '</div>' +
-        '<div class="cat-footer">' +
-          '<div class="cat-count">' + cat.videos.length + ' ' + word + '</div>' +
-          '<div class="explore-btn">Explore ' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
-          '</div>' +
-        '</div>';
-      card.addEventListener("click", function() { showVideos(cat); });
-      card.addEventListener("keydown", function(e) { if (e.key === "Enter" || e.key === " ") showVideos(cat); });
-      catGrid.appendChild(card);
-    });
+      // Static UI elements
+      document.querySelector('.header-label').textContent = t.headerLabel;
+      document.querySelector('.hero-title').innerHTML = t.heroTitle;
+      document.querySelector('.hero-sub').innerHTML = t.heroBullets;
+      document.querySelector('.modal-note').textContent = t.modalNote;
+      document.querySelector('footer').innerHTML =
+        '&copy; Pressed Cafe &nbsp;&bull;&nbsp; <span>' + t.headerLabel + '</span> &nbsp;&bull;&nbsp; ' + t.footer;
+      document.getElementById('modal-loading').querySelector('span').textContent = t.loading;
+
+      // Re-render categories
+      renderCategories();
+
+      // If video view is active, re-render the current category
+      if (document.getElementById('view-videos').classList.contains('active')) {
+        renderCategories(); // breadcrumb will stay, re-render silently
+      }
+
+      // Update breadcrumb
+      var isVideos = document.getElementById('view-videos').classList.contains('active');
+      if (!isVideos) {
+        document.getElementById('breadcrumb').innerHTML =
+          '<span class="breadcrumb-item active" onclick="showCategories()">' + t.allCategories + '</span>';
+      }
+
+      // Update section label
+      document.querySelector('.section-rule-label').textContent = t.trainingCats;
+    }
+
+    // ── Render categories ──────────────────────────
+    var catGrid = document.getElementById('category-grid');
+    var headerMeta = document.getElementById('header-meta');
+
+    function renderCategories() {
+      var t = UI[LANG];
+      catGrid.innerHTML = '';
+      headerMeta.textContent = CATALOGUE.length + ' ' + t.categories;
+
+      CATALOGUE.forEach(function(cat) {
+        var card = document.createElement('div');
+        card.className = 'category-card';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        var count = cat.videos.length;
+        var word = count === 1 ? t.video : t.videos;
+        var catTitle = LANG === 'es' && cat.title_es ? cat.title_es : cat.title;
+        var catDesc  = LANG === 'es' && cat.desc_es  ? cat.desc_es  : cat.desc;
+        card.innerHTML =
+          '<div class="cat-title">' + catTitle + '</div>' +
+          '<div class="cat-desc">'  + catDesc  + '</div>' +
+          '<div class="cat-footer">' +
+            '<div class="cat-count">' + count + ' ' + word + '</div>' +
+            '<div class="explore-btn">' + t.explore + ' ' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+            '</div>' +
+          '</div>';
+        card.addEventListener('click', function() { showVideos(cat); });
+        card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') showVideos(cat); });
+        catGrid.appendChild(card);
+      });
+    }
+
+    // Initial render
+    renderCategories();
 
     // ── Navigation ─────────────────────────────────
     function showCategories() {
-      document.getElementById("view-categories").classList.add("active");
-      document.getElementById("view-videos").classList.remove("active");
-      document.getElementById("breadcrumb").innerHTML =
-        '<span class="breadcrumb-item active" onclick="showCategories()">All Categories</span>';
-      headerMeta.textContent = CATALOGUE.length + " categories";
+      var t = UI[LANG];
+      document.getElementById('view-categories').classList.add('active');
+      document.getElementById('view-videos').classList.remove('active');
+      document.getElementById('breadcrumb').innerHTML =
+        '<span class="breadcrumb-item active" onclick="showCategories()">' + t.allCategories + '</span>';
+      headerMeta.textContent = CATALOGUE.length + ' ' + t.categories;
       window.scrollTo(0, 0);
     }
 
     function showVideos(cat) {
-      var grid = document.getElementById("video-grid");
-      grid.innerHTML = "";
-      document.getElementById("videos-section-label").textContent = cat.title;
+      var t = UI[LANG];
+      var grid = document.getElementById('video-grid');
+      grid.innerHTML = '';
+      var catTitle = LANG === 'es' && cat.title_es ? cat.title_es : cat.title;
+      document.getElementById('videos-section-label').textContent = catTitle;
 
       cat.videos.forEach(function(video, i) {
-        var card = document.createElement("div");
-        card.className = "video-card";
-        card.setAttribute("role", "button");
-        card.setAttribute("tabindex", "0");
+        var card = document.createElement('div');
+        card.className = 'video-card';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+
+        var videoTitle = LANG === 'es' && video.title_es ? video.title_es : video.title;
+        var videoDesc  = LANG === 'es' && video.desc_es  ? video.desc_es  : video.desc;
+
         var pdfHtml = video.pdf
           ? '<a class="pdf-btn" href="' + video.pdf + '" target="_blank" onclick="event.stopPropagation()">' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>' +
-              'Click to view Recipe Build' +
+              t.pdfBtn +
             '</a>'
           : '';
 
@@ -671,9 +805,9 @@
             '</div>' +
           '</div>' +
           '<div class="video-info">' +
-            '<div class="video-num">Video ' + String(i + 1).padStart(2, "0") + '</div>' +
-            '<div class="video-title">' + video.title + '</div>' +
-            '<div class="video-desc">' + video.desc + '</div>' +
+            '<div class="video-num">' + t.videoLabel + ' ' + String(i + 1).padStart(2, '0') + '</div>' +
+            '<div class="video-title">' + videoTitle + '</div>' +
+            '<div class="video-desc">'  + videoDesc  + '</div>' +
           '</div>' +
           pdfHtml +
           '<div class="video-footer">' +
@@ -681,52 +815,59 @@
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
               video.duration +
             '</div>' +
-            '<div class="watch-btn">Watch ' +
+            '<div class="watch-btn">' + t.watch + ' ' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
             '</div>' +
           '</div>';
-        card.addEventListener("click", function() { launchVideo(video); });
-        card.addEventListener("keydown", function(e) { if (e.key === "Enter" || e.key === " ") launchVideo(video); });
+        card.addEventListener('click', function() { launchVideo(video); });
+        card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') launchVideo(video); });
         grid.appendChild(card);
       });
 
-      document.getElementById("breadcrumb").innerHTML =
-        '<span class="breadcrumb-item" onclick="showCategories()">All Categories</span>' +
+      document.getElementById('breadcrumb').innerHTML =
+        '<span class="breadcrumb-item" onclick="showCategories()">' + t.allCategories + '</span>' +
         '<span class="breadcrumb-sep">/</span>' +
-        '<span class="breadcrumb-item active">' + cat.title + '</span>';
+        '<span class="breadcrumb-item active">' + catTitle + '</span>';
 
-      headerMeta.textContent = cat.videos.length + " video" + (cat.videos.length !== 1 ? "s" : "");
-      document.getElementById("view-categories").classList.remove("active");
-      document.getElementById("view-videos").classList.add("active");
+      headerMeta.textContent = cat.videos.length + ' ' + (cat.videos.length !== 1 ? t.videos : t.video);
+      document.getElementById('view-categories').classList.remove('active');
+      document.getElementById('view-videos').classList.add('active');
+
+      // Update back button text
+      document.querySelector('.back-btn').innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
+        t.backBtn;
+
       window.scrollTo(0, 0);
     }
 
     // ── Modal ──────────────────────────────────────
     function launchVideo(video) {
-      document.getElementById("modal-title").textContent = video.title;
-      document.getElementById("modal-loading").style.display = "flex";
-      document.getElementById("video-frame").style.opacity = "0";
-      document.getElementById("modal-overlay").classList.add("active");
-      document.getElementById("video-frame").src = video.embed;
-      document.body.style.overflow = "hidden";
+      var videoTitle = LANG === 'es' && video.title_es ? video.title_es : video.title;
+      document.getElementById('modal-title').textContent = videoTitle;
+      document.getElementById('modal-loading').style.display = 'flex';
+      document.getElementById('video-frame').style.opacity = '0';
+      document.getElementById('modal-overlay').classList.add('active');
+      document.getElementById('video-frame').src = video.embed;
+      document.body.style.overflow = 'hidden';
     }
 
     function frameLoaded() {
-      document.getElementById("modal-loading").style.display = "none";
-      document.getElementById("video-frame").style.opacity = "1";
+      document.getElementById('modal-loading').style.display = 'none';
+      document.getElementById('video-frame').style.opacity = '1';
     }
 
     function closeModal() {
-      document.getElementById("modal-overlay").classList.remove("active");
-      document.getElementById("video-frame").src = "";
-      document.body.style.overflow = "";
+      document.getElementById('modal-overlay').classList.remove('active');
+      document.getElementById('video-frame').src = '';
+      document.body.style.overflow = '';
     }
 
-    document.getElementById("modal-overlay").addEventListener("click", function(e) {
+    document.getElementById('modal-overlay').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
     });
 
-    document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
   </script>
 </body>
 </html>
