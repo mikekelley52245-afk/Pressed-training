@@ -1253,12 +1253,20 @@
         '&copy; Pressed Cafe &nbsp;&bull;&nbsp; <span>' + t.headerLabel + '</span> &nbsp;&bull;&nbsp; ' + t.footer;
       document.getElementById('modal-loading').querySelector('span').textContent = t.loading;
 
+      // Always re-render categories in background
       renderCategories();
 
-      // Re-render current view if not on categories
       var isVideos = document.getElementById('view-videos').classList.contains('active');
       var isSubs   = document.getElementById('view-subcategories').classList.contains('active');
-      if (!isVideos && !isSubs) {
+
+      if (isSubs && currentSubCat) {
+        // Re-render the subcategory view in the new language
+        showSubcategories(currentSubCat);
+      } else if (isVideos && currentVideoItem) {
+        // Re-render the video view in the new language
+        showVideos(currentVideoItem, currentParentCat);
+      } else {
+        // On the top-level categories view
         document.getElementById('breadcrumb').innerHTML =
           '<span class="breadcrumb-item active" onclick="showCategories()">' + t.allCategories + '</span>';
         document.querySelector('.section-rule-label').textContent = t.trainingCats;
@@ -1323,6 +1331,9 @@
 
     // ── Show categories (top level) ────────────────
     function showCategories() {
+      currentSubCat    = null;
+      currentVideoItem = null;
+      currentParentCat = null;
       var t = UI[LANG];
       document.getElementById('view-categories').classList.add('active');
       document.getElementById('view-subcategories').classList.remove('active');
@@ -1336,6 +1347,9 @@
 
     // ── Show subcategories ─────────────────────────
     function showSubcategories(cat) {
+      currentSubCat    = cat;
+      currentVideoItem = null;
+      currentParentCat = null;
       var t = UI[LANG];
       var catTitle = LANG === 'es' && cat.title_es ? cat.title_es : cat.title;
       subGrid.innerHTML = '';
@@ -1371,6 +1385,9 @@
     // ── Show videos ────────────────────────────────
     // parentCat is the top-level category if coming from subcategories, else null
     function showVideos(item, parentCat) {
+      currentVideoItem = item;
+      currentParentCat = parentCat;
+      currentSubCat    = null;
       var t = UI[LANG];
       var grid = document.getElementById('video-grid');
       grid.innerHTML = '';
@@ -1433,7 +1450,6 @@
         var parentTitle = LANG === 'es' && parentCat.title_es ? parentCat.title_es : parentCat.title;
         bc += '<span class="breadcrumb-sep">/</span>' +
               '<span class="breadcrumb-item" onclick="showSubcategories(currentParentCat)">' + parentTitle + '</span>';
-        currentParentCat = parentCat;
       }
       bc += '<span class="breadcrumb-sep">/</span>' +
             '<span class="breadcrumb-item active">' + itemTitle + '</span>';
@@ -1462,6 +1478,8 @@
     }
 
     var currentParentCat = null;
+    var currentSubCat    = null;
+    var currentVideoItem = null;
 
     // ── Modal ──────────────────────────────────────
     function launchVideo(video) {
