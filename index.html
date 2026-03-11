@@ -336,6 +336,27 @@
     .pdf-btn:hover { border-color: var(--coral); color: var(--coral); background: rgba(201,79,55,0.04); }
     .pdf-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
 
+    .quiz-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 6px 10px;
+      border: 1px solid var(--coral);
+      border-radius: 5px;
+      margin: 0 20px 14px;
+      align-self: flex-start;
+      background: var(--coral);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .quiz-btn:hover { background: var(--coral-lt); border-color: var(--coral-lt); }
+    .quiz-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -505,8 +526,22 @@
       <div class="category-grid" id="category-grid"></div>
     </div>
 
+    <div class="view" id="view-subcategories">
+      <button class="back-btn" id="sub-back-btn" onclick="showCategories()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+        </svg>
+        All Categories
+      </button>
+      <div class="section-rule">
+        <div class="section-rule-label" id="sub-section-label">Subcategories</div>
+        <div class="section-rule-line"></div>
+      </div>
+      <div class="category-grid" id="subcategory-grid"></div>
+    </div>
+
     <div class="view" id="view-videos">
-      <button class="back-btn" onclick="showCategories()">
+      <button class="back-btn" id="vid-back-btn" onclick="showCategories()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
         </svg>
@@ -574,6 +609,7 @@
         videoLabel:       "Video",
         backBtn:          "All Categories",
         pdfBtn:           "Click to view Recipe Build",
+        quizBtn:          "Take the Quiz",
         modalNote:        "Make sure you are signed into your Microsoft account to view SharePoint videos.",
         footer:           "For internal use only",
         loading:          "Loading video…"
@@ -592,6 +628,7 @@
         videoLabel:       "Video",
         backBtn:          "Todas las Categorías",
         pdfBtn:           "Ver Receta",
+        quizBtn:          "Tomar el Quiz",
         modalNote:        "Asegúrate de haber iniciado sesión en tu cuenta de Microsoft para ver los videos.",
         footer:           "Solo para uso interno",
         loading:          "Cargando video…"
@@ -623,8 +660,8 @@
     var CATALOGUE = [
       {
         id: "pressed-curriculum",
-        title: "Pressed Cafe Curriculum",
-        title_es: "Plan de Estudios de Pressed Cafe",
+        title: "Pressed Cafe Core Curriculum",
+        title_es: "Plan de Estudios Principal de Pressed Cafe",
         desc: "Everything you need to learn to Succeed at Pressed!",
         desc_es: "¡Todo lo que necesitas aprender para tener éxito en Pressed!",
         videos: [
@@ -634,7 +671,8 @@
             title_es: "Preparación del Pan de Hamburguesa",
             desc: "The Basics of Prepping a Pressed Cafe Smash Burger Bun",
             desc_es: "Lo básico para preparar el pan de la Smash Burger de Pressed Cafe",
-            duration: "3 min"
+            duration: "3 min",
+            quiz: "PLACEHOLDER_QUIZ_URL"
           },
           {
             embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=814d0488-6a4c-4ae8-a528-3eea6fc229f3&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
@@ -642,52 +680,559 @@
             title_es: "Smash Burger",
             desc: "How to properly Grill a Pressed Cafe Smash Burger",
             desc_es: "Cómo cocinar correctamente una Smash Burger de Pressed Cafe",
-            duration: "3 min"
+            duration: "3 min",
+            quiz: "PLACEHOLDER_QUIZ_URL"
           }
         ]
       },
       {
-        id: "spring-menu",
-        title: "Spring Menu Refresh",
-        title_es: "Actualización del Menú de Primavera",
-        desc: "Everything you need for the Spring Menu Refresh!",
-        desc_es: "¡Todo lo que necesitas para la actualización del menú de primavera!",
-        videos: [
+        id: "spring-menu-food",
+        title: "Spring Menu Refresh (Food)",
+        title_es: "Actualización del Menú de Primavera (Comida)",
+        desc: "New food items for the Spring Menu Refresh — step by step build guides.",
+        desc_es: "Nuevos platos para la actualización del menú de primavera — guías paso a paso.",
+        subcategories: [
           {
-            embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=f274f87b-336a-4f50-99fb-24081c35bfba&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
-            title: "Choochi Smash Burger",
-            title_es: "Choochi Smash Burger",
-            desc: "The step by step on how to build the Choochi Smash Burger",
-            desc_es: "Paso a paso cómo preparar la Choochi Smash Burger",
-            duration: "3 min",
-            pdf: "https://netorg3754994.sharepoint.com/:i:/r/sites/Corporate/Shared%20Documents/LMS/Training/Documents/Food/Choochi%20Smash%20Burger.jpg?csf=1&web=1&e=I7DAWV"
+            id: "panini",
+            title: "Panini",
+            title_es: "Panini",
+            desc: "Step by step guides for building Pressed Cafe paninis.",
+            desc_es: "Guías paso a paso para preparar los paninis de Pressed Cafe.",
+            videos: [
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Schnitzel Panini (Israeli)",
+                title_es: "Panini Schnitzel (Israelí)",
+                desc: "Step by step guide to building the Schnitzel Panini (Israeli).",
+                desc_es: "Guía paso a paso para preparar el Panini Schnitzel (Israelí).",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=6a8011b4-0520-481d-b4f9-457fae666371&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+                title: "Schnitzel Panini (American)",
+                title_es: "Panini Schnitzel (Americano)",
+                desc: "Step by step guide to building the Schnitzel Panini (American).",
+                desc_es: "Guía paso a paso para preparar el Panini Schnitzel (Americano).",
+                duration: "3 min",
+                pdf: "https://netorg3754994.sharepoint.com/:i:/r/sites/Corporate/Shared%20Documents/LMS/Training/Documents/Food/Schnitzel%20Panini_American.jpg?csf=1&web=1&e=K860a1",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Chicken Shawarma Pita",
+                title_es: "Pita de Shawarma de Pollo",
+                desc: "Step by step guide to building the Chicken Shawarma Pita.",
+                desc_es: "Guía paso a paso para preparar la Pita de Shawarma de Pollo.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Kefta Kebab Pita",
+                title_es: "Pita de Kefta Kebab",
+                desc: "Step by step guide to building the Kefta Kebab Pita.",
+                desc_es: "Guía paso a paso para preparar la Pita de Kefta Kebab.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Nashville Chicken Sandwich",
+                title_es: "Sándwich de Pollo Nashville",
+                desc: "Step by step guide to building the Nashville Chicken Sandwich.",
+                desc_es: "Guía paso a paso para preparar el Sándwich de Pollo Nashville.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Bella Rose",
+                title_es: "Bella Rose",
+                desc: "Step by step guide to building the Bella Rose.",
+                desc_es: "Guía paso a paso para preparar la Bella Rose.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Shredded Beef Philly Steak & Cheese",
+                title_es: "Philly Steak & Cheese de Res Desmenuzada",
+                desc: "Step by step guide to building the Shredded Beef Philly Steak & Cheese.",
+                desc_es: "Guía paso a paso para preparar el Philly Steak & Cheese de Res Desmenuzada.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Magic Mushroom Melt",
+                title_es: "Magic Mushroom Melt",
+                desc: "Step by step guide to building the Magic Mushroom Melt.",
+                desc_es: "Guía paso a paso para preparar el Magic Mushroom Melt.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Ricky Martin 2.0",
+                title_es: "Ricky Martin 2.0",
+                desc: "Step by step guide to building the Ricky Martin 2.0.",
+                desc_es: "Guía paso a paso para preparar el Ricky Martin 2.0.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Market Veggie Wrap",
+                title_es: "Wrap Vegetal del Mercado",
+                desc: "Step by step guide to building the Market Veggie Wrap.",
+                desc_es: "Guía paso a paso para preparar el Wrap Vegetal del Mercado.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Vegan Middle East 2.0",
+                title_es: "Vegano Medio Oriente 2.0",
+                desc: "Step by step guide to building the Vegan Middle East 2.0.",
+                desc_es: "Guía paso a paso para preparar el Vegano Medio Oriente 2.0.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              }
+            ]
           },
           {
-            embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=6a8011b4-0520-481d-b4f9-457fae666371&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
-            title: "Schnitzel Panini (American Version)",
-            title_es: "Panini Schnitzel (Versión Americana)",
-            desc: "The step by step on how we build the Schnitzel Panini (American Version)",
-            desc_es: "Paso a paso cómo preparamos el Panini Schnitzel (Versión Americana)",
-            duration: "3 min",
-            pdf: "https://netorg3754994.sharepoint.com/:i:/r/sites/Corporate/Shared%20Documents/LMS/Training/Documents/Food/Schnitzel%20Panini_American.jpg?csf=1&web=1&e=K860a1"
+            id: "bowls",
+            title: "Bowls",
+            title_es: "Bowls",
+            desc: "Step by step guides for building Pressed Cafe bowls.",
+            desc_es: "Guías paso a paso para preparar los bowls de Pressed Cafe.",
+            videos: [
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Kefta Kebab Bowl",
+                title_es: "Bowl de Kefta Kebab",
+                desc: "Step by step guide to building the Kefta Kebab Bowl.",
+                desc_es: "Guía paso a paso para preparar el Bowl de Kefta Kebab.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Chicken Shawarma Bowl",
+                title_es: "Bowl de Shawarma de Pollo",
+                desc: "Step by step guide to building the Chicken Shawarma Bowl.",
+                desc_es: "Guía paso a paso para preparar el Bowl de Shawarma de Pollo.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Warm Roasted Beets & Labneh",
+                title_es: "Betabeles Asados Calientes y Labneh",
+                desc: "Step by step guide to building the Warm Roasted Beets & Labneh.",
+                desc_es: "Guía paso a paso para preparar los Betabeles Asados Calientes y Labneh.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              }
+            ]
+          },
+          {
+            id: "saute",
+            title: "Saute",
+            title_es: "Salteado",
+            desc: "Step by step guides for Pressed Cafe sauteed dishes.",
+            desc_es: "Guías paso a paso para los platos salteados de Pressed Cafe.",
+            videos: [
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Ktzitzot Adom",
+                title_es: "Ktzitzot Adom",
+                desc: "Step by step guide to preparing Ktzitzot Adom.",
+                desc_es: "Guía paso a paso para preparar Ktzitzot Adom.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Ktzitzot Adom (Vegan)",
+                title_es: "Ktzitzot Adom (Vegano)",
+                desc: "Step by step guide to preparing Ktzitzot Adom (Vegan).",
+                desc_es: "Guía paso a paso para preparar Ktzitzot Adom (Vegano).",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Sweet & Spicy Bowl",
+                title_es: "Bowl Dulce y Picante",
+                desc: "Step by step guide to building the Sweet & Spicy Bowl.",
+                desc_es: "Guía paso a paso para preparar el Bowl Dulce y Picante.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Rustic American Ragu",
+                title_es: "Ragú Americano Rústico",
+                desc: "Step by step guide to preparing the Rustic American Ragu.",
+                desc_es: "Guía paso a paso para preparar el Ragú Americano Rústico.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Medi Grain Bowl (Sauteed Only)",
+                title_es: "Bowl de Granos Mediterráneo (Solo Salteado)",
+                desc: "Step by step guide to building the Medi Grain Bowl (Sauteed Only).",
+                desc_es: "Guía paso a paso para preparar el Bowl de Granos Mediterráneo (Solo Salteado).",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Enter The Dragon",
+                title_es: "Enter The Dragon",
+                desc: "Step by step guide to preparing Enter The Dragon.",
+                desc_es: "Guía paso a paso para preparar Enter The Dragon.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              }
+            ]
+          },
+          {
+            id: "fry",
+            title: "Fry",
+            title_es: "Fritos",
+            desc: "Step by step guides for Pressed Cafe fried dishes.",
+            desc_es: "Guías paso a paso para los platos fritos de Pressed Cafe.",
+            videos: [
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Schnitzel & Za'atar Fries",
+                title_es: "Schnitzel y Papas Za'atar",
+                desc: "Step by step guide to preparing Schnitzel & Za'atar Fries.",
+                desc_es: "Guía paso a paso para preparar Schnitzel y Papas Za'atar.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              }
+            ]
+          },
+          {
+            id: "salad",
+            title: "Salad",
+            title_es: "Ensaladas",
+            desc: "Step by step guides for building Pressed Cafe salads.",
+            desc_es: "Guías paso a paso para preparar las ensaladas de Pressed Cafe.",
+            videos: [
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Sabra Garden Plate",
+                title_es: "Plato Jardín Sabra",
+                desc: "Step by step guide to building the Sabra Garden Plate.",
+                desc_es: "Guía paso a paso para preparar el Plato Jardín Sabra.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Mediterranean Tuna 2.0",
+                title_es: "Atún Mediterráneo 2.0",
+                desc: "Step by step guide to building the Mediterranean Tuna 2.0.",
+                desc_es: "Guía paso a paso para preparar el Atún Mediterráneo 2.0.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "California Cobb Salad",
+                title_es: "Ensalada Cobb California",
+                desc: "Step by step guide to building the California Cobb Salad.",
+                desc_es: "Guía paso a paso para preparar la Ensalada Cobb California.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Crispy Chicken & Goat Cheese",
+                title_es: "Pollo Crujiente y Queso de Cabra",
+                desc: "Step by step guide to building the Crispy Chicken & Goat Cheese.",
+                desc_es: "Guía paso a paso para preparar el Pollo Crujiente y Queso de Cabra.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              }
+            ]
+          },
+          {
+            id: "breakfast",
+            title: "Breakfast",
+            title_es: "Desayuno",
+            desc: "Step by step guides for Pressed Cafe breakfast items.",
+            desc_es: "Guías paso a paso para los desayunos de Pressed Cafe.",
+            videos: [
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Spicy Boi",
+                title_es: "Spicy Boi",
+                desc: "Step by step guide to building the Spicy Boi.",
+                desc_es: "Guía paso a paso para preparar el Spicy Boi.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Farmhouse, Egg Bites & Greens",
+                title_es: "Farmhouse, Bocadillos de Huevo y Verduras",
+                desc: "Step by step guide to building Farmhouse, Egg Bites & Greens.",
+                desc_es: "Guía paso a paso para preparar Farmhouse, Bocadillos de Huevo y Verduras.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Jammy Egg & Cheddar Toast",
+                title_es: "Tostada de Huevo y Cheddar",
+                desc: "Step by step guide to building the Jammy Egg & Cheddar Toast.",
+                desc_es: "Guía paso a paso para preparar la Tostada de Huevo y Cheddar.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Vegan Forger Smash Burrito",
+                title_es: "Burrito Smash Vegano Forger",
+                desc: "Step by step guide to building the Vegan Forger Smash Burrito.",
+                desc_es: "Guía paso a paso para preparar el Burrito Smash Vegano Forger.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "White Mountain Steak & Egg",
+                title_es: "White Mountain Steak & Egg",
+                desc: "Step by step guide to building the White Mountain Steak & Egg.",
+                desc_es: "Guía paso a paso para preparar el White Mountain Steak & Egg.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Champignon",
+                title_es: "Champignon",
+                desc: "Step by step guide to building the Champignon.",
+                desc_es: "Guía paso a paso para preparar el Champignon.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Burek & Egg Sandwich",
+                title_es: "Sándwich de Burek y Huevo",
+                desc: "Step by step guide to building the Burek & Egg Sandwich.",
+                desc_es: "Guía paso a paso para preparar el Sándwich de Burek y Huevo.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Forest & Farm Power Plate",
+                title_es: "Plato Power Forest & Farm",
+                desc: "Step by step guide to building the Forest & Farm Power Plate.",
+                desc_es: "Guía paso a paso para preparar el Plato Power Forest & Farm.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              }
+            ]
+          },
+          {
+            id: "grill",
+            title: "Grill",
+            title_es: "Parrilla",
+            desc: "Step by step guides for Pressed Cafe grilled items.",
+            desc_es: "Guías paso a paso para los platos a la parrilla de Pressed Cafe.",
+            videos: [
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Kalbi Short Rib Melt",
+                title_es: "Kalbi Short Rib Melt",
+                desc: "Step by step guide to building the Kalbi Short Rib Melt.",
+                desc_es: "Guía paso a paso para preparar el Kalbi Short Rib Melt.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Spicy Ahi Tuna Melt",
+                title_es: "Spicy Ahi Tuna Melt",
+                desc: "Step by step guide to building the Spicy Ahi Tuna Melt.",
+                desc_es: "Guía paso a paso para preparar el Spicy Ahi Tuna Melt.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Vegan Shroom & Smash",
+                title_es: "Vegan Shroom & Smash",
+                desc: "Step by step guide to building the Vegan Shroom & Smash.",
+                desc_es: "Guía paso a paso para preparar el Vegan Shroom & Smash.",
+                duration: "3 min",
+                pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=f274f87b-336a-4f50-99fb-24081c35bfba&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+                title: "Choochi's Signature Smash",
+                title_es: "Choochi's Signature Smash",
+                desc: "Step by step guide to building Choochi's Signature Smash.",
+                desc_es: "Guía paso a paso para preparar el Choochi's Signature Smash.",
+                duration: "3 min",
+                pdf: "https://netorg3754994.sharepoint.com/:i:/r/sites/Corporate/Shared%20Documents/LMS/Training/Documents/Food/Choochi%20Smash%20Burger.jpg?csf=1&web=1&e=I7DAWV",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+              }
+            ]
           }
         ]
       },
       {
-        id: "smoothies",
-        title: "Smoothies",
-        title_es: "Batidos",
-        desc: "Step by step guides for building Pressed Cafe smoothies.",
-        desc_es: "Guías paso a paso para preparar los batidos de Pressed Cafe.",
+        id: "spring-menu-juices",
+        title: "Spring Menu Refresh (Juices)",
+        title_es: "Actualización del Menú de Primavera (Jugos)",
+        desc: "New juice and beverage items for the Spring Menu Refresh — step by step build guides.",
+        desc_es: "Nuevas bebidas y jugos para la actualización del menú de primavera — guías paso a paso.",
         videos: [
           {
-            embed: "https://your-org.sharepoint.com/sites/YourSite/_layouts/15/embed.aspx?UniqueId=YOUR-VIDEO-ID",
-            title: "Smoothie Title",
-            title_es: "Título del Batido",
-            desc: "Description of the smoothie video.",
-            desc_es: "Descripción del video del batido.",
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Morning Lift",
+            title_es: "Morning Lift",
+            desc: "Step by step guide to building the Morning Lift.",
+            desc_es: "Guía paso a paso para preparar el Morning Lift.",
             duration: "3 min",
-            pdf: "https://netorg3754994.sharepoint.com/:b:/r/sites/Corporate/Shared%20Documents/LMS/Training/Documents/Beverage/Pressed%20Cafe%20Drink%20Build%20Booklet%20(4).pdf?e=4%3aee45742c05d147be82df99f0df285fa7&web=1&sharingv2=true&fromShare=true&at=9"
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Pure Greens",
+            title_es: "Pure Greens",
+            desc: "Step by step guide to building Pure Greens.",
+            desc_es: "Guía paso a paso para preparar Pure Greens.",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Golden Glow",
+            title_es: "Golden Glow",
+            desc: "Step by step guide to building the Golden Glow.",
+            desc_es: "Guía paso a paso para preparar el Golden Glow.",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Pressed Green Fuel",
+            title_es: "Pressed Green Fuel",
+            desc: "Step by step guide to building Pressed Green Fuel.",
+            desc_es: "Guía paso a paso para preparar Pressed Green Fuel.",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Citrus Cleanse",
+            title_es: "Citrus Cleanse",
+            desc: "Step by step guide to building the Citrus Cleanse.",
+            desc_es: "Guía paso a paso para preparar el Citrus Cleanse.",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Immune Kick",
+            title_es: "Immune Kick",
+            desc: "Step by step guide to building the Immune Kick.",
+            desc_es: "Guía paso a paso para preparar el Immune Kick.",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Eli's Juice",
+            title_es: "El Jugo de Eli",
+            desc: "Step by step guide to building Eli's Juice.",
+            desc_es: "Guía paso a paso para preparar el Jugo de Eli.",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Endurance Green",
+            title_es: "Endurance Green",
+            desc: "Step by step guide to building the Endurance Green.",
+            desc_es: "Guía paso a paso para preparar el Endurance Green.",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Turmeric Ginger Lemonade",
+            title_es: "Limonada de Cúrcuma y Jengibre",
+            desc: "Step by step guide to building the Turmeric Ginger Lemonade.",
+            desc_es: "Guía paso a paso para preparar la Limonada de Cúrcuma y Jengibre.",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Celery Juice (6oz)",
+            title_es: "Jugo de Apio (6oz)",
+            desc: "Step by step guide to building the Celery Juice (6oz).",
+            desc_es: "Guía paso a paso para preparar el Jugo de Apio (6oz).",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
           }
         ]
       }
@@ -700,7 +1245,6 @@
       document.getElementById('btn-es').classList.toggle('active', lang === 'es');
       var t = UI[lang];
 
-      // Static UI elements
       document.querySelector('.header-label').textContent = t.headerLabel;
       document.querySelector('.hero-title').innerHTML = t.heroTitle;
       document.querySelector('.hero-sub').innerHTML = t.heroBullets;
@@ -709,54 +1253,67 @@
         '&copy; Pressed Cafe &nbsp;&bull;&nbsp; <span>' + t.headerLabel + '</span> &nbsp;&bull;&nbsp; ' + t.footer;
       document.getElementById('modal-loading').querySelector('span').textContent = t.loading;
 
-      // Re-render categories
       renderCategories();
 
-      // If video view is active, re-render the current category
-      if (document.getElementById('view-videos').classList.contains('active')) {
-        renderCategories(); // breadcrumb will stay, re-render silently
-      }
-
-      // Update breadcrumb
+      // Re-render current view if not on categories
       var isVideos = document.getElementById('view-videos').classList.contains('active');
-      if (!isVideos) {
+      var isSubs   = document.getElementById('view-subcategories').classList.contains('active');
+      if (!isVideos && !isSubs) {
         document.getElementById('breadcrumb').innerHTML =
           '<span class="breadcrumb-item active" onclick="showCategories()">' + t.allCategories + '</span>';
+        document.querySelector('.section-rule-label').textContent = t.trainingCats;
       }
-
-      // Update section label
-      document.querySelector('.section-rule-label').textContent = t.trainingCats;
     }
 
-    // ── Render categories ──────────────────────────
-    var catGrid = document.getElementById('category-grid');
+    // ── Helpers ────────────────────────────────────
+    var catGrid    = document.getElementById('category-grid');
+    var subGrid    = document.getElementById('subcategory-grid');
     var headerMeta = document.getElementById('header-meta');
 
+    function totalVideos(cat) {
+      if (cat.subcategories) {
+        return cat.subcategories.reduce(function(n, s) { return n + s.videos.length; }, 0);
+      }
+      return cat.videos ? cat.videos.length : 0;
+    }
+
+    function makeCard(titleHTML, descHTML, countHTML, exploreLabel, clickFn) {
+      var card = document.createElement('div');
+      card.className = 'category-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.innerHTML =
+        '<div class="cat-title">' + titleHTML + '</div>' +
+        '<div class="cat-desc">'  + descHTML  + '</div>' +
+        '<div class="cat-footer">' +
+          '<div class="cat-count">' + countHTML + '</div>' +
+          '<div class="explore-btn">' + exploreLabel +
+            ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+          '</div>' +
+        '</div>';
+      card.addEventListener('click', clickFn);
+      card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') clickFn(); });
+      return card;
+    }
+
+    // ── Render top-level categories ────────────────
     function renderCategories() {
       var t = UI[LANG];
       catGrid.innerHTML = '';
       headerMeta.textContent = CATALOGUE.length + ' ' + t.categories;
 
       CATALOGUE.forEach(function(cat) {
-        var card = document.createElement('div');
-        card.className = 'category-card';
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-        var count = cat.videos.length;
-        var word = count === 1 ? t.video : t.videos;
         var catTitle = LANG === 'es' && cat.title_es ? cat.title_es : cat.title;
         var catDesc  = LANG === 'es' && cat.desc_es  ? cat.desc_es  : cat.desc;
-        card.innerHTML =
-          '<div class="cat-title">' + catTitle + '</div>' +
-          '<div class="cat-desc">'  + catDesc  + '</div>' +
-          '<div class="cat-footer">' +
-            '<div class="cat-count">' + count + ' ' + word + '</div>' +
-            '<div class="explore-btn">' + t.explore + ' ' +
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
-            '</div>' +
-          '</div>';
-        card.addEventListener('click', function() { showVideos(cat); });
-        card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') showVideos(cat); });
+        var count    = totalVideos(cat);
+        var word     = count === 1 ? t.video : t.videos;
+        var card = makeCard(catTitle, catDesc, count + ' ' + word, t.explore, function() {
+          if (cat.subcategories) {
+            showSubcategories(cat);
+          } else {
+            showVideos(cat, null);
+          }
+        });
         catGrid.appendChild(card);
       });
     }
@@ -764,25 +1321,63 @@
     // Initial render
     renderCategories();
 
-    // ── Navigation ─────────────────────────────────
+    // ── Show categories (top level) ────────────────
     function showCategories() {
       var t = UI[LANG];
       document.getElementById('view-categories').classList.add('active');
+      document.getElementById('view-subcategories').classList.remove('active');
       document.getElementById('view-videos').classList.remove('active');
       document.getElementById('breadcrumb').innerHTML =
         '<span class="breadcrumb-item active" onclick="showCategories()">' + t.allCategories + '</span>';
       headerMeta.textContent = CATALOGUE.length + ' ' + t.categories;
+      document.querySelector('.section-rule-label').textContent = t.trainingCats;
       window.scrollTo(0, 0);
     }
 
-    function showVideos(cat) {
+    // ── Show subcategories ─────────────────────────
+    function showSubcategories(cat) {
+      var t = UI[LANG];
+      var catTitle = LANG === 'es' && cat.title_es ? cat.title_es : cat.title;
+      subGrid.innerHTML = '';
+
+      cat.subcategories.forEach(function(sub) {
+        var subTitle = LANG === 'es' && sub.title_es ? sub.title_es : sub.title;
+        var subDesc  = LANG === 'es' && sub.desc_es  ? sub.desc_es  : sub.desc;
+        var count    = sub.videos.length;
+        var word     = count === 1 ? t.video : t.videos;
+        var card = makeCard(subTitle, subDesc, count + ' ' + word, t.explore, function() {
+          showVideos(sub, cat);
+        });
+        subGrid.appendChild(card);
+      });
+
+      document.getElementById('sub-section-label').textContent = catTitle;
+      document.getElementById('breadcrumb').innerHTML =
+        '<span class="breadcrumb-item" onclick="showCategories()">' + t.allCategories + '</span>' +
+        '<span class="breadcrumb-sep">/</span>' +
+        '<span class="breadcrumb-item active">' + catTitle + '</span>';
+      headerMeta.textContent = cat.subcategories.length + ' ' + t.categories;
+
+      document.getElementById('sub-back-btn').innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
+        t.backBtn;
+
+      document.getElementById('view-categories').classList.remove('active');
+      document.getElementById('view-subcategories').classList.add('active');
+      document.getElementById('view-videos').classList.remove('active');
+      window.scrollTo(0, 0);
+    }
+
+    // ── Show videos ────────────────────────────────
+    // parentCat is the top-level category if coming from subcategories, else null
+    function showVideos(item, parentCat) {
       var t = UI[LANG];
       var grid = document.getElementById('video-grid');
       grid.innerHTML = '';
-      var catTitle = LANG === 'es' && cat.title_es ? cat.title_es : cat.title;
-      document.getElementById('videos-section-label').textContent = catTitle;
+      var itemTitle = LANG === 'es' && item.title_es ? item.title_es : item.title;
+      document.getElementById('videos-section-label').textContent = itemTitle;
 
-      cat.videos.forEach(function(video, i) {
+      item.videos.forEach(function(video, i) {
         var card = document.createElement('div');
         card.className = 'video-card';
         card.setAttribute('role', 'button');
@@ -791,10 +1386,17 @@
         var videoTitle = LANG === 'es' && video.title_es ? video.title_es : video.title;
         var videoDesc  = LANG === 'es' && video.desc_es  ? video.desc_es  : video.desc;
 
-        var pdfHtml = video.pdf
+        var pdfHtml = video.pdf && video.pdf !== 'PLACEHOLDER_PDF_URL'
           ? '<a class="pdf-btn" href="' + video.pdf + '" target="_blank" onclick="event.stopPropagation()">' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>' +
               t.pdfBtn +
+            '</a>'
+          : '';
+
+        var quizHtml = video.quiz && video.quiz !== 'PLACEHOLDER_QUIZ_URL'
+          ? '<a class="quiz-btn" href="' + video.quiz + '" target="_blank" onclick="event.stopPropagation()">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>' +
+              t.quizBtn +
             '</a>'
           : '';
 
@@ -810,6 +1412,7 @@
             '<div class="video-desc">'  + videoDesc  + '</div>' +
           '</div>' +
           pdfHtml +
+          quizHtml +
           '<div class="video-footer">' +
             '<div class="video-duration">' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
@@ -824,22 +1427,41 @@
         grid.appendChild(card);
       });
 
-      document.getElementById('breadcrumb').innerHTML =
-        '<span class="breadcrumb-item" onclick="showCategories()">' + t.allCategories + '</span>' +
-        '<span class="breadcrumb-sep">/</span>' +
-        '<span class="breadcrumb-item active">' + catTitle + '</span>';
+      // Build breadcrumb
+      var bc = '<span class="breadcrumb-item" onclick="showCategories()">' + t.allCategories + '</span>';
+      if (parentCat) {
+        var parentTitle = LANG === 'es' && parentCat.title_es ? parentCat.title_es : parentCat.title;
+        bc += '<span class="breadcrumb-sep">/</span>' +
+              '<span class="breadcrumb-item" onclick="showSubcategories(currentParentCat)">' + parentTitle + '</span>';
+        currentParentCat = parentCat;
+      }
+      bc += '<span class="breadcrumb-sep">/</span>' +
+            '<span class="breadcrumb-item active">' + itemTitle + '</span>';
+      document.getElementById('breadcrumb').innerHTML = bc;
 
-      headerMeta.textContent = cat.videos.length + ' ' + (cat.videos.length !== 1 ? t.videos : t.video);
+      headerMeta.textContent = item.videos.length + ' ' + (item.videos.length !== 1 ? t.videos : t.video);
+
+      // Back button: go to subcategories if we came from one, else go to categories
+      var vidBackBtn = document.getElementById('vid-back-btn');
+      if (parentCat) {
+        vidBackBtn.innerHTML =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
+          (LANG === 'es' && parentCat.title_es ? parentCat.title_es : parentCat.title);
+        vidBackBtn.onclick = function() { showSubcategories(parentCat); };
+      } else {
+        vidBackBtn.innerHTML =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
+          t.backBtn;
+        vidBackBtn.onclick = showCategories;
+      }
+
       document.getElementById('view-categories').classList.remove('active');
+      document.getElementById('view-subcategories').classList.remove('active');
       document.getElementById('view-videos').classList.add('active');
-
-      // Update back button text
-      document.querySelector('.back-btn').innerHTML =
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
-        t.backBtn;
-
       window.scrollTo(0, 0);
     }
+
+    var currentParentCat = null;
 
     // ── Modal ──────────────────────────────────────
     function launchVideo(video) {
