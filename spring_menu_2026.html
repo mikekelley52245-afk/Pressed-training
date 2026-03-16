@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pressed Cafe — Spring Menu Refresh 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream:#f5f0e8;--cream-dk:#ede6d6;--ink:#1a1a18;--ink-lt:#3d3d38;
+      --coral:#c94f37;--tan:#b8a98a;--border:rgba(26,26,24,0.12);--radius:8px;
+      --green:#3a7d5a;--green-lt:#edf5f0;--red:#c94f37;--red-lt:#fdf1ef;
+      --amber:#b07d2e;--amber-lt:#fdf6ec;--blue:#2e5fa3;--blue-lt:#edf2fb;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Source Sans 3',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");background-size:200px 200px;pointer-events:none;z-index:0}
+
+    /* Header */
+    header{position:relative;z-index:1;background:var(--cream-dk);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:90px;border-bottom:3px solid var(--coral);box-shadow:0 2px 12px rgba(26,26,24,.08)}
+    .logo-wrap{display:flex;align-items:center;gap:20px}
+    .logo-img{height:64px;width:auto}
+    .header-divider{width:1px;height:40px;background:var(--border)}
+    .header-label{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--tan)}
+    .header-right{display:flex;align-items:center;gap:16px}
+    .header-tag{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--tan);background:#fff;border:1px solid var(--border);padding:5px 14px;border-radius:20px}
+    .back-link{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-lt);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;transition:border-color .15s,color .15s}
+    .back-link:hover{border-color:var(--coral);color:var(--coral)}
+    .back-link svg{width:13px;height:13px}
+
+    /* Lang toggle */
+    .lang-toggle{display:flex;align-items:center;gap:6px}
+    .lang-sep{color:var(--border);font-size:14px}
+    .lang-btn{background:none;border:none;font-family:'Source Sans 3',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--tan);cursor:pointer;padding:4px 2px;transition:color .15s}
+    .lang-btn:hover{color:var(--coral)}
+    .lang-btn.active{color:var(--coral);border-bottom:2px solid var(--coral)}
+
+    /* Print button */
+    .print-btn{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-lt);padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;transition:border-color .15s,color .15s}
+    .print-btn:hover{border-color:var(--coral);color:var(--coral)}
+    .print-btn svg{width:13px;height:13px}
+
+    /* Hero */
+    .hero{position:relative;z-index:1;background:var(--ink);padding:36px 48px}
+    .hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--coral);margin-bottom:10px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;line-height:1.1;color:#fff}
+    .hero-title span{color:var(--coral)}
+    .hero-sub{font-size:14px;font-weight:300;color:var(--tan);margin-top:10px;letter-spacing:.04em;max-width:560px;line-height:1.7}
+
+    /* Main */
+    main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:48px 48px 80px;display:flex;flex-direction:column;gap:40px}
+
+    /* Legend */
+    .legend{display:flex;gap:20px;flex-wrap:wrap;padding:14px 20px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);font-size:12px}
+    .legend-item{display:flex;align-items:center;gap:7px;font-weight:600;color:var(--ink-lt)}
+    .legend-dot{width:8px;height:8px;border-radius:50%}
+
+    /* Section */
+    .section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .section-header{display:flex;align-items:center;gap:14px;padding:20px 28px;border-bottom:1px solid var(--border)}
+    .section-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .section-icon svg{width:18px;height:18px}
+    .icon-red{background:var(--red-lt);color:var(--red)}
+    .icon-amber{background:var(--amber-lt);color:var(--amber)}
+    .icon-green{background:var(--green-lt);color:var(--green)}
+    .icon-blue{background:var(--blue-lt);color:var(--blue)}
+    .section-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink)}
+    .section-body{padding:24px 28px}
+
+    /* Category groups */
+    .cat-group{margin-bottom:28px}
+    .cat-group:last-child{margin-bottom:0}
+    .cat-label{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tan);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .cat-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+    /* Item rows */
+    .item-list{display:flex;flex-direction:column;gap:8px}
+    .item-row{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:6px;font-size:14px;line-height:1.5}
+    .item-row.removed{background:var(--red-lt)}
+    .item-row.changed{background:var(--amber-lt)}
+    .item-row.added{background:var(--green-lt)}
+    .item-dot{width:7px;height:7px;border-radius:50%;margin-top:5px;flex-shrink:0}
+    .removed .item-dot{background:var(--red)}
+    .changed .item-dot{background:var(--amber)}
+    .added .item-dot{background:var(--green)}
+    .item-content{flex:1}
+    .item-name{font-weight:600;color:var(--ink)}
+    .item-note{font-size:12px;font-weight:400;color:var(--ink-lt);margin-top:3px;line-height:1.6}
+
+    /* Suggest rows */
+    .suggest-list{display:flex;flex-direction:column;gap:10px}
+    .suggest-row{padding:12px 16px;border-radius:6px;background:#f9f9f7;border:1px solid var(--border);font-size:14px}
+    .suggest-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tan);margin-bottom:2px}
+    .suggest-item{font-weight:600;color:var(--ink);margin-bottom:6px}
+    .suggest-label-new{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:2px}
+    .suggest-new{font-weight:600;color:var(--green)}
+
+    /* Recreate list */
+    .recreate-list{display:flex;flex-direction:column;gap:16px}
+    .recreate-item{padding:16px 20px;border-radius:6px;border:1px solid var(--border);background:#f9f9f7}
+    .recreate-item-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px}
+    .recreate-item-sub{font-size:12px;font-weight:600;color:var(--coral);margin-bottom:8px;letter-spacing:.04em}
+    .recreate-steps{font-size:13px;color:var(--ink-lt);line-height:1.7}
+
+    /* Footer */
+    footer{position:relative;z-index:1;text-align:center;padding:24px;font-size:11px;color:var(--tan);letter-spacing:.06em;border-top:1px solid var(--border)}
+
+    /* Print styles */
+    @media print {
+      header .back-link, header .print-btn, header .lang-toggle { display: none !important; }
+      body::before { display: none; }
+      .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .section { break-inside: avoid; page-break-inside: avoid; }
+      .item-row { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      main { padding: 24px 24px 40px; }
+    }
+
+    @media(max-width:640px){
+      header{padding:0 16px;height:auto;min-height:70px;flex-wrap:wrap;gap:8px;padding-top:12px;padding-bottom:12px}
+      .hero{padding:24px 20px}
+      .hero-title{font-size:26px}
+      main{padding:20px 16px 60px}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <img class="logo-img" src="logo.jpg" alt="Pressed Cafe" />
+    <div class="header-divider"></div>
+    <div class="header-label" id="hdr-label">Training Portal</div>
+  </div>
+  <div class="header-right">
+    <a class="back-link" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      <span id="back-link-text">Back to Portal</span>
+    </a>
+    <button class="print-btn" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      <span id="print-btn-text">Print</span>
+    </button>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+    </div>
+    <div class="header-tag" id="hdr-tag">Spring 2026</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow" id="hero-eyebrow">Menu Update</div>
+  <div class="hero-title" id="hero-title">Spring Menu <span>Refresh</span> 2026</div>
+  <div class="hero-sub" id="hero-sub">A full summary of items being removed, updated, and changed for the Spring 2026 menu cycle. Review all sections before your next shift.</div>
+</div>
+
+<main>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div><span data-key="removed">Removed</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div><span data-key="changed">Changed / Updated</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div><span data-key="newItem">New Item</span></div>
+  </div>
+
+  <!-- REMOVED -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-red">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <div class="section-title" data-key="removedTitle">Items Being Removed</div>
+    </div>
+    <div class="section-body">
+      <div class="cat-group">
+        <div class="cat-label" data-key="breakfast">Breakfast</div>
+        <div class="item-list">
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Big Kahuna Burrito</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Southwest Breakfast Burrito</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Brooklyn Breakfast Sandwich</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">LA Steak Breakfast Sandwich</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Crossroad Breakfast Sandwich</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Hummus Bagel</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Labneh Toast</div></div></div>
+        </div>
+      </div>
+      <div class="cat-group">
+        <div class="cat-label" data-key="paninis">Paninis &amp; Sandwiches</div>
+        <div class="item-list">
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Balsamic Portobello Panini</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Vegan Portobello Panini</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Strawberry Goat Cheese Wrap</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Jerusalem Tuna Panini</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Francios Panini</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Honey Ham Panini</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Shuk Market Burger</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Ghost Pepper Ranch Chicken Sandwich</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Impossible Burger</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Bahn Mi Panini</div></div></div>
+        </div>
+      </div>
+      <div class="cat-group">
+        <div class="cat-label" data-key="bowls">Bowls</div>
+        <div class="item-list">
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Moroccan Eggplant Farro Bowl</div></div></div>
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Chicken Stir Fry Bowl</div></div></div>
+        </div>
+      </div>
+      <div class="cat-group">
+        <div class="cat-label" data-key="grabgo">Grab &amp; Go</div>
+        <div class="item-list">
+          <div class="item-row removed"><div class="item-dot"></div><div class="item-content"><div class="item-name">Good Life Bowl</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPDATES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </div>
+      <div class="section-title" data-key="updatesTitle">Modifier &amp; Product Updates</div>
+    </div>
+    <div class="section-body">
+      <div class="cat-group">
+        <div class="cat-label" data-key="modifiers">Modifier Changes</div>
+        <div class="item-list">
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content">
+            <div class="item-name" data-key="toastEgg">Toasts — Egg Option</div>
+            <div class="item-note" data-key="toastEggNote">Now receive 2 eggs when added. The 1-egg option has been removed (used to be 1 or 2).</div>
+          </div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content">
+            <div class="item-name" data-key="bsEgg">Breakfast Sandwiches — Egg Modifiers</div>
+            <div class="item-note" data-key="bsEggNote">Now forced: Fluffy scrambled, over hard, over medium — used to be over hard only. Now 2 eggs automatically — used to be 1 egg.</div>
+          </div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content">
+            <div class="item-name" data-key="hummusBowl">Classic Hummus Bowl — Protein Options</div>
+            <div class="item-note" data-key="hummusBowlNote">Now: Chicken, Shawarma, Lamb &amp; Beef Kebabs, Grilled Eggplant — used to be all separate bowls.</div>
+          </div></div>
+        </div>
+      </div>
+      <div class="cat-group">
+        <div class="cat-label" data-key="productChanges">Product Changes</div>
+        <div class="item-list">
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="eggs">Hardboiled Eggs &rarr; Soft Boil (Jammy)</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content">
+            <div class="item-name" data-key="eggplant">Eggplant — No Longer Breaded</div>
+            <div class="item-note" data-key="eggplantNote">Now gluten free and vegan.</div>
+          </div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="mushrooms">Mushrooms — Portobello &rarr; Wild Mushroom Blend</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="cheddar">Sliced Cheddar — Mild &rarr; Sharp</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="jack">Jack Cheese — Monterey Jack &rarr; Pepper Jack</div></div></div>
+        </div>
+      </div>
+      <div class="cat-group">
+        <div class="cat-label" data-key="menuChanges">Menu Item Changes</div>
+        <div class="item-list">
+          <div class="item-row added"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="chia">Chia Pudding — NEW</div><div class="item-note" data-key="chiaNote">Chocolate coconut flavor.</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="mediKale">Medi Kale Salad &rarr; Medi Tuna Kale 2.0</div><div class="item-note" data-key="recipeChange">Recipe change.</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="beets">Beets &amp; Labneh &rarr; Warm Roasted Beets and Labneh</div><div class="item-note" data-key="recipeChange2">Recipe change.</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="veggieCiab">Veggie Ciabatta &rarr; Market Veggie Wrap</div><div class="item-note" data-key="recipeChange3">Recipe change.</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="cobb">Cobb Salad &rarr; California Cobb Salad</div><div class="item-note" data-key="recipeChange4">Recipe change.</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="bbq">Backyard BBQ Bowl — Corn Added</div><div class="item-note" data-key="recipeChange5">Recipe change.</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="eggplantParm">Eggplant Parm Bowl — Choice of Grain</div><div class="item-note" data-key="eggplantParmNote">Used to be quinoa only.</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="mediSalmon">Medi Salmon Bowl &rarr; Medi Grain Bowl</div><div class="item-note" data-key="recipeChange6">Recipe change.</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="crispyChicken">Chicken Spinach Goat Cheese Salad &rarr; Crispy Chicken and Goat Cheese Salad</div><div class="item-note" data-key="recipeChange7">Recipe change.</div></div></div>
+          <div class="item-row changed"><div class="item-dot"></div><div class="item-content"><div class="item-name" data-key="challah">Zohan, Lulu &amp; Tel Aviv — Now on Challah Bread</div><div class="item-note" data-key="challahNote">Used to be ciabatta.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUGGESTED REPLACEMENTS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <div class="section-title" data-key="suggestTitle">Suggesting New Items When Removed Items Are Ordered</div>
+    </div>
+    <div class="section-body">
+      <div class="suggest-list">
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Southwest Burrito</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Vegan Forger Smash Burrito</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Brooklyn Breakfast Sandwich</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Spicy Boi, Champignon, Bella Rose</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">LA Steak and Egg</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">White Mountain Steak &amp; Egg</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Hummus Bagel</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Humina Humina Toast</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Labneh Toast</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Jammy Egg &amp; Cheddar Toast</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Chicken Spinach Goat Cheese Salad</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Crispy Chicken and Goat Cheese Salad</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Balsamic Portobello Panini</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Magic Mushroom Melt</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Strawberry Wrap</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Strawberry Salad, Market Veggie Wrap</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Jerusalem Tuna</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Albacore Tuna, Lulu Melt, Tel Aviv Tuna</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Shuk Market Burger</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Vegan Shroom &amp; Smash</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Ghost Pepper Ranch Chicken</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Nashville Chicken, Philly Chicken and Cheese</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Bahn Mi Panini</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Kalbi Panini, Ahi Tuna Melt, Bahn Mi Bowl</div></div>
+        <div class="suggest-row"><div class="suggest-label" data-key="ifAskedFor">If asked for:</div><div class="suggest-item">Honey Ham Panini</div><div class="suggest-label-new" data-key="suggest">Suggest:</div><div class="suggest-new">Real Deal Melt, Oven Roasted Turkey</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECREATE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <div class="section-title" data-key="recreateTitle">How to Recreate Removed Items</div>
+    </div>
+    <div class="section-body">
+      <div class="recreate-list">
+        <div class="recreate-item"><div class="recreate-item-title">Big Kahuna Burrito</div><div class="recreate-item-sub" data-key="orderAs">Order as: Egg Cheese Potato</div><div class="recreate-steps" data-key="bigKahuna">Add feta, add spinach</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Brooklyn Egg and Cheese</div><div class="recreate-item-sub" data-key="orderAs">Order as: Chicken Egg and Cheese</div><div class="recreate-steps" data-key="brooklyn">Over medium &bull; add chive cc &bull; add hot sauce &bull; add caramelized onion</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">LA Steak and Egg</div><div class="recreate-item-sub" data-key="orderAs">Order as: Steak Egg and Cheese</div><div class="recreate-steps" data-key="la">Over medium &bull; add chipotle mayo &bull; add caramelized onion &bull; sub jack cheese</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Crossroads Egg and Cheese</div><div class="recreate-item-sub" data-key="orderAs">Order as: Egg Cheese</div><div class="recreate-steps" data-key="crossroads">Over medium &bull; add vegan kebabs &bull; add chipotle mayo &bull; add &frac14; avocado &bull; add tomato &bull; sub cheddar</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Hummus Bagel</div><div class="recreate-item-sub" data-key="orderAs">Order as: Everything Bagel</div><div class="recreate-steps" data-key="hummusBagel">Add hummus &bull; add cucumbers &bull; add tomatoes &bull; add eggplant &bull; add chives &bull; add tahini</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Labneh Toast</div><div class="recreate-item-sub" data-key="orderAs">Order as: Sourdough Toast</div><div class="recreate-steps" data-key="labneh">Add labneh &bull; add olives &bull; add tomato &bull; add olive oil &bull; add za'atar</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Spinach Chicken Goat Cheese Salad</div><div class="recreate-item-sub" data-key="orderAs">Order as: BYO Salad</div><div class="recreate-steps" data-key="spinachSalad">Spinach &bull; tomato &bull; cucumber &bull; bacon &bull; chicken &bull; goat cheese &bull; soft boil egg &bull; balsamic dressing</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Balsamic Portobello Panini</div><div class="recreate-item-sub" data-key="orderAs">Order as: BYO Panini</div><div class="recreate-steps" data-key="portobello">Chive cc &bull; mushrooms &bull; tomato &bull; red pepper &bull; caramelized onion &bull; bleu cheese &bull; balsamic reduction</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Strawberry Goat Cheese Wrap</div><div class="recreate-item-sub" data-key="orderAs">Order as: Strawberry Fields Salad as a Wrap</div><div class="recreate-steps" data-key="strawberry">No figs</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Jerusalem Tuna</div><div class="recreate-item-sub" data-key="orderAs">Order as: BYO Panini</div><div class="recreate-steps" data-key="jerusalem">Spicy feta &bull; lemon dressing &bull; tomato &bull; tuna salad</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Francios</div><div class="recreate-item-sub" data-key="orderAs">Order as: BYO Panini</div><div class="recreate-steps" data-key="francios">Chicken &bull; caramelized onion &bull; goat cheese &bull; mushrooms &bull; field greens &bull; balsamic reduction</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Shuk Market Burger</div><div class="recreate-item-sub" data-key="orderAs">Order as: BYO Vegan Burger</div><div class="recreate-steps" data-key="shuk">Hummus &bull; tahini &bull; romaine &bull; tomato &bull; pickles &bull; pickled onion &bull; schug &bull; amba</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Ghost Pepper Chicken</div><div class="recreate-item-sub" data-key="orderAs">Order as: BYO Panini</div><div class="recreate-steps" data-key="ghost">Potato bun &bull; chicken &bull; jack cheese &bull; caramelized onion &bull; bacon &bull; ranch &bull; hots &bull; potato chips</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Bahn Mi Panini</div><div class="recreate-item-sub" data-key="orderAs">Order as: Bahn Mi Bowl as a Panini</div><div class="recreate-steps" data-key="bahnMi">No rice &bull; sub over hard eggs</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Honey Ham Panini</div><div class="recreate-item-sub" data-key="orderAs">Order as: BYO Panini</div><div class="recreate-steps" data-key="honeyHam">Swiss cheese &bull; honey mustard &bull; ham &bull; romaine &bull; tomato</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Moroccan Eggplant Bowl</div><div class="recreate-item-sub" data-key="orderAs">Order as: Shakshuka</div><div class="recreate-steps" data-key="moroccan">No eggs, no feta &bull; add farro &bull; add eggplant &bull; add chickpeas &bull; add tahini</div></div>
+        <div class="recreate-item"><div class="recreate-item-title">Chicken Stir Fry Bowl</div><div class="recreate-item-sub" data-key="orderAs">Order as: Greek Farro Bowl</div><div class="recreate-steps" data-key="stirFry">No feta, no tzatziki &bull; add spinach &bull; add demi</div></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer id="page-footer">&copy; Pressed Cafe &nbsp;&bull;&nbsp; Spring Menu Update 2026 &nbsp;&bull;&nbsp; For internal use only</footer>
+
+<script>
+  var LANG = 'en';
+
+  var T = {
+    en: {
+      hdrLabel: 'Training Portal', hdrTag: 'Spring 2026', backLink: 'Back to Portal',
+      printBtn: 'Print', heroEyebrow: 'Menu Update',
+      heroSub: 'A full summary of items being removed, updated, and changed for the Spring 2026 menu cycle. Review all sections before your next shift.',
+      removed: 'Removed', changed: 'Changed / Updated', newItem: 'New Item',
+      removedTitle: 'Items Being Removed', updatesTitle: 'Modifier & Product Updates',
+      suggestTitle: 'Suggesting New Items When Removed Items Are Ordered',
+      recreateTitle: 'How to Recreate Removed Items',
+      breakfast: 'Breakfast', paninis: 'Paninis & Sandwiches', bowls: 'Bowls', grabgo: 'Grab & Go',
+      modifiers: 'Modifier Changes', productChanges: 'Product Changes', menuChanges: 'Menu Item Changes',
+      toastEgg: 'Toasts — Egg Option',
+      toastEggNote: 'Now receive 2 eggs when added. The 1-egg option has been removed (used to be 1 or 2).',
+      bsEgg: 'Breakfast Sandwiches — Egg Modifiers',
+      bsEggNote: 'Now forced: Fluffy scrambled, over hard, over medium — used to be over hard only. Now 2 eggs automatically — used to be 1 egg.',
+      hummusBowl: 'Classic Hummus Bowl — Protein Options',
+      hummusBowlNote: 'Now: Chicken, Shawarma, Lamb & Beef Kebabs, Grilled Eggplant — used to be all separate bowls.',
+      eggs: 'Hardboiled Eggs → Soft Boil (Jammy)',
+      eggplant: 'Eggplant — No Longer Breaded', eggplantNote: 'Now gluten free and vegan.',
+      mushrooms: 'Mushrooms — Portobello → Wild Mushroom Blend',
+      cheddar: 'Sliced Cheddar — Mild → Sharp', jack: 'Jack Cheese — Monterey Jack → Pepper Jack',
+      chia: 'Chia Pudding — NEW', chiaNote: 'Chocolate coconut flavor.',
+      mediKale: 'Medi Kale Salad → Medi Tuna Kale 2.0',
+      beets: 'Beets & Labneh → Warm Roasted Beets and Labneh',
+      veggieCiab: 'Veggie Ciabatta → Market Veggie Wrap',
+      cobb: 'Cobb Salad → California Cobb Salad',
+      bbq: 'Backyard BBQ Bowl — Corn Added',
+      eggplantParm: 'Eggplant Parm Bowl — Choice of Grain', eggplantParmNote: 'Used to be quinoa only.',
+      mediSalmon: 'Medi Salmon Bowl → Medi Grain Bowl',
+      crispyChicken: 'Chicken Spinach Goat Cheese Salad → Crispy Chicken and Goat Cheese Salad',
+      challah: 'Zohan, Lulu & Tel Aviv — Now on Challah Bread', challahNote: 'Used to be ciabatta.',
+      recipeChange: 'Recipe change.', recipeChange2: 'Recipe change.', recipeChange3: 'Recipe change.',
+      recipeChange4: 'Recipe change.', recipeChange5: 'Recipe change.', recipeChange6: 'Recipe change.', recipeChange7: 'Recipe change.',
+      ifAskedFor: 'If asked for:', suggest: 'Suggest:',
+      orderAs: 'Order as:',
+      bigKahuna: 'Add feta, add spinach',
+      brooklyn: 'Over medium \u2022 add chive cc \u2022 add hot sauce \u2022 add caramelized onion',
+      la: 'Over medium \u2022 add chipotle mayo \u2022 add caramelized onion \u2022 sub jack cheese',
+      crossroads: 'Over medium \u2022 add vegan kebabs \u2022 add chipotle mayo \u2022 add \u00bc avocado \u2022 add tomato \u2022 sub cheddar',
+      hummusBagel: 'Add hummus \u2022 add cucumbers \u2022 add tomatoes \u2022 add eggplant \u2022 add chives \u2022 add tahini',
+      labneh: "Add labneh \u2022 add olives \u2022 add tomato \u2022 add olive oil \u2022 add za\u2019atar",
+      spinachSalad: 'Spinach \u2022 tomato \u2022 cucumber \u2022 bacon \u2022 chicken \u2022 goat cheese \u2022 soft boil egg \u2022 balsamic dressing',
+      portobello: 'Chive cc \u2022 mushrooms \u2022 tomato \u2022 red pepper \u2022 caramelized onion \u2022 bleu cheese \u2022 balsamic reduction',
+      strawberry: 'No figs',
+      jerusalem: 'Spicy feta \u2022 lemon dressing \u2022 tomato \u2022 tuna salad',
+      francios: 'Chicken \u2022 caramelized onion \u2022 goat cheese \u2022 mushrooms \u2022 field greens \u2022 balsamic reduction',
+      shuk: 'Hummus \u2022 tahini \u2022 romaine \u2022 tomato \u2022 pickles \u2022 pickled onion \u2022 schug \u2022 amba',
+      ghost: 'Potato bun \u2022 chicken \u2022 jack cheese \u2022 caramelized onion \u2022 bacon \u2022 ranch \u2022 hots \u2022 potato chips',
+      bahnMi: 'No rice \u2022 sub over hard eggs',
+      honeyHam: 'Swiss cheese \u2022 honey mustard \u2022 ham \u2022 romaine \u2022 tomato',
+      moroccan: 'No eggs, no feta \u2022 add farro \u2022 add eggplant \u2022 add chickpeas \u2022 add tahini',
+      stirFry: 'No feta, no tzatziki \u2022 add spinach \u2022 add demi',
+      footer: 'Spring Menu Update 2026 \u2022 For internal use only'
+    },
+    es: {
+      hdrLabel: 'Portal de Capacitaci\u00f3n', hdrTag: 'Primavera 2026', backLink: 'Volver al Portal',
+      printBtn: 'Imprimir', heroEyebrow: 'Actualizaci\u00f3n del Men\u00fa',
+      heroSub: 'Un resumen completo de los elementos eliminados, actualizados y modificados para el ciclo de men\u00fa de primavera 2026. Revisa todas las secciones antes de tu pr\u00f3ximo turno.',
+      removed: 'Eliminado', changed: 'Modificado / Actualizado', newItem: 'Nuevo Elemento',
+      removedTitle: 'Elementos Eliminados', updatesTitle: 'Actualizaciones de Modificadores y Productos',
+      suggestTitle: 'Sugerir Nuevos Elementos Cuando Se Pidan Elementos Eliminados',
+      recreateTitle: 'C\u00f3mo Recrear Elementos Eliminados',
+      breakfast: 'Desayuno', paninis: 'Paninis y S\u00e1ndwiches', bowls: 'Bowls', grabgo: 'Para Llevar',
+      modifiers: 'Cambios en Modificadores', productChanges: 'Cambios de Productos', menuChanges: 'Cambios en Elementos del Men\u00fa',
+      toastEgg: 'Tostadas — Opci\u00f3n de Huevo',
+      toastEggNote: 'Ahora reciben 2 huevos al agregar. La opci\u00f3n de 1 huevo fue eliminada (antes era 1 o 2).',
+      bsEgg: 'S\u00e1ndwiches de Desayuno — Modificadores de Huevo',
+      bsEggNote: 'Ahora obligatorio: Revuelto esponjoso, muy cocido, t\u00e9rmino medio — antes solo muy cocido. Ahora 2 huevos autom\u00e1ticamente — antes era 1 huevo.',
+      hummusBowl: 'Bowl Cl\u00e1sico de Hummus — Opciones de Prote\u00edna',
+      hummusBowlNote: 'Ahora: Pollo, Shawarma, Kebabs de Cordero y Res, Berenjena a la Parrilla — antes eran bowls separados.',
+      eggs: 'Huevos Duros \u2192 Huevos Suaves (Jammy)',
+      eggplant: 'Berenjena — Ya No Es Empanizada', eggplantNote: 'Ahora es libre de gluten y vegana.',
+      mushrooms: 'Hongos — Portobello \u2192 Mezcla de Hongos Silvestres',
+      cheddar: 'Cheddar Rebanado — Suave \u2192 Fuerte', jack: 'Queso Jack — Monterey Jack \u2192 Pepper Jack',
+      chia: 'Pudding de Ch\u00eda — NUEVO', chiaNote: 'Sabor chocolate coco.',
+      mediKale: 'Ensalada Medi Kale \u2192 Medi At\u00fan Kale 2.0',
+      beets: 'Betabeles y Labneh \u2192 Betabeles Asados Calientes y Labneh',
+      veggieCiab: 'Veggie Ciabatta \u2192 Wrap Vegetal del Mercado',
+      cobb: 'Ensalada Cobb \u2192 Ensalada Cobb California',
+      bbq: 'Bowl BBQ Campestre — Se Agrega Ma\u00edz',
+      eggplantParm: 'Bowl de Berenjena Parm — Elecci\u00f3n de Grano', eggplantParmNote: 'Antes solo era quinoa.',
+      mediSalmon: 'Bowl Medi Salm\u00f3n \u2192 Bowl Medi Granos',
+      crispyChicken: 'Ensalada de Pollo con Espinaca y Queso de Cabra \u2192 Ensalada de Pollo Crujiente y Queso de Cabra',
+      challah: 'Zohan, Lulu y Tel Aviv — Ahora en Pan Challah', challahNote: 'Antes era ciabatta.',
+      recipeChange: 'Cambio de receta.', recipeChange2: 'Cambio de receta.', recipeChange3: 'Cambio de receta.',
+      recipeChange4: 'Cambio de receta.', recipeChange5: 'Cambio de receta.', recipeChange6: 'Cambio de receta.', recipeChange7: 'Cambio de receta.',
+      ifAskedFor: 'Si piden:', suggest: 'Sugiere:',
+      orderAs: 'Pedir como:',
+      bigKahuna: 'Agregar feta, agregar espinaca',
+      brooklyn: 'T\u00e9rmino medio \u2022 agregar chive cc \u2022 agregar salsa picante \u2022 agregar cebolla caramelizada',
+      la: 'T\u00e9rmino medio \u2022 agregar mayo chipotle \u2022 agregar cebolla caramelizada \u2022 cambiar por queso jack',
+      crossroads: 'T\u00e9rmino medio \u2022 agregar kebabs veganos \u2022 agregar mayo chipotle \u2022 agregar \u00bc aguacate \u2022 agregar tomate \u2022 cambiar por cheddar',
+      hummusBagel: 'Agregar hummus \u2022 agregar pepinos \u2022 agregar tomates \u2022 agregar berenjena \u2022 agregar cebollino \u2022 agregar tahini',
+      labneh: 'Agregar labneh \u2022 agregar aceitunas \u2022 agregar tomate \u2022 agregar aceite de oliva \u2022 agregar za\u2019atar',
+      spinachSalad: 'Espinaca \u2022 tomate \u2022 pepino \u2022 tocino \u2022 pollo \u2022 queso de cabra \u2022 huevo suave \u2022 aderezo balsamico',
+      portobello: 'Chive cc \u2022 hongos \u2022 tomate \u2022 pimiento rojo \u2022 cebolla caramelizada \u2022 queso azul \u2022 reducci\u00f3n balsamica',
+      strawberry: 'Sin higos',
+      jerusalem: 'Feta picante \u2022 aderezo de lim\u00f3n \u2022 tomate \u2022 ensalada de at\u00fan',
+      francios: 'Pollo \u2022 cebolla caramelizada \u2022 queso de cabra \u2022 hongos \u2022 lechugas mixtas \u2022 reducci\u00f3n balsamica',
+      shuk: 'Hummus \u2022 tahini \u2022 lechuga romana \u2022 tomate \u2022 pepinillos \u2022 cebolla encurtida \u2022 schug \u2022 amba',
+      ghost: 'Pan de papa \u2022 pollo \u2022 queso jack \u2022 cebolla caramelizada \u2022 tocino \u2022 ranch \u2022 picante \u2022 papas fritas',
+      bahnMi: 'Sin arroz \u2022 cambiar por huevos muy cocidos',
+      honeyHam: 'Queso suizo \u2022 mostaza con miel \u2022 jam\u00f3n \u2022 lechuga romana \u2022 tomate',
+      moroccan: 'Sin huevos, sin feta \u2022 agregar farro \u2022 agregar berenjena \u2022 agregar garbanzos \u2022 agregar tahini',
+      stirFry: 'Sin feta, sin tzatziki \u2022 agregar espinaca \u2022 agregar demi',
+      footer: 'Actualizaci\u00f3n del Men\u00fa de Primavera 2026 \u2022 Solo para uso interno'
+    }
+  };
+
+  function setLang(lang) {
+    LANG = lang;
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    var t = T[lang];
+    document.getElementById('hdr-label').textContent = t.hdrLabel;
+    document.getElementById('hdr-tag').textContent = t.hdrTag;
+    document.getElementById('back-link-text').textContent = t.backLink;
+    document.getElementById('print-btn-text').textContent = t.printBtn;
+    document.getElementById('hero-eyebrow').textContent = t.heroEyebrow;
+    document.getElementById('hero-sub').textContent = t.heroSub;
+    if (lang === 'es') {
+      document.getElementById('hero-title').innerHTML = 'Actualizaci\u00f3n del Men\u00fa de <span>Primavera</span> 2026';
+    } else {
+      document.getElementById('hero-title').innerHTML = 'Spring Menu <span>Refresh</span> 2026';
+    }
+    document.getElementById('page-footer').innerHTML = '\u00a9 Pressed Cafe &nbsp;&bull;&nbsp; ' + t.footer;
+    document.querySelectorAll('[data-key]').forEach(function(el) {
+      var key = el.getAttribute('data-key');
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+  }
+</script>
+</body>
+</html>
