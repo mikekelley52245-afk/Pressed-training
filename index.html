@@ -357,6 +357,80 @@
     .quiz-btn:hover { background: var(--coral-lt); border-color: var(--coral-lt); }
     .quiz-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
 
+    /* ── Resource card (link-type) ── */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .resource-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.35s ease both;
+    }
+
+    .resource-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--coral);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .resource-card:hover { border-color: rgba(201,79,55,0.25); box-shadow: 0 8px 28px rgba(26,26,24,0.1); transform: translateY(-2px); }
+    .resource-card:hover::before { opacity: 1; }
+
+    .resource-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      background: rgba(201,79,55,0.08);
+      padding: 3px 8px;
+      border-radius: 4px;
+      align-self: flex-start;
+    }
+
+    .resource-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); line-height: 1.25; }
+    .resource-desc { font-size: 13px; font-weight: 300; color: var(--ink-lt); line-height: 1.6; flex: 1; }
+
+    .resource-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+
+    .resource-open-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--coral);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: gap 0.2s;
+    }
+    .resource-card:hover .resource-open-btn { gap: 10px; }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -553,6 +627,20 @@
       </div>
       <div class="video-grid" id="video-grid"></div>
     </div>
+
+    <div class="view" id="view-resources">
+      <button class="back-btn" id="res-back-btn" onclick="showCategories()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+        </svg>
+        All Categories
+      </button>
+      <div class="section-rule">
+        <div class="section-rule-label" id="resources-section-label">Resources</div>
+        <div class="section-rule-line"></div>
+      </div>
+      <div class="resource-grid" id="resource-grid"></div>
+    </div>
   </main>
 
   <footer>
@@ -612,6 +700,8 @@
         quizBtn:          "Take the Quiz",
         modalNote:        "Make sure you are signed into your Microsoft account to view SharePoint videos.",
         footer:           "For internal use only",
+        resources:        "resources",
+        openResource:     "Open",
         loading:          "Loading video…"
       },
       es: {
@@ -631,6 +721,8 @@
         quizBtn:          "Tomar el Quiz",
         modalNote:        "Asegúrate de haber iniciado sesión en tu cuenta de Microsoft para ver los videos.",
         footer:           "Solo para uso interno",
+        resources:        "recursos",
+        openResource:     "Abrir",
         loading:          "Cargando video…"
       }
     };
@@ -1235,6 +1327,26 @@
             quiz: "PLACEHOLDER_QUIZ_URL"
           }
         ]
+      },
+      {
+        id: "front-of-house",
+        title: "Front of House Training",
+        title_es: "Capacitación de Servicio al Cliente",
+        desc: "Guest experience, menu knowledge, and service guides for front of house staff.",
+        desc_es: "Experiencia del cliente, conocimiento del menú y guías de servicio para el personal de atención.",
+        resources: [
+          {
+            type: "link",
+            title: "Spring Menu Refresh 2026",
+            title_es: "Actualización del Menú de Primavera 2026",
+            desc: "Items removed, product changes, suggested replacements, and how to recreate old favorites.",
+            desc_es: "Elementos eliminados, cambios de productos, sustituciones sugeridas y cómo recrear favoritos.",
+            url: "spring_menu_2026.html",
+            tag: "Menu Update",
+            tag_es: "Actualización del Menú",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          }
+        ]
       }
     ];
 
@@ -1256,15 +1368,16 @@
       // Always re-render categories in background
       renderCategories();
 
-      var isVideos = document.getElementById('view-videos').classList.contains('active');
-      var isSubs   = document.getElementById('view-subcategories').classList.contains('active');
+      var isVideos     = document.getElementById('view-videos').classList.contains('active');
+      var isSubs       = document.getElementById('view-subcategories').classList.contains('active');
+      var isResources  = document.getElementById('view-resources').classList.contains('active');
 
       if (isSubs && currentSubCat) {
-        // Re-render the subcategory view in the new language
         showSubcategories(currentSubCat);
       } else if (isVideos && currentVideoItem) {
-        // Re-render the video view in the new language
         showVideos(currentVideoItem, currentParentCat);
+      } else if (isResources && currentResourceCat) {
+        showResources(currentResourceCat);
       } else {
         // On the top-level categories view
         document.getElementById('breadcrumb').innerHTML =
@@ -1282,6 +1395,7 @@
       if (cat.subcategories) {
         return cat.subcategories.reduce(function(n, s) { return n + s.videos.length; }, 0);
       }
+      if (cat.resources) return cat.resources.length;
       return cat.videos ? cat.videos.length : 0;
     }
 
@@ -1315,9 +1429,12 @@
         var catDesc  = LANG === 'es' && cat.desc_es  ? cat.desc_es  : cat.desc;
         var count    = totalVideos(cat);
         var word     = count === 1 ? t.video : t.videos;
-        var card = makeCard(catTitle, catDesc, count + ' ' + word, t.explore, function() {
+        var word2 = cat.resources ? t.resources : word;
+        var card = makeCard(catTitle, catDesc, count + ' ' + word2, t.explore, function() {
           if (cat.subcategories) {
             showSubcategories(cat);
+          } else if (cat.resources) {
+            showResources(cat);
           } else {
             showVideos(cat, null);
           }
@@ -1338,6 +1455,7 @@
       document.getElementById('view-categories').classList.add('active');
       document.getElementById('view-subcategories').classList.remove('active');
       document.getElementById('view-videos').classList.remove('active');
+      document.getElementById('view-resources').classList.remove('active');
       document.getElementById('breadcrumb').innerHTML =
         '<span class="breadcrumb-item active" onclick="showCategories()">' + t.allCategories + '</span>';
       headerMeta.textContent = CATALOGUE.length + ' ' + t.categories;
@@ -1379,6 +1497,62 @@
       document.getElementById('view-categories').classList.remove('active');
       document.getElementById('view-subcategories').classList.add('active');
       document.getElementById('view-videos').classList.remove('active');
+      window.scrollTo(0, 0);
+    }
+
+    // ── Show resources ────────────────────────────
+    function showResources(cat) {
+      currentResourceCat = cat;
+      var t = UI[LANG];
+      var catTitle = LANG === 'es' && cat.title_es ? cat.title_es : cat.title;
+      var grid = document.getElementById('resource-grid');
+      grid.innerHTML = '';
+      document.getElementById('resources-section-label').textContent = catTitle;
+
+      cat.resources.forEach(function(res) {
+        var resTitle = LANG === 'es' && res.title_es ? res.title_es : res.title;
+        var resDesc  = LANG === 'es' && res.desc_es  ? res.desc_es  : res.desc;
+        var resTag   = LANG === 'es' && res.tag_es   ? res.tag_es   : res.tag;
+
+        var quizHtml = res.quiz && res.quiz !== 'PLACEHOLDER_QUIZ_URL'
+          ? '<a class="quiz-btn" href="' + res.quiz + '" target="_blank" onclick="event.stopPropagation()">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>' +
+              t.quizBtn +
+            '</a>'
+          : '';
+
+        var card = document.createElement('a');
+        card.className = 'resource-card';
+        card.href = res.url;
+        card.setAttribute('target', '_blank');
+        card.innerHTML =
+          '<div class="resource-tag">' + resTag + '</div>' +
+          '<div class="resource-title">' + resTitle + '</div>' +
+          '<div class="resource-desc">'  + resDesc  + '</div>' +
+          quizHtml +
+          '<div class="resource-footer">' +
+            '<div class="resource-open-btn">' + t.openResource + ' ' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+            '</div>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+
+      document.getElementById('breadcrumb').innerHTML =
+        '<span class="breadcrumb-item" onclick="showCategories()">' + t.allCategories + '</span>' +
+        '<span class="breadcrumb-sep">/</span>' +
+        '<span class="breadcrumb-item active">' + catTitle + '</span>';
+
+      headerMeta.textContent = cat.resources.length + ' ' + t.resources;
+
+      document.getElementById('res-back-btn').innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
+        t.backBtn;
+
+      document.getElementById('view-categories').classList.remove('active');
+      document.getElementById('view-subcategories').classList.remove('active');
+      document.getElementById('view-videos').classList.remove('active');
+      document.getElementById('view-resources').classList.add('active');
       window.scrollTo(0, 0);
     }
 
@@ -1477,9 +1651,10 @@
       window.scrollTo(0, 0);
     }
 
-    var currentParentCat = null;
-    var currentSubCat    = null;
-    var currentVideoItem = null;
+    var currentParentCat  = null;
+    var currentSubCat     = null;
+    var currentVideoItem  = null;
+    var currentResourceCat = null;
 
     // ── Modal ──────────────────────────────────────
     function launchVideo(video) {
