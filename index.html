@@ -177,6 +177,36 @@
     .category-card:hover { border-color: rgba(201,79,55,0.25); box-shadow: 0 8px 28px rgba(26,26,24,0.1); transform: translateY(-2px); }
     .category-card:hover::before { opacity: 1; }
 
+    /* ── Coming Soon overlay ── */
+    .category-card.coming-soon { cursor: default; }
+    .category-card.coming-soon:hover { border-color: var(--border); box-shadow: none; transform: none; }
+    .category-card.coming-soon:hover::before { opacity: 0; }
+    .coming-soon-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(26,26,24,0.45);
+      backdrop-filter: blur(2px);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      z-index: 2;
+    }
+    .coming-soon-overlay-icon {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .coming-soon-overlay-icon svg { width: 20px; height: 20px; stroke: #fff; }
+    .coming-soon-overlay-text {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase; color: #fff;
+    }
+
     .cat-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.2; }
     .cat-desc { font-size: 13px; font-weight: 300; color: var(--ink-lt); line-height: 1.6; flex: 1; }
 
@@ -702,6 +732,7 @@
         footer:           "For internal use only",
         resources:        "resources",
         openResource:     "Open",
+        comingSoon:       "Coming Soon",
         loading:          "Loading video…"
       },
       es: {
@@ -723,6 +754,7 @@
         footer:           "Solo para uso interno",
         resources:        "recursos",
         openResource:     "Abrir",
+        comingSoon:       "Próximamente",
         loading:          "Cargando video…"
       }
     };
@@ -752,6 +784,7 @@
     var CATALOGUE = [
       {
         id: "pressed-curriculum",
+        comingSoon: true,
         title: "Pressed Cafe Core Curriculum",
         title_es: "Plan de Estudios Principal de Pressed Cafe",
         desc: "Everything you need to learn to Succeed at Pressed!",
@@ -905,6 +938,7 @@
           },
           {
             id: "bowls",
+            comingSoon: true,
             title: "Bowls",
             title_es: "Bowls",
             desc: "Step by step guides for building Pressed Cafe bowls.",
@@ -944,6 +978,7 @@
           },
           {
             id: "saute",
+            comingSoon: true,
             title: "Saute",
             title_es: "Salteado",
             desc: "Step by step guides for Pressed Cafe sauteed dishes.",
@@ -1013,6 +1048,7 @@
           },
           {
             id: "fry",
+            comingSoon: true,
             title: "Fry",
             title_es: "Fritos",
             desc: "Step by step guides for Pressed Cafe fried dishes.",
@@ -1032,6 +1068,7 @@
           },
           {
             id: "salad",
+            comingSoon: true,
             title: "Salad",
             title_es: "Ensaladas",
             desc: "Step by step guides for building Pressed Cafe salads.",
@@ -1081,6 +1118,7 @@
           },
           {
             id: "breakfast",
+            comingSoon: true,
             title: "Breakfast",
             title_es: "Desayuno",
             desc: "Step by step guides for Pressed Cafe breakfast items.",
@@ -1170,6 +1208,7 @@
           },
           {
             id: "grill",
+            comingSoon: true,
             title: "Grill",
             title_es: "Parrilla",
             desc: "Step by step guides for Pressed Cafe grilled items.",
@@ -1399,22 +1438,38 @@
       return cat.videos ? cat.videos.length : 0;
     }
 
-    function makeCard(titleHTML, descHTML, countHTML, exploreLabel, clickFn) {
+    function makeCard(titleHTML, descHTML, countHTML, exploreLabel, clickFn, isComingSoon, comingSoonLabel) {
       var card = document.createElement('div');
-      card.className = 'category-card';
-      card.setAttribute('role', 'button');
-      card.setAttribute('tabindex', '0');
+      card.className = 'category-card' + (isComingSoon ? ' coming-soon' : '');
+      if (!isComingSoon) {
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+      }
+      var overlay = isComingSoon
+        ? '<div class="coming-soon-overlay">' +
+            '<div class="coming-soon-overlay-icon">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+            '</div>' +
+            '<div class="coming-soon-overlay-text">' + comingSoonLabel + '</div>' +
+          '</div>'
+        : '';
+      var footer = isComingSoon
+        ? '<div class="cat-footer"><div class="cat-count">' + countHTML + '</div></div>'
+        : '<div class="cat-footer">' +
+            '<div class="cat-count">' + countHTML + '</div>' +
+            '<div class="explore-btn">' + exploreLabel +
+              ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+            '</div>' +
+          '</div>';
       card.innerHTML =
+        overlay +
         '<div class="cat-title">' + titleHTML + '</div>' +
         '<div class="cat-desc">'  + descHTML  + '</div>' +
-        '<div class="cat-footer">' +
-          '<div class="cat-count">' + countHTML + '</div>' +
-          '<div class="explore-btn">' + exploreLabel +
-            ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
-          '</div>' +
-        '</div>';
-      card.addEventListener('click', clickFn);
-      card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') clickFn(); });
+        footer;
+      if (!isComingSoon) {
+        card.addEventListener('click', clickFn);
+        card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') clickFn(); });
+      }
       return card;
     }
 
@@ -1438,7 +1493,7 @@
           } else {
             showVideos(cat, null);
           }
-        });
+        }, cat.comingSoon, t.comingSoon);
         catGrid.appendChild(card);
       });
     }
@@ -1479,7 +1534,7 @@
         var word     = count === 1 ? t.video : t.videos;
         var card = makeCard(subTitle, subDesc, count + ' ' + word, t.explore, function() {
           showVideos(sub, cat);
-        });
+        }, sub.comingSoon, t.comingSoon);
         subGrid.appendChild(card);
       });
 
