@@ -387,6 +387,61 @@
     .quiz-btn:hover { background: var(--coral-lt); border-color: var(--coral-lt); }
     .quiz-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
 
+    /* ── Quiz-only card ── */
+    .quiz-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.32s ease both;
+    }
+    .quiz-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--coral);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .quiz-card:hover { border-color: rgba(201,79,55,0.25); box-shadow: 0 8px 28px rgba(26,26,24,0.1); transform: translateY(-2px); }
+    .quiz-card:hover::before { opacity: 1; }
+    .quiz-card-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--coral);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .quiz-card:hover .quiz-card-icon { transform: scale(1.1); background: var(--coral-lt); }
+    .quiz-card-icon svg { width: 22px; height: 22px; stroke: #fff; }
+    .quiz-card-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--coral);
+    }
+    .quiz-card-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); line-height: 1.25; }
+    .quiz-card-desc { font-size: 13px; font-weight: 300; color: var(--ink-lt); line-height: 1.6; flex: 1; }
+    .quiz-card-footer {
+      display: flex; align-items: center; justify-content: flex-end;
+      padding-top: 10px; border-top: 1px solid var(--border); margin-top: 4px;
+    }
+    .quiz-card-btn {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; color: var(--coral);
+      letter-spacing: 0.1em; text-transform: uppercase; transition: gap 0.2s;
+    }
+    .quiz-card:hover .quiz-card-btn { gap: 10px; }
+
     /* ── Resource card (link-type) ── */
     .resource-grid {
       display: grid;
@@ -1267,6 +1322,16 @@
         videos: [
           {
             embed: "PLACEHOLDER_EMBED_URL",
+            title: "Juice Program Overview",
+            title_es: "Descripción General del Programa de Jugos",
+            desc: "An overview of the Pressed Cafe juice program for the Spring 2026 menu.",
+            desc_es: "Una descripción general del programa de jugos de Pressed Cafe para el menú de primavera 2026.",
+            duration: "3 min",
+            pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
             title: "Morning Lift",
             title_es: "Morning Lift",
             desc: "Step by step guide to building the Morning Lift.",
@@ -1363,6 +1428,14 @@
             desc_es: "Guía paso a paso para preparar el Jugo de Apio (6oz).",
             duration: "3 min",
             pdf: "PLACEHOLDER_PDF_URL",
+            quiz: "PLACEHOLDER_QUIZ_URL"
+          },
+          {
+            type: "quiz-only",
+            title: "Juice Program Quiz",
+            title_es: "Examen del Programa de Jugos",
+            desc: "Test your knowledge of the full Spring 2026 juice program.",
+            desc_es: "Pon a prueba tu conocimiento del programa de jugos de primavera 2026.",
             quiz: "PLACEHOLDER_QUIZ_URL"
           }
         ]
@@ -1624,6 +1697,31 @@
       document.getElementById('videos-section-label').textContent = itemTitle;
 
       item.videos.forEach(function(video, i) {
+
+        // Quiz-only tile
+        if (video.type === 'quiz-only') {
+          var quizTitle = LANG === 'es' && video.title_es ? video.title_es : video.title;
+          var quizDesc  = LANG === 'es' && video.desc_es  ? video.desc_es  : video.desc;
+          var quizUrl   = video.quiz && video.quiz !== 'PLACEHOLDER_QUIZ_URL' ? video.quiz : null;
+          var qcard = document.createElement(quizUrl ? 'a' : 'div');
+          qcard.className = 'quiz-card';
+          if (quizUrl) { qcard.href = quizUrl; qcard.setAttribute('target', '_blank'); }
+          qcard.innerHTML =
+            '<div class="quiz-card-icon">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>' +
+            '</div>' +
+            '<div class="quiz-card-tag">' + t.quizBtn + '</div>' +
+            '<div class="quiz-card-title">' + quizTitle + '</div>' +
+            '<div class="quiz-card-desc">'  + quizDesc  + '</div>' +
+            '<div class="quiz-card-footer">' +
+              '<div class="quiz-card-btn">' + (quizUrl ? t.quizBtn : t.comingSoon) + ' ' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+              '</div>' +
+            '</div>';
+          grid.appendChild(qcard);
+          return;
+        }
+
         var card = document.createElement('div');
         card.className = 'video-card';
         card.setAttribute('role', 'button');
