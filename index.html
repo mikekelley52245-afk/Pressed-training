@@ -758,7 +758,7 @@
         </iframe>
       </div>
       <div class="modal-note">
-        Make sure you are signed into your Microsoft account to view SharePoint videos.
+        Videos open directly in SharePoint. Make sure you are signed into your Microsoft account before clicking Watch.
       </div>
     </div>
   </div>
@@ -783,7 +783,7 @@
         backBtn:          "All Categories",
         pdfBtn:           "Click to view Recipe Build",
         quizBtn:          "Take the Quiz",
-        modalNote:        "Make sure you are signed into your Microsoft account to view SharePoint videos.",
+        modalNote:        "Videos open directly in SharePoint. Make sure you are signed into your Microsoft account before clicking Watch.",
         footer:           "For internal use only",
         resources:        "resources",
         openResource:     "Open",
@@ -807,7 +807,7 @@
         backBtn:          "Todas las Categorías",
         pdfBtn:           "Ver Receta",
         quizBtn:          "Tomar el Quiz",
-        modalNote:        "Asegúrate de haber iniciado sesión en tu cuenta de Microsoft para ver los videos.",
+        modalNote:        "Los videos se abren directamente en SharePoint. Asegúrate de haber iniciado sesión en tu cuenta de Microsoft antes de hacer clic en Ver.",
         footer:           "Solo para uso interno",
         resources:        "recursos",
         openResource:     "Abrir",
@@ -1862,13 +1862,13 @@
 
     // ── Modal ──────────────────────────────────────
     function launchVideo(video) {
-      var videoTitle = LANG === 'es' && video.title_es ? video.title_es : video.title;
-      document.getElementById('modal-title').textContent = videoTitle;
-      document.getElementById('modal-loading').style.display = 'flex';
-      document.getElementById('video-frame').style.opacity = '0';
-      document.getElementById('modal-overlay').classList.add('active');
-      document.getElementById('video-frame').src = video.embed;
-      document.body.style.overflow = 'hidden';
+      // Convert embed URL to direct SharePoint view URL and open in new tab
+      var url = video.embed;
+      if (url && url !== 'PLACEHOLDER_EMBED_URL') {
+        // Convert embed.aspx to the standard SharePoint video viewer
+        var directUrl = url.replace('/_layouts/15/embed.aspx', '/_layouts/15/stream.aspx');
+        window.open(directUrl, '_blank');
+      }
     }
 
     function frameLoaded() {
