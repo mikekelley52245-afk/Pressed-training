@@ -115,6 +115,22 @@
     .breadcrumb-item:hover { color: var(--coral); }
     .breadcrumb-item.active { color: var(--ink); cursor: default; }
     .breadcrumb-sep { color: var(--border); font-size: 16px; line-height: 1; }
+    .breadcrumb-spacer { flex: 1; }
+    .breadcrumb-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--coral);
+      background: rgba(201,79,55,0.07);
+      border: 1px solid rgba(201,79,55,0.2);
+      border-radius: 20px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .breadcrumb-time svg { flex-shrink: 0; }
 
     /* ── Main ── */
     main {
@@ -220,6 +236,36 @@
     }
 
     .cat-count { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tan); }
+
+    .cat-training-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--tan);
+      background: var(--cream-dk);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2px 8px;
+    }
+
+    .section-total-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--coral);
+      background: rgba(201,79,55,0.07);
+      border: 1px solid rgba(201,79,55,0.2);
+      border-radius: 20px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
 
     .explore-btn {
       display: flex;
@@ -708,6 +754,7 @@
       </button>
       <div class="section-rule">
         <div class="section-rule-label" id="videos-section-label">Videos</div>
+        <span class="section-total-time" id="videos-total-time" style="display:none;"></span>
         <div class="section-rule-line"></div>
       </div>
       <div class="video-grid" id="video-grid"></div>
@@ -987,111 +1034,99 @@
           },
           {
             id: "bowls",
-            comingSoon: true,
             title: "Bowls",
             title_es: "Bowls",
             desc: "Step by step guides for building Pressed Cafe bowls.",
             desc_es: "Guías paso a paso para preparar los bowls de Pressed Cafe.",
             videos: [
               {
-                embed: "PLACEHOLDER_EMBED_URL",
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=4ac1bf91-75bc-4cee-9f50-fbc943a6a348&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
                 title: "Kefta Kebab Bowl",
                 title_es: "Bowl de Kefta Kebab",
                 desc: "Step by step guide to building the Kefta Kebab Bowl.",
                 desc_es: "Guía paso a paso para preparar el Bowl de Kefta Kebab.",
-                duration: "3 min",
-                pdf: "PLACEHOLDER_PDF_URL",
-            quiz: "PLACEHOLDER_QUIZ_URL"
+                duration: "2 min",
+                pdf: "https://netorg3754994.sharepoint.com/:i:/s/Corporate/IQAgW4gqMhrqRboT4UOeM2t_Ab2weOirwBdNT7aesDWwano?e=l3XneB",
+            quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZURDJRNFg1TEg0NVJUTFlBWUhUMkowUlBYUC4u"
               },
               {
-                embed: "PLACEHOLDER_EMBED_URL",
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=15e9c895-c8fa-4321-bc46-0e0a5b8b6a14&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
                 title: "Chicken Shawarma Bowl",
                 title_es: "Bowl de Shawarma de Pollo",
                 desc: "Step by step guide to building the Chicken Shawarma Bowl.",
                 desc_es: "Guía paso a paso para preparar el Bowl de Shawarma de Pollo.",
                 duration: "3 min",
-                pdf: "PLACEHOLDER_PDF_URL",
-            quiz: "PLACEHOLDER_QUIZ_URL"
+                pdf: "https://netorg3754994.sharepoint.com/:i:/s/Corporate/IQBrP69LuYEmTL0hH6jbc01JARqIZlOjSGGpAHgJcq2fhnU?e=4k4zRw",
+            quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUNDdCVzNYODdONDBTUzZUOFg3MTRRN0lZUi4u"
               },
               {
-                embed: "PLACEHOLDER_EMBED_URL",
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=b8dd5b72-ae10-43b9-99ee-7127efe5750a&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
                 title: "Warm Roasted Beets & Labneh",
                 title_es: "Betabeles Asados Calientes y Labneh",
                 desc: "Step by step guide to building the Warm Roasted Beets & Labneh.",
                 desc_es: "Guía paso a paso para preparar los Betabeles Asados Calientes y Labneh.",
-                duration: "3 min",
-                pdf: "PLACEHOLDER_PDF_URL",
-            quiz: "PLACEHOLDER_QUIZ_URL"
+                duration: "5 min",
+                pdf: "https://netorg3754994.sharepoint.com/:i:/s/Corporate/IQAtTHuMsDG2QK7xcFw80twtARnrYlt1XKWilXWph5EdU4U?e=zRPlop",
+            quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUM1BFOVNNV0pQMFVHR0FQTDhDMFRGNzRNOC4u"
               }
             ]
           },
           {
             id: "saute",
-            comingSoon: true,
             title: "Saute",
             title_es: "Salteado",
             desc: "Step by step guides for Pressed Cafe sauteed dishes.",
             desc_es: "Guías paso a paso para los platos salteados de Pressed Cafe.",
             videos: [
               {
-                embed: "PLACEHOLDER_EMBED_URL",
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=54850c09-2f3c-424c-8baa-4a9c1ddeabfe&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
                 title: "Ktzitzot Adom",
                 title_es: "Ktzitzot Adom",
                 desc: "Step by step guide to preparing Ktzitzot Adom.",
                 desc_es: "Guía paso a paso para preparar Ktzitzot Adom.",
-                duration: "3 min",
-                pdf: "PLACEHOLDER_PDF_URL",
-            quiz: "PLACEHOLDER_QUIZ_URL"
+                duration: "4 min",
+                pdf: "https://netorg3754994.sharepoint.com/:i:/s/Corporate/IQCIgvaXel2_T6YGWXBeVrQtAdiUJSlTiiuYCvIiHwD3DOQ?e=PDMxH8",
+            quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUOUEzSjlVOFBHMUowQk5WMjRCSDhDMzlWUC4u"
               },
               {
-                embed: "PLACEHOLDER_EMBED_URL",
-                title: "Ktzitzot Adom (Vegan)",
-                title_es: "Ktzitzot Adom (Vegano)",
-                desc: "Step by step guide to preparing Ktzitzot Adom (Vegan).",
-                desc_es: "Guía paso a paso para preparar Ktzitzot Adom (Vegano).",
-                duration: "3 min",
-                pdf: "PLACEHOLDER_PDF_URL",
-            quiz: "PLACEHOLDER_QUIZ_URL"
-              },
-              {
-                embed: "PLACEHOLDER_EMBED_URL",
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=133b66d0-cbd1-4cb9-bf39-3e70ad529521&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
                 title: "Sweet & Spicy Bowl",
                 title_es: "Bowl Dulce y Picante",
                 desc: "Step by step guide to building the Sweet & Spicy Bowl.",
                 desc_es: "Guía paso a paso para preparar el Bowl Dulce y Picante.",
-                duration: "3 min",
-                pdf: "PLACEHOLDER_PDF_URL",
-            quiz: "PLACEHOLDER_QUIZ_URL"
+                duration: "5 min",
+                pdf: "https://netorg3754994.sharepoint.com/:i:/s/Corporate/IQCwt52IY11EQJXQHpZfaLnYAT904ztMjeu1atjSTg4Q-8E?e=cqS8wu",
+            quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUQlk4U1NPT1pPTzlJNDVFRVdUQzlKQU1DQS4u"
               },
               {
-                embed: "PLACEHOLDER_EMBED_URL",
-                title: "Rustic American Ragu",
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=1e496ce8-4d1c-458b-befb-52fc39e8d492&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+                title: "American Chop Suey",
                 title_es: "Ragú Americano Rústico",
-                desc: "Step by step guide to preparing the Rustic American Ragu.",
+                desc: "Step by step guide to preparing the American Chop Suey.",
                 desc_es: "Guía paso a paso para preparar el Ragú Americano Rústico.",
-                duration: "3 min",
-                pdf: "PLACEHOLDER_PDF_URL",
-            quiz: "PLACEHOLDER_QUIZ_URL"
+                duration: "2 min",
+                pdf: "https://netorg3754994.sharepoint.com/:i:/s/Corporate/IQAVhGGRzcDvQINgtq92r4G9ATw-HpuQjtlj2vdlUYa5BgE?e=2cAt8n",
+            quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUODdLM0FLTFVMOVVZRFYzSUdVWEEzWUFEQy4u"
               },
               {
-                embed: "PLACEHOLDER_EMBED_URL",
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=d746ec16-5468-493c-8a2f-460f0eaf9e45&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
                 title: "Medi Grain Bowl (Sauteed Only)",
                 title_es: "Bowl de Granos Mediterráneo (Solo Salteado)",
                 desc: "Step by step guide to building the Medi Grain Bowl (Sauteed Only).",
                 desc_es: "Guía paso a paso para preparar el Bowl de Granos Mediterráneo (Solo Salteado).",
                 duration: "3 min",
-                pdf: "PLACEHOLDER_PDF_URL",
-            quiz: "PLACEHOLDER_QUIZ_URL"
+                pdf: "https://netorg3754994.sharepoint.com/:i:/s/Corporate/IQAVhGGRzcDvQINgtq92r4G9ATw-HpuQjtlj2vdlUYa5BgE?e=2cAt8n",
+            quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUNFRKNTEwNFBIU1Y0VEZaR1FNTFlBRFYwMi4u"
               },
               {
-                embed: "PLACEHOLDER_EMBED_URL",
+                embed: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=aba3591c-4038-4115-968f-af11723a524c&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
                 title: "Enter The Dragon",
                 title_es: "Enter The Dragon",
                 desc: "Step by step guide to preparing Enter The Dragon.",
                 desc_es: "Guía paso a paso para preparar Enter The Dragon.",
-                duration: "3 min",
-                pdf: "PLACEHOLDER_PDF_URL",
-            quiz: "PLACEHOLDER_QUIZ_URL"
+                duration: "4 min",
+                pdf: "https://netorg3754994.sharepoint.com/:i:/s/Corporate/IQAxUALTDMiKS4Voy9rF4KUsAdcx94m1SksjHMdfbnaw1Ak?e=NQffbb",
+            quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUQkxISUlLVEsyWFJBVlYwWFNPM1JOUERSSC4u"
               }
             ]
           },
@@ -1558,7 +1593,38 @@
       return cat.videos ? cat.videos.length : 0;
     }
 
-    function makeCard(titleHTML, descHTML, countHTML, exploreLabel, clickFn, isComingSoon, comingSoonLabel) {
+    // Parse a duration string like "3 min", "1 min" → integer minutes
+    function parseDurationMinutes(dur) {
+      if (!dur) return 0;
+      var m = dur.match(/(\d+)\s*min/i);
+      return m ? parseInt(m[1], 10) : 0;
+    }
+
+    // Sum all video durations from a category (handles subcategories too)
+    function totalTrainingMinutes(item) {
+      if (item.subcategories) {
+        return item.subcategories.reduce(function(total, sub) {
+          return total + totalTrainingMinutes(sub);
+        }, 0);
+      }
+      if (item.videos) {
+        return item.videos.reduce(function(total, v) {
+          return total + parseDurationMinutes(v.duration);
+        }, 0);
+      }
+      return 0;
+    }
+
+    // Format minutes → "X min" or "Xh Ym"
+    function formatTrainingTime(mins) {
+      if (!mins || mins <= 0) return null;
+      if (mins < 60) return mins + ' min';
+      var h = Math.floor(mins / 60);
+      var m = mins % 60;
+      return m > 0 ? h + 'h ' + m + 'm' : h + 'h';
+    }
+
+    function makeCard(titleHTML, descHTML, countHTML, exploreLabel, clickFn, isComingSoon, comingSoonLabel, trainingTime) {
       var card = document.createElement('div');
       card.className = 'category-card' + (isComingSoon ? ' coming-soon' : '');
       if (!isComingSoon) {
@@ -1573,10 +1639,17 @@
             '<div class="coming-soon-overlay-text">' + comingSoonLabel + '</div>' +
           '</div>'
         : '';
+      var timeHtml = trainingTime
+        ? '<div class="cat-training-time">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+            ' ' + trainingTime +
+          '</div>'
+        : '';
       var footer = isComingSoon
-        ? '<div class="cat-footer"><div class="cat-count">' + countHTML + '</div></div>'
+        ? '<div class="cat-footer"><div class="cat-count">' + countHTML + '</div>' + timeHtml + '</div>'
         : '<div class="cat-footer">' +
             '<div class="cat-count">' + countHTML + '</div>' +
+            timeHtml +
             '<div class="explore-btn">' + exploreLabel +
               ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
             '</div>' +
@@ -1607,6 +1680,7 @@
         var word2    = cat.type === 'tool' ? t.referenceTool : (cat.resources ? t.resources : word);
         var countDisplay = cat.type === 'tool' ? '1 ' + word2 : count + ' ' + word2;
         var exploreLabel = cat.type === 'tool' ? t.viewTool : t.explore;
+        var trainingTime = (cat.type !== 'tool' && !cat.resources) ? formatTrainingTime(totalTrainingMinutes(cat)) : null;
         var card = makeCard(catTitle, catDesc, countDisplay, exploreLabel, function() {
           if (cat.type === 'tool') {
             window.open(cat.url, '_blank');
@@ -1617,7 +1691,7 @@
           } else {
             showVideos(cat, null);
           }
-        }, cat.comingSoon, t.comingSoon);
+        }, cat.comingSoon, t.comingSoon, trainingTime);
         catGrid.appendChild(card);
       });
     }
@@ -1656,9 +1730,10 @@
         var subDesc  = LANG === 'es' && sub.desc_es  ? sub.desc_es  : sub.desc;
         var count    = sub.videos.length;
         var word     = count === 1 ? t.video : t.videos;
+        var subTrainingTime = formatTrainingTime(totalTrainingMinutes(sub));
         var card = makeCard(subTitle, subDesc, count + ' ' + word, t.explore, function() {
           showVideos(sub, cat);
-        }, sub.comingSoon, t.comingSoon);
+        }, sub.comingSoon, t.comingSoon, subTrainingTime);
         subGrid.appendChild(card);
       });
 
@@ -1747,6 +1822,15 @@
       var itemTitle = LANG === 'es' && item.title_es ? item.title_es : item.title;
       document.getElementById('videos-section-label').textContent = itemTitle;
 
+      // Show total training time for this item
+      var totalMins = totalTrainingMinutes(item);
+      var timeLabel = formatTrainingTime(totalMins);
+      var timeBadgeEl = document.getElementById('videos-total-time');
+      if (timeBadgeEl) {
+        timeBadgeEl.textContent = timeLabel ? '⏱ ' + timeLabel + ' total' : '';
+        timeBadgeEl.style.display = timeLabel ? 'inline-flex' : 'none';
+      }
+
       item.videos.forEach(function(video, i) {
 
         // Quiz-only tile
@@ -1831,6 +1915,14 @@
       }
       bc += '<span class="breadcrumb-sep">/</span>' +
             '<span class="breadcrumb-item active">' + itemTitle + '</span>';
+      var bcTimeLabel = formatTrainingTime(totalTrainingMinutes(item));
+      if (bcTimeLabel) {
+        bc += '<span class="breadcrumb-spacer"></span>' +
+              '<span class="breadcrumb-time">' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+                bcTimeLabel + ' total' +
+              '</span>';
+      }
       document.getElementById('breadcrumb').innerHTML = bc;
 
       headerMeta.textContent = item.videos.length + ' ' + (item.videos.length !== 1 ? t.videos : t.video);
