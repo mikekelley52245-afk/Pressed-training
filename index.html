@@ -1601,7 +1601,9 @@
     }
 
     // Sum all video durations from a category (handles subcategories too)
+    // Only counts items that are not comingSoon and have real embed URLs
     function totalTrainingMinutes(item) {
+      if (item.comingSoon) return 0;
       if (item.subcategories) {
         return item.subcategories.reduce(function(total, sub) {
           return total + totalTrainingMinutes(sub);
@@ -1609,7 +1611,10 @@
       }
       if (item.videos) {
         return item.videos.reduce(function(total, v) {
-          return total + parseDurationMinutes(v.duration);
+          if (v.embed && v.embed !== 'PLACEHOLDER_EMBED_URL') {
+            return total + parseDurationMinutes(v.duration);
+          }
+          return total;
         }, 0);
       }
       return 0;
@@ -1738,10 +1743,19 @@
       });
 
       document.getElementById('sub-section-label').textContent = catTitle;
+      var subBcTime = formatTrainingTime(totalTrainingMinutes(cat));
+      var subBcTimeHtml = subBcTime
+        ? '<span class="breadcrumb-spacer"></span>' +
+          '<span class="breadcrumb-time">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+            subBcTime + ' total' +
+          '</span>'
+        : '';
       document.getElementById('breadcrumb').innerHTML =
         '<span class="breadcrumb-item" onclick="showCategories()">' + t.allCategories + '</span>' +
         '<span class="breadcrumb-sep">/</span>' +
-        '<span class="breadcrumb-item active">' + catTitle + '</span>';
+        '<span class="breadcrumb-item active">' + catTitle + '</span>' +
+        subBcTimeHtml;
       headerMeta.textContent = cat.subcategories.length + ' ' + t.categories;
 
       document.getElementById('sub-back-btn').innerHTML =
