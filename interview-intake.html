@@ -406,7 +406,7 @@
     <strong>FOR INTERNAL USE ONLY.</strong> Complete this form immediately following the interview — not in front of the candidate. Your feedback will be sent directly to the Talent Acquisition Manager upon submission.
   </div>
 
-  <form id="interview-form" action="https://formspree.io/f/mojyeqwv" method="POST">
+  <form id="interview-form">
 
     <!-- ── CANDIDATE INFO ── -->
     <div class="section">
@@ -709,29 +709,78 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
+  emailjs.init('zdgFMQg5f_2Q5nSIx');
+
   const form = document.getElementById('interview-form');
   const success = document.getElementById('success-message');
 
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const data = new FormData(form);
+
+    const btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'SENDING...';
+    btn.disabled = true;
+
+    // Collect all form fields into a readable message block
+    const fields = [
+      ['Candidate Name',            form.querySelector('[name="Candidate Name"]')?.value],
+      ['Position Applied',          form.querySelector('[name="Position Applied"]')?.value],
+      ['Interview Date',            form.querySelector('[name="Interview Date"]')?.value],
+      ['Interviewer',               form.querySelector('[name="Interviewer Name"]')?.value],
+      ['Location',                  form.querySelector('[name="Location"]')?.value],
+      ['---INTERVIEW NOTES---',     ''],
+      ['Q1 - Leadership Style',     form.querySelector('[name="Q1 - Leadership Style"]')?.value],
+      ['Q2 - Coaching & Dev',       form.querySelector('[name="Q2 - Coaching & Development"]')?.value],
+      ['Q3 - Guest Complaints',     form.querySelector('[name="Q3 - Guest Complaint Handling"]')?.value],
+      ['Q4 - Great Service',        form.querySelector('[name="Q4 - Great Service Definition"]')?.value],
+      ['Q5 - Guest-First Modeling', form.querySelector('[name="Q5 - Guest-First Modeling"]')?.value],
+      ['Q6 - Scheduling & Labor',   form.querySelector('[name="Q6 - Scheduling & Labor"]')?.value],
+      ['Q7 - Performance',          form.querySelector('[name="Q7 - Performance Troubleshooting"]')?.value],
+      ['Q8 - Food Safety',          form.querySelector('[name="Q8 - Food Safety Standards"]')?.value],
+      ['Q9 - Checklists',           form.querySelector('[name="Q9 - Checklist Consistency"]')?.value],
+      ['Q10 - Call-Out Coverage',   form.querySelector('[name="Q10 - Call-Out Coverage"]')?.value],
+      ['Q11 - Prioritization',      form.querySelector('[name="Q11 - Prioritization"]')?.value],
+      ['Q12 - Motivation',          form.querySelector('[name="Q12 - Motivation"]')?.value],
+      ['Q13 - Hands-On Rush',       form.querySelector('[name="Q13 - Hands-On During Rush"]')?.value],
+      ['---SCORECARD---',           ''],
+      ['Leadership & People Mgmt',  form.querySelector('[name="Score - Leadership"]:checked')?.value || 'Not scored'],
+      ['Guest Experience Mindset',  form.querySelector('[name="Score - Guest Experience"]:checked')?.value || 'Not scored'],
+      ['Operational Competence',    form.querySelector('[name="Score - Operations"]:checked')?.value || 'Not scored'],
+      ['Standards & Safety',        form.querySelector('[name="Score - Standards & Safety"]:checked')?.value || 'Not scored'],
+      ['Problem-Solving',           form.querySelector('[name="Score - Problem Solving"]:checked')?.value || 'Not scored'],
+      ['Communication & Culture',   form.querySelector('[name="Score - Communication"]:checked')?.value || 'Not scored'],
+      ['Professionalism',           form.querySelector('[name="Score - Professionalism"]:checked')?.value || 'Not scored'],
+      ['---RECOMMENDATION---',      ''],
+      ['Overall Recommendation',    form.querySelector('[name="Overall Recommendation"]:checked')?.value || 'Not selected'],
+      ['Additional Notes',          form.querySelector('[name="Additional Notes"]')?.value],
+    ];
+
+    const message = fields.map(([label, val]) => {
+      if (label.startsWith('---')) return `\n${label}\n${'='.repeat(label.length)}`;
+      return `${label}:\n${val || '(no response)'}\n`;
+    }).join('\n');
+
+    const candidate = form.querySelector('[name="Candidate Name"]')?.value || 'Unknown';
+    const position  = form.querySelector('[name="Position Applied"]')?.value || '';
+    const date      = form.querySelector('[name="Interview Date"]')?.value || '';
 
     try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
+      await emailjs.send('service_fxa7lz3', 'template_l5rrbuu', {
+        subject:   `Interview Scorecard – ${candidate} | ${position} | ${date}`,
+        candidate: candidate,
+        message:   message,
       });
 
-      if (res.ok) {
-        form.style.display = 'none';
-        success.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        alert('Something went wrong. Please try again or contact your administrator.');
-      }
+      form.style.display = 'none';
+      success.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
     } catch (err) {
+      console.error('EmailJS error:', err);
+      btn.textContent = 'SUBMIT SCORECARD →';
+      btn.disabled = false;
       alert('Submission failed. Please check your connection and try again.');
     }
   });
