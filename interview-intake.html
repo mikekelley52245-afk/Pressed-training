@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Management Interview Scorecard – Pressed Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --eggplant: #3b1f3a;
+      --eggplant-mid: #52304f;
+      --melon: #f4845f;
+      --melon-light: #f9a98e;
+      --eggshell: #f5f0e8;
+      --eggshell-dark: #ede6d6;
+      --text-dark: #1e1018;
+      --text-mid: #5a3d57;
+      --success: #4caf7d;
+      --radius: 6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--eggshell);
+      font-family: 'Space Mono', monospace;
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background-color: var(--eggplant);
+      padding: 28px 40px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 4px solid var(--melon);
+    }
+
+    .header-logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 2rem;
+      color: var(--eggshell);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .header-logo span {
+      color: var(--melon);
+    }
+
+    .header-divider {
+      width: 2px;
+      height: 40px;
+      background: var(--melon);
+      opacity: 0.4;
+    }
+
+    .header-subtitle {
+      color: var(--eggshell);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      line-height: 1.5;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .form-intro {
+      background: var(--eggplant);
+      color: var(--eggshell);
+      padding: 20px 28px;
+      border-radius: var(--radius);
+      margin-bottom: 36px;
+      border-left: 4px solid var(--melon);
+      font-size: 0.75rem;
+      line-height: 1.8;
+      opacity: 0.92;
+    }
+
+    .form-intro strong {
+      color: var(--melon);
+      font-weight: 700;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      background: white;
+      border-radius: var(--radius);
+      margin-bottom: 28px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(59,31,58,0.07);
+    }
+
+    .section-header {
+      background: var(--eggplant);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-header h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1rem;
+      color: var(--eggshell);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .section-badge {
+      background: var(--melon);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .section-body {
+      padding: 24px 28px;
+    }
+
+    /* ── FIELD GRID ── */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .field-row.triple {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .field-row.full {
+      grid-template-columns: 1fr;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      font-weight: 700;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    select,
+    textarea {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-dark);
+      background: var(--eggshell);
+      border: 1.5px solid var(--eggshell-dark);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--melon);
+      box-shadow: 0 0 0 3px rgba(244,132,95,0.15);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+      line-height: 1.6;
+    }
+
+    /* ── INTERVIEW QUESTIONS ── */
+    .question-block {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--eggshell-dark);
+    }
+
+    .question-block:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .question-label {
+      font-size: 0.75rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--eggplant);
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 10px;
+      padding-left: 12px;
+      border-left: 3px solid var(--melon);
+    }
+
+    /* ── SCORECARD ── */
+    .score-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--eggshell-dark);
+      gap: 16px;
+    }
+
+    .score-row:last-of-type {
+      border-bottom: none;
+    }
+
+    .score-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--eggplant);
+      flex: 1;
+    }
+
+    .score-options {
+      display: flex;
+      gap: 8px;
+    }
+
+    .score-options input[type="radio"] {
+      display: none;
+    }
+
+    .score-options label {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--eggshell);
+      border: 2px solid var(--eggshell-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--text-mid);
+    }
+
+    .score-options input[type="radio"]:checked + label {
+      background: var(--eggplant);
+      border-color: var(--eggplant);
+      color: var(--eggshell);
+    }
+
+    .score-options label:hover {
+      border-color: var(--melon);
+      color: var(--melon);
+    }
+
+    /* ── RECOMMENDATION ── */
+    .rec-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .rec-options input[type="radio"] {
+      display: none;
+    }
+
+    .rec-options label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 8px;
+      border-radius: var(--radius);
+      border: 2px solid var(--eggshell-dark);
+      background: var(--eggshell);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+      color: var(--text-mid);
+    }
+
+    .rec-options input[type="radio"]:checked + label {
+      border-color: var(--eggplant);
+      background: var(--eggplant);
+      color: var(--eggshell);
+    }
+
+    #rec-strong-hire:checked + label { border-color: #4caf7d; background: #4caf7d; color: white; }
+    #rec-hire:checked + label        { border-color: #7ab648; background: #7ab648; color: white; }
+    #rec-maybe:checked + label       { border-color: #f4a93a; background: #f4a93a; color: white; }
+    #rec-no-hire:checked + label     { border-color: #e05353; background: #e05353; color: white; }
+
+    /* ── SUBMIT ── */
+    .submit-row {
+      margin-top: 36px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    button[type="submit"] {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      background: var(--melon);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      padding: 16px 48px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    button[type="submit"]:hover {
+      background: #e26b45;
+    }
+
+    button[type="submit"]:active {
+      transform: scale(0.98);
+    }
+
+    /* ── SUCCESS STATE ── */
+    #success-message {
+      display: none;
+      text-align: center;
+      padding: 60px 40px;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 12px rgba(59,31,58,0.07);
+    }
+
+    #success-message .check {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    #success-message h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.6rem;
+      color: var(--eggplant);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    #success-message p {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+    }
+
+    /* ── SCORE SCALE HINT ── */
+    .scale-hint {
+      font-size: 0.65rem;
+      color: var(--text-mid);
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 20px; }
+      .field-row, .field-row.triple { grid-template-columns: 1fr; }
+      .rec-options { grid-template-columns: repeat(2, 1fr); }
+      .section-body { padding: 18px; }
+      button[type="submit"] { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">PRESSED<span>.</span></div>
+  <div class="header-divider"></div>
+  <div class="header-subtitle">Management Interview<br>Scorecard &amp; Intake Form</div>
+</header>
+
+<div class="container">
+
+  <div class="form-intro">
+    <strong>FOR INTERNAL USE ONLY.</strong> Complete this form immediately following the interview — not in front of the candidate. Your feedback will be sent directly to the Talent Acquisition Manager upon submission.
+  </div>
+
+  <form id="interview-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+    <!-- ── CANDIDATE INFO ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Candidate Information</h2>
+      </div>
+      <div class="section-body">
+        <div class="field-row triple">
+          <div class="field">
+            <label for="candidate-name">Candidate Name</label>
+            <input type="text" id="candidate-name" name="Candidate Name" required placeholder="First Last"/>
+          </div>
+          <div class="field">
+            <label for="position">Position Applied</label>
+            <input type="text" id="position" name="Position Applied" required placeholder="e.g. Assistant Manager"/>
+          </div>
+          <div class="field">
+            <label for="interview-date">Interview Date</label>
+            <input type="date" id="interview-date" name="Interview Date" required/>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="interviewer">Interviewer Name</label>
+            <input type="text" id="interviewer" name="Interviewer Name" required placeholder="Your name"/>
+          </div>
+          <div class="field">
+            <label for="location">Location</label>
+            <select id="location" name="Location" required>
+              <option value="" disabled selected>Select location</option>
+              <option>Nashua, NH</option>
+              <option>Boston Area</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LEADERSHIP & TEAM MGMT ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Leadership &amp; Team Management</h2>
+        <span class="section-badge">Notes</span>
+      </div>
+      <div class="section-body">
+        <div class="question-block">
+          <div class="question-label">How would you describe your leadership style during a busy shift?</div>
+          <textarea name="Q1 - Leadership Style" placeholder="Candidate's response notes..."></textarea>
+        </div>
+        <div class="question-block">
+          <div class="question-label">Tell me about a time you coached or developed an underperforming employee, or one that wanted to move up.</div>
+          <textarea name="Q2 - Coaching & Development" placeholder="Candidate's response notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── GUEST EXPERIENCE ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Guest Experience</h2>
+        <span class="section-badge">Notes</span>
+      </div>
+      <div class="section-body">
+        <div class="question-block">
+          <div class="question-label">How would you handle a guest complaint that escalates to you?</div>
+          <textarea name="Q3 - Guest Complaint Handling" placeholder="Candidate's response notes..."></textarea>
+        </div>
+        <div class="question-block">
+          <div class="question-label">What does "great service" look like in a fast-casual café?</div>
+          <textarea name="Q4 - Great Service Definition" placeholder="Candidate's response notes..."></textarea>
+        </div>
+        <div class="question-block">
+          <div class="question-label">How do you model guest-first behavior for your team?</div>
+          <textarea name="Q5 - Guest-First Modeling" placeholder="Candidate's response notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── OPERATIONS ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Operations</h2>
+        <span class="section-badge">Notes</span>
+      </div>
+      <div class="section-body">
+        <div class="question-block">
+          <div class="question-label">Walk me through your experience with scheduling and labor control.</div>
+          <textarea name="Q6 - Scheduling & Labor" placeholder="Candidate's response notes..."></textarea>
+        </div>
+        <div class="question-block">
+          <div class="question-label">If sales or performance were trending down, what would you look at first?</div>
+          <textarea name="Q7 - Performance Troubleshooting" placeholder="Candidate's response notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STANDARDS, SAFETY & EXECUTION ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Standards, Safety &amp; Execution</h2>
+        <span class="section-badge">Notes</span>
+      </div>
+      <div class="section-body">
+        <div class="question-block">
+          <div class="question-label">How do you ensure food safety and cleanliness standards are followed daily?</div>
+          <textarea name="Q8 - Food Safety Standards" placeholder="Candidate's response notes..."></textarea>
+        </div>
+        <div class="question-block">
+          <div class="question-label">How do you ensure opening/closing and cleaning checklists are completed consistently?</div>
+          <textarea name="Q9 - Checklist Consistency" placeholder="Candidate's response notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROBLEM-SOLVING & ADAPTABILITY ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Problem-Solving &amp; Adaptability</h2>
+        <span class="section-badge">Notes</span>
+      </div>
+      <div class="section-body">
+        <div class="question-block">
+          <div class="question-label">If multiple employees called out last minute, how would you handle coverage?</div>
+          <textarea name="Q10 - Call-Out Coverage" placeholder="Candidate's response notes..."></textarea>
+        </div>
+        <div class="question-block">
+          <div class="question-label">How do you prioritize when everything feels urgent?</div>
+          <textarea name="Q11 - Prioritization" placeholder="Candidate's response notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FIT & COMMITMENT ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Fit &amp; Commitment</h2>
+        <span class="section-badge">Notes</span>
+      </div>
+      <div class="section-body">
+        <div class="question-block">
+          <div class="question-label">What motivates you to lead teams in this industry?</div>
+          <textarea name="Q12 - Motivation" placeholder="Candidate's response notes..."></textarea>
+        </div>
+        <div class="question-block">
+          <div class="question-label">Are you used to hopping into the thick of things during a rush? (e.g., getting on register, barista duties, line work)</div>
+          <textarea name="Q13 - Hands-On During Rush" placeholder="Candidate's response notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCORECARD ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Management Scorecard</h2>
+        <span class="section-badge">1–5 Scale</span>
+      </div>
+      <div class="section-body">
+        <p class="scale-hint">Scale: 1 = Poor &nbsp;|&nbsp; 2 = Below Average &nbsp;|&nbsp; 3 = Average &nbsp;|&nbsp; 4 = Good &nbsp;|&nbsp; 5 = Excellent</p>
+
+        <!-- Leadership & People Management -->
+        <div class="score-row">
+          <div class="score-label">Leadership &amp; People Management</div>
+          <div class="score-options">
+            <input type="radio" name="Score - Leadership" id="ldr-1" value="1"/><label for="ldr-1">1</label>
+            <input type="radio" name="Score - Leadership" id="ldr-2" value="2"/><label for="ldr-2">2</label>
+            <input type="radio" name="Score - Leadership" id="ldr-3" value="3"/><label for="ldr-3">3</label>
+            <input type="radio" name="Score - Leadership" id="ldr-4" value="4"/><label for="ldr-4">4</label>
+            <input type="radio" name="Score - Leadership" id="ldr-5" value="5"/><label for="ldr-5">5</label>
+          </div>
+        </div>
+
+        <!-- Guest Experience Mindset -->
+        <div class="score-row">
+          <div class="score-label">Guest Experience Mindset</div>
+          <div class="score-options">
+            <input type="radio" name="Score - Guest Experience" id="gst-1" value="1"/><label for="gst-1">1</label>
+            <input type="radio" name="Score - Guest Experience" id="gst-2" value="2"/><label for="gst-2">2</label>
+            <input type="radio" name="Score - Guest Experience" id="gst-3" value="3"/><label for="gst-3">3</label>
+            <input type="radio" name="Score - Guest Experience" id="gst-4" value="4"/><label for="gst-4">4</label>
+            <input type="radio" name="Score - Guest Experience" id="gst-5" value="5"/><label for="gst-5">5</label>
+          </div>
+        </div>
+
+        <!-- Operational Competence -->
+        <div class="score-row">
+          <div class="score-label">Operational Competence</div>
+          <div class="score-options">
+            <input type="radio" name="Score - Operations" id="ops-1" value="1"/><label for="ops-1">1</label>
+            <input type="radio" name="Score - Operations" id="ops-2" value="2"/><label for="ops-2">2</label>
+            <input type="radio" name="Score - Operations" id="ops-3" value="3"/><label for="ops-3">3</label>
+            <input type="radio" name="Score - Operations" id="ops-4" value="4"/><label for="ops-4">4</label>
+            <input type="radio" name="Score - Operations" id="ops-5" value="5"/><label for="ops-5">5</label>
+          </div>
+        </div>
+
+        <!-- Standards, Safety & Accountability -->
+        <div class="score-row">
+          <div class="score-label">Standards, Safety &amp; Accountability</div>
+          <div class="score-options">
+            <input type="radio" name="Score - Standards & Safety" id="saf-1" value="1"/><label for="saf-1">1</label>
+            <input type="radio" name="Score - Standards & Safety" id="saf-2" value="2"/><label for="saf-2">2</label>
+            <input type="radio" name="Score - Standards & Safety" id="saf-3" value="3"/><label for="saf-3">3</label>
+            <input type="radio" name="Score - Standards & Safety" id="saf-4" value="4"/><label for="saf-4">4</label>
+            <input type="radio" name="Score - Standards & Safety" id="saf-5" value="5"/><label for="saf-5">5</label>
+          </div>
+        </div>
+
+        <!-- Problem-Solving & Adaptability -->
+        <div class="score-row">
+          <div class="score-label">Problem-Solving &amp; Adaptability</div>
+          <div class="score-options">
+            <input type="radio" name="Score - Problem Solving" id="ps-1" value="1"/><label for="ps-1">1</label>
+            <input type="radio" name="Score - Problem Solving" id="ps-2" value="2"/><label for="ps-2">2</label>
+            <input type="radio" name="Score - Problem Solving" id="ps-3" value="3"/><label for="ps-3">3</label>
+            <input type="radio" name="Score - Problem Solving" id="ps-4" value="4"/><label for="ps-4">4</label>
+            <input type="radio" name="Score - Problem Solving" id="ps-5" value="5"/><label for="ps-5">5</label>
+          </div>
+        </div>
+
+        <!-- Communication & Culture Leadership -->
+        <div class="score-row">
+          <div class="score-label">Communication &amp; Culture Leadership</div>
+          <div class="score-options">
+            <input type="radio" name="Score - Communication" id="com-1" value="1"/><label for="com-1">1</label>
+            <input type="radio" name="Score - Communication" id="com-2" value="2"/><label for="com-2">2</label>
+            <input type="radio" name="Score - Communication" id="com-3" value="3"/><label for="com-3">3</label>
+            <input type="radio" name="Score - Communication" id="com-4" value="4"/><label for="com-4">4</label>
+            <input type="radio" name="Score - Communication" id="com-5" value="5"/><label for="com-5">5</label>
+          </div>
+        </div>
+
+        <!-- Professionalism -->
+        <div class="score-row">
+          <div class="score-label">Professionalism (polished, presentable)</div>
+          <div class="score-options">
+            <input type="radio" name="Score - Professionalism" id="pro-1" value="1"/><label for="pro-1">1</label>
+            <input type="radio" name="Score - Professionalism" id="pro-2" value="2"/><label for="pro-2">2</label>
+            <input type="radio" name="Score - Professionalism" id="pro-3" value="3"/><label for="pro-3">3</label>
+            <input type="radio" name="Score - Professionalism" id="pro-4" value="4"/><label for="pro-4">4</label>
+            <input type="radio" name="Score - Professionalism" id="pro-5" value="5"/><label for="pro-5">5</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── OVERALL RECOMMENDATION ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Overall Recommendation</h2>
+      </div>
+      <div class="section-body">
+        <div class="rec-options">
+          <div>
+            <input type="radio" name="Overall Recommendation" id="rec-strong-hire" value="Strong Hire"/>
+            <label for="rec-strong-hire">⭐ Strong Hire</label>
+          </div>
+          <div>
+            <input type="radio" name="Overall Recommendation" id="rec-hire" value="Hire"/>
+            <label for="rec-hire">✓ Hire</label>
+          </div>
+          <div>
+            <input type="radio" name="Overall Recommendation" id="rec-maybe" value="Maybe"/>
+            <label for="rec-maybe">~ Maybe</label>
+          </div>
+          <div>
+            <input type="radio" name="Overall Recommendation" id="rec-no-hire" value="No Hire"/>
+            <label for="rec-no-hire">✕ No Hire</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FINAL NOTES ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Additional Notes</h2>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <label for="final-notes">Any other observations, concerns, or highlights not captured above</label>
+          <textarea id="final-notes" name="Additional Notes" style="min-height: 120px;" placeholder="Open notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <button type="submit">SUBMIT SCORECARD →</button>
+    </div>
+
+  </form>
+
+  <!-- SUCCESS STATE -->
+  <div id="success-message">
+    <div class="check">✅</div>
+    <h2>Scorecard Submitted</h2>
+    <p>Your interview feedback has been sent to the Talent Acquisition Manager.<br>Thank you for completing the scorecard promptly.</p>
+  </div>
+
+</div>
+
+<script>
+  const form = document.getElementById('interview-form');
+  const success = document.getElementById('success-message');
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        success.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        alert('Something went wrong. Please try again or contact your administrator.');
+      }
+    } catch (err) {
+      alert('Submission failed. Please check your connection and try again.');
+    }
+  });
+</script>
+
+</body>
+</html>
