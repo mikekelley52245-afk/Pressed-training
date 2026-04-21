@@ -480,10 +480,6 @@
       </div>
       <div class="section-body">
         <div class="question-block">
-          <div class="question-label">How would you handle a guest complaint that escalates to you?</div>
-          <textarea name="Q3 - Guest Complaint Handling" placeholder="Candidate's response notes..."></textarea>
-        </div>
-        <div class="question-block">
           <div class="question-label">What does "great service" look like in a fast-casual café?</div>
           <textarea name="Q4 - Great Service Definition" placeholder="Candidate's response notes..."></textarea>
         </div>
@@ -502,7 +498,7 @@
       </div>
       <div class="section-body">
         <div class="question-block">
-          <div class="question-label">Walk me through your experience with scheduling and labor control.</div>
+          <div class="question-label">How do you look at Labor and Scheduling?</div>
           <textarea name="Q6 - Scheduling & Labor" placeholder="Candidate's response notes..."></textarea>
         </div>
         <div class="question-block">
@@ -538,8 +534,8 @@
       </div>
       <div class="section-body">
         <div class="question-block">
-          <div class="question-label">If multiple employees called out last minute, how would you handle coverage?</div>
-          <textarea name="Q10 - Call-Out Coverage" placeholder="Candidate's response notes..."></textarea>
+          <div class="question-label">How do you plan and organize your work Daily/Weekly/Monthly as a leader?</div>
+          <textarea name="Q10 - Planning & Organization" placeholder="Candidate's response notes..."></textarea>
         </div>
         <div class="question-block">
           <div class="question-label">How do you prioritize when everything feels urgent?</div>
@@ -562,6 +558,20 @@
         <div class="question-block">
           <div class="question-label">Are you used to hopping into the thick of things during a rush? (e.g., getting on register, barista duties, line work)</div>
           <textarea name="Q13 - Hands-On During Rush" placeholder="Candidate's response notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── WHY PRESSED ── -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Why Pressed?</h2>
+        <span class="section-badge">Notes</span>
+      </div>
+      <div class="section-body">
+        <div class="question-block">
+          <div class="question-label">Why do you want to work at Pressed Café?</div>
+          <textarea name="Q14 - Why Pressed" placeholder="Candidate's response notes..."></textarea>
         </div>
       </div>
     </div>
@@ -741,17 +751,17 @@
       ['---INTERVIEW NOTES---',     ''],
       ['Q1 - Leadership Style',     form.querySelector('[name="Q1 - Leadership Style"]')?.value],
       ['Q2 - Coaching & Dev',       form.querySelector('[name="Q2 - Coaching & Development"]')?.value],
-      ['Q3 - Guest Complaints',     form.querySelector('[name="Q3 - Guest Complaint Handling"]')?.value],
-      ['Q4 - Great Service',        form.querySelector('[name="Q4 - Great Service Definition"]')?.value],
-      ['Q5 - Guest-First Modeling', form.querySelector('[name="Q5 - Guest-First Modeling"]')?.value],
-      ['Q6 - Scheduling & Labor',   form.querySelector('[name="Q6 - Scheduling & Labor"]')?.value],
-      ['Q7 - Performance',          form.querySelector('[name="Q7 - Performance Troubleshooting"]')?.value],
-      ['Q8 - Food Safety',          form.querySelector('[name="Q8 - Food Safety Standards"]')?.value],
-      ['Q9 - Checklists',           form.querySelector('[name="Q9 - Checklist Consistency"]')?.value],
-      ['Q10 - Call-Out Coverage',   form.querySelector('[name="Q10 - Call-Out Coverage"]')?.value],
-      ['Q11 - Prioritization',      form.querySelector('[name="Q11 - Prioritization"]')?.value],
-      ['Q12 - Motivation',          form.querySelector('[name="Q12 - Motivation"]')?.value],
-      ['Q13 - Hands-On Rush',       form.querySelector('[name="Q13 - Hands-On During Rush"]')?.value],
+      ['Q3 - Great Service',        form.querySelector('[name="Q4 - Great Service Definition"]')?.value],
+      ['Q4 - Guest-First Modeling', form.querySelector('[name="Q5 - Guest-First Modeling"]')?.value],
+      ['Q5 - Scheduling & Labor',   form.querySelector('[name="Q6 - Scheduling & Labor"]')?.value],
+      ['Q6 - Performance',          form.querySelector('[name="Q7 - Performance Troubleshooting"]')?.value],
+      ['Q7 - Food Safety',          form.querySelector('[name="Q8 - Food Safety Standards"]')?.value],
+      ['Q8 - Checklists',           form.querySelector('[name="Q9 - Checklist Consistency"]')?.value],
+      ['Q9 - Planning & Org',       form.querySelector('[name="Q10 - Planning & Organization"]')?.value],
+      ['Q10 - Prioritization',      form.querySelector('[name="Q11 - Prioritization"]')?.value],
+      ['Q11 - Motivation',          form.querySelector('[name="Q12 - Motivation"]')?.value],
+      ['Q12 - Hands-On Rush',       form.querySelector('[name="Q13 - Hands-On During Rush"]')?.value],
+      ['Q13 - Why Pressed',         form.querySelector('[name="Q14 - Why Pressed"]')?.value],
       ['---SCORECARD---',           ''],
       ['Leadership & People Mgmt',  form.querySelector('[name="Score - Leadership"]:checked')?.value || 'Not scored'],
       ['Guest Experience Mindset',  form.querySelector('[name="Score - Guest Experience"]:checked')?.value || 'Not scored'],
