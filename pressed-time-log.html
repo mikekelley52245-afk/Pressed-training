@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pressed Café · Time Log</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --espresso:   #2C1A0E;
+      --caramel:    #C07840;
+      --cream:      #F5F0EB;
+      --parchment:  #FDFAF7;
+      --sand:       #E0D5C8;
+      --muted:      #7A6552;
+      --light-muted:#B8A898;
+      --white:      #ffffff;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      min-height: 100vh;
+      padding: 40px 16px 60px;
+      color: var(--espresso);
+    }
+
+    .wrapper {
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .brand-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--espresso);
+      line-height: 1.15;
+    }
+    .subtitle {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin-top: 8px;
+      font-weight: 300;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: 0 2px 20px rgba(44,26,14,0.08);
+      padding: 28px 28px 32px;
+      margin-bottom: 18px;
+    }
+
+    /* ── Form elements ── */
+    .field { margin-bottom: 18px; }
+    .field:last-of-type { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--sand);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--espresso);
+      background: var(--parchment);
+      outline: none;
+      transition: border-color 0.18s, background 0.18s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--caramel);
+      background: var(--white);
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A6552' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 82px;
+      line-height: 1.5;
+    }
+
+    /* ── Grid rows ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* ── Hours badge ── */
+    .hours-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+      margin-bottom: 4px;
+      min-height: 26px;
+    }
+    .hours-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #FFF3E0;
+      border: 1.5px solid var(--caramel);
+      color: #7A3A10;
+      padding: 3px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .hours-badge.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Status ── */
+    .status {
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13.5px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .status.show { display: flex; }
+    .status.loading { background: #FFF8E7; border: 1.5px solid #F0C060; color: #7A5010; }
+    .status.success { background: #F0FAF0; border: 1.5px solid #6CC87A; color: #1E6630; }
+    .status.error   { background: #FFF0EF; border: 1.5px solid #F09090; color: #8B1A1A; }
+
+    /* ── Submit button ── */
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--espresso);
+      color: #F5ECD8;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 22px;
+    }
+    .submit-btn:hover:not(:disabled) { background: var(--caramel); }
+    .submit-btn:active:not(:disabled) { transform: scale(0.99); }
+    .submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* ── Session log ── */
+    .log-header {
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .log-entry {
+      padding: 11px 0;
+      border-bottom: 1px solid #F0E8DC;
+    }
+    .log-entry:last-child { border-bottom: none; }
+    .log-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .log-location { font-size: 13.5px; font-weight: 500; }
+    .log-hrs { font-size: 12.5px; font-weight: 500; color: var(--caramel); }
+    .log-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--light-muted);
+      margin-top: 28px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Setup banner ── */
+    .setup-banner {
+      background: #FFFBF0;
+      border: 1.5px dashed var(--caramel);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 12.5px;
+      color: #6B4A20;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .setup-banner strong { font-weight: 600; }
+    .setup-banner code {
+      background: #F5E8D0;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 11.5px;
+    }
+
+    @media (max-width: 480px) {
+      .grid-2 { grid-template-columns: 1fr; gap: 14px; }
+      .card { padding: 22px 20px 26px; }
+      h1 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <header>
+    <div class="brand-label">Pressed Café</div>
+    <h1>Time Log</h1>
+    <p class="subtitle">Log your shift details — entries save directly to Google Sheets.</p>
+  </header>
+
+  <!-- Setup notice — remove this block once Apps Script URL is added -->
+  <div class="setup-banner" id="setupBanner">
+    <strong>⚙️ Setup needed:</strong> Replace <code>YOUR_APPS_SCRIPT_URL</code> at the top of this file's
+    <code>&lt;script&gt;</code> block with your Google Apps Script Web App URL to enable submissions.
+  </div>
+
+  <!-- Form -->
+  <div class="card">
+
+    <div class="grid-2">
+      <div class="field">
+        <label for="manager">Manager Name</label>
+        <input type="text" id="manager" placeholder="Your name" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="location">Location</label>
+        <select id="location">
+          <option value="">Select location…</option>
+          <option>Newton</option>
+          <option>Prudential</option>
+          <option>Seaport</option>
+          <option>Woburn</option>
+          <option>Lawrence</option>
+          <option>Burlington</option>
+          <option>Chelmsford</option>
+          <option>Salem</option>
+          <option>North Nashua</option>
+          <option>South Nashua</option>
+          <option>Bedford</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="date">Date</label>
+      <input type="date" id="date" />
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label for="timeIn">Time In</label>
+        <input type="time" id="timeIn" />
+      </div>
+      <div class="field">
+        <label for="timeOut">Time Out</label>
+        <input type="time" id="timeOut" />
+      </div>
+    </div>
+
+    <div class="hours-row">
+      <span class="hours-badge" id="hoursBadge">⏱ <span id="hoursVal">0</span> hrs</span>
+    </div>
+
+    <div class="field">
+      <label for="workDone">What did you work on?</label>
+      <input type="text" id="workDone" placeholder="Staff training, inventory, scheduling…" />
+    </div>
+
+    <div class="field">
+      <label for="notes">Notes <span style="font-size:10px;font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <textarea id="notes" placeholder="Any details worth capturing…"></textarea>
+    </div>
+
+    <div class="status" id="statusBox"></div>
+
+    <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Submit Entry →</button>
+
+  </div>
+
+  <!-- Session log -->
+  <div class="card" id="logCard" style="display:none;">
+    <div class="log-header">This Session — <span id="logCount">0</span> <span id="logWord">entry</span></div>
+    <div id="logList"></div>
+  </div>
+
+  <footer>Pressed Café · Time Log</footer>
+</div>
+
+<script>
+  // ─────────────────────────────────────────────────────────────
+  // 🔧 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW
+  // ─────────────────────────────────────────────────────────────
+  const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
+  // ─────────────────────────────────────────────────────────────
+
+  // Hide setup banner if URL is set
+  if (APPS_SCRIPT_URL !== 'YOUR_APPS_SCRIPT_URL') {
+    document.getElementById('setupBanner').style.display = 'none';
+  }
+
+  // Set today's date as default
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('date').value = today;
+
+  // Auto-calculate hours
+  function calcHours() {
+    const tin  = document.getElementById('timeIn').value;
+    const tout = document.getElementById('timeOut').value;
+    const badge = document.getElementById('hoursBadge');
+    if (tin && tout) {
+      const diff = (new Date('2000-01-01T' + tout) - new Date('2000-01-01T' + tin)) / 3600000;
+      if (diff > 0) {
+        document.getElementById('hoursVal').textContent = parseFloat(diff.toFixed(2));
+        badge.classList.add('visible');
+        return diff;
+      }
+    }
+    badge.classList.remove('visible');
+    return null;
+  }
+  document.getElementById('timeIn').addEventListener('change', calcHours);
+  document.getElementById('timeOut').addEventListener('change', calcHours);
+
+  // Status helper
+  function setStatus(type, msg) {
+    const box = document.getElementById('statusBox');
+    box.className = 'status show ' + type;
+    const icons = { loading: '⏳', success: '✓', error: '✕' };
+    box.innerHTML = `<span>${icons[type]}</span> ${msg}`;
+  }
+  function clearStatus() {
+    document.getElementById('statusBox').className = 'status';
+  }
+
+  // Session log
+  const entries = [];
+  function addToLog(entry) {
+    entries.unshift(entry);
+    const card = document.getElementById('logCard');
+    const list = document.getElementById('logList');
+    const count = document.getElementById('logCount');
+    const word  = document.getElementById('logWord');
+    card.style.display = 'block';
+    count.textContent = entries.length;
+    word.textContent = entries.length === 1 ? 'entry' : 'entries';
+    const row = document.createElement('div');
+    row.className = 'log-entry';
+    row.innerHTML = `
+      <div class="log-top">
+        <span class="log-location">${entry.location}</span>
+        <span class="log-hrs">${entry.hours} hrs</span>
+      </div>
+      <div class="log-meta">${entry.date} · ${entry.timeIn}–${entry.timeOut} · ${entry.workDone}</div>
+    `;
+    list.insertBefore(row, list.firstChild);
+  }
+
+  async function handleSubmit() {
+    clearStatus();
+
+    const manager  = document.getElementById('manager').value.trim();
+    const location = document.getElementById('location').value;
+    const date     = document.getElementById('date').value;
+    const timeIn   = document.getElementById('timeIn').value;
+    const timeOut  = document.getElementById('timeOut').value;
+    const workDone = document.getElementById('workDone').value.trim();
+    const notes    = document.getElementById('notes').value.trim();
+    const hours    = calcHours();
+
+    if (!manager || !location || !date || !timeIn || !timeOut || !workDone) {
+      setStatus('error', 'Please fill in all required fields.');
+      return;
+    }
+    if (!hours || hours <= 0) {
+      setStatus('error', 'Time Out must be after Time In.');
+      return;
+    }
+    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
+      setStatus('error', 'Apps Script URL not configured. See setup instructions above.');
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    setStatus('loading', 'Submitting entry…');
+
+    const payload = {
+      manager, location, date, timeIn, timeOut,
+      hours: parseFloat(hours.toFixed(2)),
+      workDone, notes,
+      submittedAt: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+    };
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      const text = await res.text();
+      if (!res.ok || text.includes('Error')) throw new Error(text || 'Server error');
+
+      addToLog(payload);
+      setStatus('success', 'Entry logged to Google Sheets.');
+
+      // Clear fields (keep manager + location)
+      document.getElementById('date').value = today;
+      document.getElementById('timeIn').value = '';
+      document.getElementById('timeOut').value = '';
+      document.getElementById('workDone').value = '';
+      document.getElementById('notes').value = '';
+      document.getElementById('hoursBadge').classList.remove('visible');
+
+    } catch (err) {
+      console.error(err);
+      setStatus('error', 'Submission failed: ' + err.message);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
