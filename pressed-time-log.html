@@ -28,132 +28,141 @@
       color: var(--espresso);
     }
 
-    .wrapper {
-      max-width: 540px;
-      margin: 0 auto;
-    }
+    .wrapper { max-width: 540px; margin: 0 auto; }
 
     /* ── Header ── */
-    header {
-      text-align: center;
-      margin-bottom: 36px;
-    }
+    header { text-align: center; margin-bottom: 36px; }
     .brand-label {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--caramel);
-      margin-bottom: 10px;
+      font-size: 10px; font-weight: 500; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--caramel); margin-bottom: 10px;
     }
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 30px;
-      font-weight: 700;
-      color: var(--espresso);
-      line-height: 1.15;
+      font-family: 'Playfair Display', serif; font-size: 30px;
+      font-weight: 700; color: var(--espresso); line-height: 1.15;
     }
-    .subtitle {
-      font-size: 13.5px;
-      color: var(--muted);
-      margin-top: 8px;
-      font-weight: 300;
-    }
+    .subtitle { font-size: 13.5px; color: var(--muted); margin-top: 8px; font-weight: 300; }
 
     /* ── Card ── */
     .card {
-      background: var(--white);
-      border-radius: 14px;
+      background: var(--white); border-radius: 14px;
       box-shadow: 0 2px 20px rgba(44,26,14,0.08);
-      padding: 28px 28px 32px;
-      margin-bottom: 18px;
+      padding: 28px 28px 32px; margin-bottom: 18px;
     }
 
     /* ── Form elements ── */
     .field { margin-bottom: 18px; }
-    .field:last-of-type { margin-bottom: 0; }
 
     label {
-      display: block;
-      font-size: 10.5px;
-      font-weight: 500;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 7px;
+      display: block; font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 7px;
     }
 
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid var(--sand);
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      color: var(--espresso);
-      background: var(--parchment);
-      outline: none;
+    input[type="text"], input[type="date"], input[type="time"], select, textarea {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--sand);
+      border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+      color: var(--espresso); background: var(--parchment); outline: none;
       transition: border-color 0.18s, background 0.18s;
-      appearance: none;
-      -webkit-appearance: none;
+      appearance: none; -webkit-appearance: none;
     }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--caramel);
-      background: var(--white);
+    input[type="text"]:focus, input[type="date"]:focus,
+    input[type="time"]:focus, select:focus, textarea:focus {
+      border-color: var(--caramel); background: var(--white);
     }
     select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A6552' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 36px;
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
     }
-    textarea {
-      resize: vertical;
-      min-height: 82px;
-      line-height: 1.5;
-    }
+    textarea { resize: vertical; min-height: 82px; line-height: 1.5; }
 
-    /* ── Grid rows ── */
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
     /* ── Hours badge ── */
     .hours-row {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 8px;
-      margin-bottom: 4px;
-      min-height: 26px;
+      display: flex; justify-content: flex-end;
+      margin-top: 8px; margin-bottom: 4px; min-height: 26px;
     }
     .hours-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: #FFF3E0;
-      border: 1.5px solid var(--caramel);
-      color: #7A3A10;
-      padding: 3px 14px;
-      border-radius: 20px;
-      font-size: 12.5px;
-      font-weight: 500;
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 0.2s, transform 0.2s;
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #FFF3E0; border: 1.5px solid var(--caramel); color: #7A3A10;
+      padding: 3px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 500;
+      opacity: 0; transform: translateY(4px); transition: opacity 0.2s, transform 0.2s;
     }
-    .hours-badge.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .hours-badge.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Divider ── */
+    .section-divider { border: none; border-top: 1px solid var(--sand); margin: 22px 0; }
+
+    /* ── Photo upload zone ── */
+    /* ── Two-button photo picker (camera + library) ── */
+    .photo-buttons {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .photo-btn {
+      position: relative; border: 1.5px solid var(--sand); border-radius: 10px;
+      padding: 18px 12px; text-align: center; cursor: pointer;
+      transition: border-color 0.18s, background 0.18s; background: var(--parchment);
+      overflow: hidden;
+    }
+    .photo-btn:hover { border-color: var(--caramel); background: #FFF8F0; }
+    .photo-btn input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .photo-btn-icon { font-size: 24px; display: block; margin-bottom: 6px; }
+    .photo-btn-label { font-size: 13px; font-weight: 500; color: var(--caramel); display: block; }
+    .photo-btn-sub { font-size: 11px; color: var(--muted); margin-top: 3px; display: block; }
+    /* Drag-drop zone shown only on desktop */
+    .photo-drop {
+      border: 2px dashed var(--sand); border-radius: 10px; padding: 14px 16px;
+      text-align: center; cursor: pointer; transition: border-color 0.18s, background 0.18s;
+      background: var(--parchment); position: relative; margin-top: 10px;
+      display: none;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .photo-drop { display: block; }
+    }
+    .photo-drop:hover, .photo-drop.dragover { border-color: var(--caramel); background: #FFF8F0; }
+    .photo-drop input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .photo-drop-icon { font-size: 20px; margin-bottom: 4px; display: block; }
+    .photo-drop-text { font-size: 12px; color: var(--light-muted); line-height: 1.5; }
+    .photo-drop-text strong { color: var(--muted); font-weight: 500; }
+
+    /* ── Photo preview grid ── */
+    .photo-preview-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 8px; margin-top: 12px;
+    }
+    .photo-thumb {
+      position: relative; aspect-ratio: 1; border-radius: 8px;
+      overflow: hidden; background: var(--sand);
+    }
+    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-thumb-remove {
+      position: absolute; top: 4px; right: 4px; width: 22px; height: 22px;
+      background: rgba(44,26,14,0.72); color: #fff; border: none; border-radius: 50%;
+      font-size: 11px; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; transition: background 0.15s;
+    }
+    .photo-thumb-remove:hover { background: var(--caramel); }
+    .photo-count-note { font-size: 11.5px; color: var(--muted); margin-top: 8px; text-align: right; }
+
+    /* ── Progress bar ── */
+    .progress-wrap {
+      height: 4px; background: var(--sand); border-radius: 4px;
+      margin-top: 14px; overflow: hidden; display: none;
+    }
+    .progress-wrap.show { display: block; }
+    .progress-bar {
+      height: 100%; background: var(--caramel); border-radius: 4px;
+      width: 0%; transition: width 0.35s ease;
     }
 
     /* ── Status ── */
     .status {
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 13.5px;
-      font-weight: 500;
-      margin-bottom: 16px;
-      display: none;
-      align-items: center;
-      gap: 8px;
+      border-radius: 8px; padding: 10px 14px; font-size: 13.5px; font-weight: 500;
+      margin-bottom: 16px; display: none; align-items: center; gap: 8px;
     }
     .status.show { display: flex; }
     .status.loading { background: #FFF8E7; border: 1.5px solid #F0C060; color: #7A5010; }
@@ -162,19 +171,10 @@
 
     /* ── Submit button ── */
     .submit-btn {
-      width: 100%;
-      padding: 14px;
-      background: var(--espresso);
-      color: #F5ECD8;
-      border: none;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      margin-top: 22px;
+      width: 100%; padding: 14px; background: var(--espresso); color: #F5ECD8;
+      border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer;
+      transition: background 0.2s, transform 0.1s; margin-top: 22px;
     }
     .submit-btn:hover:not(:disabled) { background: var(--caramel); }
     .submit-btn:active:not(:disabled) { transform: scale(0.99); }
@@ -182,54 +182,20 @@
 
     /* ── Session log ── */
     .log-header {
-      font-size: 10.5px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 14px;
+      font-size: 10.5px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
     }
-    .log-entry {
-      padding: 11px 0;
-      border-bottom: 1px solid #F0E8DC;
-    }
+    .log-entry { padding: 11px 0; border-bottom: 1px solid #F0E8DC; }
     .log-entry:last-child { border-bottom: none; }
-    .log-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    }
+    .log-top { display: flex; justify-content: space-between; align-items: baseline; }
     .log-location { font-size: 13.5px; font-weight: 500; }
     .log-hrs { font-size: 12.5px; font-weight: 500; color: var(--caramel); }
     .log-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .log-photos { font-size: 11.5px; color: var(--caramel); margin-top: 3px; }
 
-    /* ── Footer ── */
     footer {
-      text-align: center;
-      font-size: 11px;
-      color: var(--light-muted);
-      margin-top: 28px;
-      letter-spacing: 0.04em;
-    }
-
-    /* ── Setup banner ── */
-    .setup-banner {
-      background: #FFFBF0;
-      border: 1.5px dashed var(--caramel);
-      border-radius: 10px;
-      padding: 14px 18px;
-      font-size: 12.5px;
-      color: #6B4A20;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-    .setup-banner strong { font-weight: 600; }
-    .setup-banner code {
-      background: #F5E8D0;
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 11.5px;
+      text-align: center; font-size: 11px; color: var(--light-muted);
+      margin-top: 28px; letter-spacing: 0.04em;
     }
 
     @media (max-width: 480px) {
@@ -242,20 +208,12 @@
 <body>
 <div class="wrapper">
 
-  <!-- Header -->
   <header>
     <div class="brand-label">Pressed Café</div>
     <h1>Time Log</h1>
     <p class="subtitle">Log your shift details — entries save directly to Google Sheets.</p>
   </header>
 
-  <!-- Setup notice — remove this block once Apps Script URL is added -->
-  <div class="setup-banner" id="setupBanner">
-    <strong>⚙️ Setup needed:</strong> Replace <code>YOUR_APPS_SCRIPT_URL</code> at the top of this file's
-    <code>&lt;script&gt;</code> block with your Google Apps Script Web App URL to enable submissions.
-  </div>
-
-  <!-- Form -->
   <div class="card">
 
     <div class="grid-2">
@@ -312,6 +270,42 @@
       <textarea id="notes" placeholder="Any details worth capturing…"></textarea>
     </div>
 
+    <hr class="section-divider" />
+
+    <!-- Photo upload -->
+    <div class="field">
+      <label>Photos <span style="font-size:10px;font-weight:300;text-transform:none;letter-spacing:0">(optional · up to 5)</span></label>
+      <!-- Camera + Library buttons -->
+      <div class="photo-buttons">
+        <div class="photo-btn" id="cameraBtn">
+          <input type="file" id="cameraInput" accept="image/*" capture="environment" />
+          <span class="photo-btn-icon">📷</span>
+          <span class="photo-btn-label">Take Photo</span>
+          <span class="photo-btn-sub">Opens camera</span>
+        </div>
+        <div class="photo-btn" id="libraryBtn">
+          <input type="file" id="photoInput" accept="image/*" multiple />
+          <span class="photo-btn-icon">🖼️</span>
+          <span class="photo-btn-label">Choose Photos</span>
+          <span class="photo-btn-sub">From your library</span>
+        </div>
+      </div>
+      <!-- Drag & drop for desktop -->
+      <div class="photo-drop" id="photoDrop">
+        <input type="file" id="dropInput" accept="image/*" multiple />
+        <span class="photo-drop-icon">⬆️</span>
+        <div class="photo-drop-text">
+          <strong>Drag &amp; drop</strong> photos here
+        </div>
+      </div>
+      <div class="photo-preview-grid" id="previewGrid"></div>
+      <div class="photo-count-note" id="photoCountNote" style="display:none;"></div>
+    </div>
+
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
     <div class="status" id="statusBox"></div>
 
     <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Submit Entry →</button>
@@ -329,24 +323,88 @@
 
 <script>
   // ─────────────────────────────────────────────────────────────
-  // 🔧 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW
+  // Google Apps Script Web App URL
   // ─────────────────────────────────────────────────────────────
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxc8n_M64L8eOZyrpjSPNekhzuxnfSf3QiVX16XVVPc3MPV2Fhhw0_sfKh6kBwDCNGU/exec';
-  // ─────────────────────────────────────────────────────────────
 
-  // Hide setup banner if URL is set
-  if (APPS_SCRIPT_URL !== 'YOUR_APPS_SCRIPT_URL') {
-    document.getElementById('setupBanner').style.display = 'none';
-  }
-
-  // Set today's date as default
+  // Set today's date
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('date').value = today;
 
-  // Auto-calculate hours
+  // ── Photo handling ────────────────────────────────────────────
+  let selectedPhotos = [];
+
+  const previewGrid = document.getElementById('previewGrid');
+  const photoDrop   = document.getElementById('photoDrop');
+  const countNote   = document.getElementById('photoCountNote');
+
+  // All three inputs feed the same handler
+  ['photoInput','cameraInput','dropInput'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('change', (e) => {
+      handleFiles(Array.from(e.target.files));
+      e.target.value = '';
+    });
+  });
+
+  photoDrop.addEventListener('dragover',  (e) => { e.preventDefault(); photoDrop.classList.add('dragover'); });
+  photoDrop.addEventListener('dragleave', ()  => photoDrop.classList.remove('dragover'));
+  photoDrop.addEventListener('drop', (e) => {
+    e.preventDefault();
+    photoDrop.classList.remove('dragover');
+    handleFiles(Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')));
+  });
+
+  function handleFiles(files) {
+    const slots = 5 - selectedPhotos.length;
+    if (slots <= 0) return;
+    files.slice(0, slots).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        selectedPhotos.push({ file, dataUrl: e.target.result });
+        renderPreviews();
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderPreviews() {
+    previewGrid.innerHTML = '';
+    selectedPhotos.forEach((photo, i) => {
+      const thumb = document.createElement('div');
+      thumb.className = 'photo-thumb';
+      const img = document.createElement('img');
+      img.src = photo.dataUrl;
+      img.alt = 'Photo ' + (i + 1);
+      const btn = document.createElement('button');
+      btn.className = 'photo-thumb-remove';
+      btn.title = 'Remove';
+      btn.textContent = '✕';
+      btn.onclick = () => removePhoto(i);
+      thumb.appendChild(img);
+      thumb.appendChild(btn);
+      previewGrid.appendChild(thumb);
+    });
+
+    countNote.style.display = selectedPhotos.length > 0 ? 'block' : 'none';
+    countNote.textContent = selectedPhotos.length + ' of 5 photos selected';
+    // Hide add buttons when at limit
+    const atLimit = selectedPhotos.length >= 5;
+    document.getElementById('cameraBtn').style.display = atLimit ? 'none' : '';
+    document.getElementById('libraryBtn').style.display = atLimit ? 'none' : '';
+    photoDrop.style.display = atLimit ? 'none' : '';
+  }
+
+  function removePhoto(index) {
+    selectedPhotos.splice(index, 1);
+    renderPreviews();
+  }
+
+  // ── Hours ─────────────────────────────────────────────────────
   function calcHours() {
-    const tin  = document.getElementById('timeIn').value;
-    const tout = document.getElementById('timeOut').value;
+    const tin   = document.getElementById('timeIn').value;
+    const tout  = document.getElementById('timeOut').value;
     const badge = document.getElementById('hoursBadge');
     if (tin && tout) {
       const diff = (new Date('2000-01-01T' + tout) - new Date('2000-01-01T' + tin)) / 3600000;
@@ -362,42 +420,46 @@
   document.getElementById('timeIn').addEventListener('change', calcHours);
   document.getElementById('timeOut').addEventListener('change', calcHours);
 
-  // Status helper
+  // ── Status / progress ─────────────────────────────────────────
   function setStatus(type, msg) {
     const box = document.getElementById('statusBox');
     box.className = 'status show ' + type;
     const icons = { loading: '⏳', success: '✓', error: '✕' };
-    box.innerHTML = `<span>${icons[type]}</span> ${msg}`;
+    box.innerHTML = '<span>' + icons[type] + '</span> ' + msg;
   }
-  function clearStatus() {
-    document.getElementById('statusBox').className = 'status';
+  function clearStatus() { document.getElementById('statusBox').className = 'status'; }
+
+  function setProgress(pct) {
+    const wrap = document.getElementById('progressWrap');
+    const bar  = document.getElementById('progressBar');
+    if (pct === null) { wrap.classList.remove('show'); bar.style.width = '0%'; return; }
+    wrap.classList.add('show');
+    bar.style.width = pct + '%';
   }
 
-  // Session log
+  // ── Session log ───────────────────────────────────────────────
   const entries = [];
-  function addToLog(entry) {
-    entries.unshift(entry);
-    const card = document.getElementById('logCard');
-    const list = document.getElementById('logList');
-    const count = document.getElementById('logCount');
-    const word  = document.getElementById('logWord');
-    card.style.display = 'block';
-    count.textContent = entries.length;
-    word.textContent = entries.length === 1 ? 'entry' : 'entries';
+  function addToLog(e) {
+    entries.unshift(e);
+    document.getElementById('logCard').style.display = 'block';
+    document.getElementById('logCount').textContent = entries.length;
+    document.getElementById('logWord').textContent  = entries.length === 1 ? 'entry' : 'entries';
     const row = document.createElement('div');
     row.className = 'log-entry';
-    row.innerHTML = `
-      <div class="log-top">
-        <span class="log-location">${entry.location}</span>
-        <span class="log-hrs">${entry.hours} hrs</span>
-      </div>
-      <div class="log-meta">${entry.date} · ${entry.timeIn}–${entry.timeOut} · ${entry.workDone}</div>
-    `;
-    list.insertBefore(row, list.firstChild);
+    row.innerHTML =
+      '<div class="log-top">' +
+        '<span class="log-location">' + e.location + '</span>' +
+        '<span class="log-hrs">' + e.hours + ' hrs</span>' +
+      '</div>' +
+      '<div class="log-meta">' + e.date + ' · ' + e.timeIn + '–' + e.timeOut + ' · ' + e.workDone + '</div>' +
+      (e.photoCount > 0 ? '<div class="log-photos">📎 ' + e.photoCount + ' photo' + (e.photoCount > 1 ? 's' : '') + ' attached</div>' : '');
+    document.getElementById('logList').insertBefore(row, document.getElementById('logList').firstChild);
   }
 
+  // ── Submit ────────────────────────────────────────────────────
   async function handleSubmit() {
     clearStatus();
+    setProgress(null);
 
     const manager  = document.getElementById('manager').value.trim();
     const location = document.getElementById('location').value;
@@ -416,42 +478,69 @@
       setStatus('error', 'Time Out must be after Time In.');
       return;
     }
-    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
-      setStatus('error', 'Apps Script URL not configured. See setup instructions above.');
-      return;
-    }
 
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
-    setStatus('loading', 'Submitting entry…');
+
+    const photoCount = selectedPhotos.length;
+    const hasPhotos  = photoCount > 0;
+
+    const photos = selectedPhotos.map((p, i) => ({
+      name: manager.replace(/\s+/g,'-') + '_' + location.replace(/\s+/g,'-') + '_' + date + '_photo' + (i+1) + '.' + (p.file.type.split('/')[1] || 'jpg'),
+      mimeType: p.file.type || 'image/jpeg',
+      data: p.dataUrl.split(',')[1],
+    }));
 
     const payload = {
       manager, location, date, timeIn, timeOut,
       hours: parseFloat(hours.toFixed(2)),
       workDone, notes,
-      submittedAt: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+      submittedAt: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
+      photos,
     };
 
     try {
-      const res = await fetch(APPS_SCRIPT_URL, {
+      setStatus('loading', hasPhotos
+        ? 'Uploading ' + photoCount + ' photo' + (photoCount > 1 ? 's' : '') + ' and saving entry…'
+        : 'Saving entry…');
+      setProgress(hasPhotos ? 10 : 50);
+
+      let prog = hasPhotos ? 10 : 50;
+      const progInterval = hasPhotos ? setInterval(() => {
+        prog = Math.min(prog + 7, 85);
+        setProgress(prog);
+      }, 400) : null;
+
+      await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors',
         body: JSON.stringify(payload),
       });
-      const text = await res.text();
-      if (!res.ok || text.includes('Error')) throw new Error(text || 'Server error');
 
-      addToLog(payload);
-      setStatus('success', 'Entry logged to Google Sheets.');
+      if (progInterval) clearInterval(progInterval);
+      setProgress(100);
+      setTimeout(() => setProgress(null), 700);
 
-      // Clear fields (keep manager + location)
+      addToLog({ manager, location, date, timeIn, timeOut, hours: parseFloat(hours.toFixed(2)), workDone, photoCount });
+      setStatus('success', hasPhotos
+        ? 'Entry + ' + photoCount + ' photo' + (photoCount > 1 ? 's' : '') + ' saved to Google Drive.'
+        : 'Entry logged to Google Sheets.');
+
+      // Reset (keep manager + location)
       document.getElementById('date').value = today;
       document.getElementById('timeIn').value = '';
       document.getElementById('timeOut').value = '';
       document.getElementById('workDone').value = '';
       document.getElementById('notes').value = '';
       document.getElementById('hoursBadge').classList.remove('visible');
+      selectedPhotos = [];
+      renderPreviews();
+      document.getElementById('cameraBtn').style.display = '';
+      document.getElementById('libraryBtn').style.display = '';
+      photoDrop.style.display = '';
 
     } catch (err) {
+      setProgress(null);
       console.error(err);
       setStatus('error', 'Submission failed: ' + err.message);
     } finally {
