@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spring 2026 — Menu Item Changes | Pressed Cafe Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:    #f5f0e8;
+    --cream-dk: #ede6d6;
+    --ink:      #1a1a18;
+    --ink-lt:   #3d3d38;
+    --coral:    #c94f37;
+    --coral-lt: #e06b52;
+    --tan:      #b8a98a;
+    --border:   rgba(26,26,24,0.12);
+    --radius:   8px;
+    --green:    #4a7c59;
+    --purple:   #7b5ea7;
+    --amber:    #c08b3a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    position: relative;
+    z-index: 1;
+    background: var(--cream-dk);
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 90px;
+    border-bottom: 3px solid var(--coral);
+    box-shadow: 0 2px 12px rgba(26,26,24,0.08);
+  }
+
+  .logo-wrap { display: flex; align-items: center; gap: 20px; }
+  .logo-img { height: 64px; width: auto; }
+  .header-divider { width: 1px; height: 40px; background: var(--border); }
+  .header-label { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tan); }
+
+  /* ── Lang Toggle ── */
+  .lang-toggle { display: flex; align-items: center; gap: 6px; }
+  .lang-sep { color: var(--border); font-size: 14px; }
+  .lang-btn {
+    background: none;
+    border: none;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--tan);
+    cursor: pointer;
+    padding: 4px 2px;
+    transition: color 0.15s;
+  }
+  .lang-btn:hover { color: var(--coral); }
+  .lang-btn.active { color: var(--coral); border-bottom: 2px solid var(--coral); }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    background: var(--ink);
+    padding: 28px 48px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .hero-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; line-height: 1; color: #fff; }
+  .hero-title span { color: var(--coral); }
+  .hero-sub { font-size: 13px; font-weight: 300; color: var(--tan); margin-top: 6px; letter-spacing: 0.04em; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--coral);
+    background: rgba(201,79,55,0.12);
+    border: 1px solid rgba(201,79,55,0.3);
+    border-radius: 20px;
+    padding: 5px 12px;
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  /* ── Back bar ── */
+  .back-bar {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 48px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-lt);
+    text-decoration: none;
+    padding: 6px 12px 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--cream);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .back-btn:hover { border-color: var(--coral); color: var(--coral); }
+  .back-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+  /* ── Main ── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 48px 80px;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    margin-bottom: 32px;
+  }
+
+  .legend-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tan);
+    margin-right: 4px;
+  }
+
+  .legend-items { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink-lt);
+  }
+
+  /* ── Tags ── */
+  .tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .tag-new    { background: var(--green);  color: #fff; }
+  .tag-recipe { background: var(--amber);  color: #fff; }
+  .tag-name   { background: var(--purple); color: #fff; }
+  .tag-both   { background: var(--ink);    color: var(--coral); border: 1px solid var(--coral); }
+
+  /* ── Intro note ── */
+  .intro-note {
+    background: var(--ink);
+    color: rgba(255,255,255,0.75);
+    border-left: 4px solid var(--coral);
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 36px;
+  }
+  .intro-note strong { color: var(--coral); font-weight: 600; }
+
+  /* ── Section header ── */
+  .section-rule {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+    margin-top: 36px;
+  }
+  .section-rule:first-of-type { margin-top: 0; }
+  .section-rule-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--tan);
+    white-space: nowrap;
+  }
+  .section-rule-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── Cards grid ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .change-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    animation: fadeUp 0.35s ease both;
+    position: relative;
+  }
+
+  .change-card:hover {
+    border-color: rgba(201,79,55,0.25);
+    box-shadow: 0 8px 28px rgba(26,26,24,0.1);
+    transform: translateY(-2px);
+  }
+
+  .change-card.is-new    { border-top: 3px solid var(--green); }
+  .change-card.is-recipe { border-top: 3px solid var(--amber); }
+  .change-card.is-name   { border-top: 3px solid var(--purple); }
+  .change-card.is-both   { border-top: 3px solid var(--coral); }
+
+  .card-body {
+    padding: 18px 18px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .card-old {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--tan);
+    text-decoration: line-through;
+    font-style: italic;
+    line-height: 1.3;
+    min-height: 14px;
+  }
+
+  .card-arrow {
+    font-size: 18px;
+    color: var(--coral);
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .card-new {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .change-card.is-new .card-new { color: var(--green); }
+
+  .card-detail {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--ink-lt);
+    line-height: 1.55;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+  }
+  .card-detail strong { font-weight: 600; color: var(--ink); }
+
+  /* stagger */
+  .change-card:nth-child(1)  { animation-delay: 0.03s; }
+  .change-card:nth-child(2)  { animation-delay: 0.06s; }
+  .change-card:nth-child(3)  { animation-delay: 0.09s; }
+  .change-card:nth-child(4)  { animation-delay: 0.12s; }
+  .change-card:nth-child(5)  { animation-delay: 0.15s; }
+  .change-card:nth-child(6)  { animation-delay: 0.18s; }
+  .change-card:nth-child(7)  { animation-delay: 0.21s; }
+  .change-card:nth-child(8)  { animation-delay: 0.24s; }
+  .change-card:nth-child(9)  { animation-delay: 0.27s; }
+  .change-card:nth-child(10) { animation-delay: 0.30s; }
+  .change-card:nth-child(11) { animation-delay: 0.33s; }
+  .change-card:nth-child(12) { animation-delay: 0.36s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    background: var(--ink);
+    text-align: center;
+    padding: 16px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.06em;
+  }
+  footer span { color: var(--coral); }
+
+  @media (max-width: 640px) {
+    header { padding: 0 20px; height: 72px; }
+    .logo-img { height: 50px; }
+    .hero, .back-bar { padding-left: 20px; padding-right: 20px; }
+    main { padding: 24px 20px 60px; }
+    .hero-title { font-size: 26px; }
+    .legend { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header>
+  <div class="logo-wrap">
+    <img class="logo-img" src="logo.jpg" alt="Pressed Cafe" />
+    <div class="header-divider"></div>
+    <span class="header-label" id="hdr-label">Training Portal</span>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <span class="lang-sep">|</span>
+    <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+</header>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <div>
+    <div class="hero-title" id="hero-title">Spring 2026 &mdash; <span id="hero-span">Menu Item Changes</span></div>
+    <div class="hero-sub" id="hero-sub">Section 4 &bull; New names, updated recipes, and what&rsquo;s brand new</div>
+  </div>
+  <div class="hero-badge" id="hero-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Reference Guide
+  </div>
+</div>
+
+<!-- ── Back bar ── -->
+<div class="back-bar">
+  <a class="back-btn" href="index.html" id="back-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    <span id="back-label">Back to Training Portal</span>
+  </a>
+</div>
+
+<main>
+
+  <!-- ── Legend ── -->
+  <div class="legend">
+    <span class="legend-label" id="legend-label">Key</span>
+    <div class="legend-items">
+      <div class="legend-item"><span class="tag tag-new" id="tag-new-lbl">New</span> <span id="leg-new">Brand new item</span></div>
+      <div class="legend-item"><span class="tag tag-recipe" id="tag-recipe-lbl">Recipe</span> <span id="leg-recipe">Recipe changed</span></div>
+      <div class="legend-item"><span class="tag tag-name" id="tag-name-lbl">Name</span> <span id="leg-name">Name changed</span></div>
+      <div class="legend-item"><span class="tag tag-both" id="tag-both-lbl">Both</span> <span id="leg-both">Recipe + Name changed</span></div>
+    </div>
+  </div>
+
+  <!-- ── Intro note ── -->
+  <div class="intro-note" id="intro-note">
+    <strong id="intro-strong">How to use this guide:</strong> <span id="intro-body">Each card shows what an item <em>used to be called</em> (struck through) and what it is <em>now</em>. Badge tags indicate whether the change is a recipe update, a name change, or both. Study before your shift &mdash; guests may ask about familiar items that have changed.</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       BREAKFAST
+  ══════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="section-rule-label" id="sec-breakfast">Breakfast</div>
+    <div class="section-rule-line"></div>
+  </div>
+  <div class="cards-grid">
+
+    <!-- Chia Pudding NEW -->
+    <div class="change-card is-new">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-new" data-key="tag-new"></span></div>
+        <div class="card-old" data-key="no-predecessor"></div>
+        <div class="card-arrow">&#9733;</div>
+        <div class="card-new">Chia Pudding</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="chia-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Sunrise Labneh Bowl → Santorini Sunrise Bowl -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Sunrise Labneh Bowl</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Santorini Sunrise Bowl</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="santorini-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Acai -->
+    <div class="change-card is-recipe">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-recipe" data-key="tag-recipe"></span></div>
+        <div class="card-old">Acai / Rainbow Acai</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Acai / Rainbow Acai</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="acai-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Hot Oatmeal -->
+    <div class="change-card is-recipe">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-recipe" data-key="tag-recipe"></span></div>
+        <div class="card-old" data-key="oatmeal-old"></div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new" data-key="oatmeal-new"></div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="oatmeal-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Smash Burger Burrito -->
+    <div class="change-card is-name">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-name" data-key="tag-name"></span></div>
+        <div class="card-old">Smash Burger Burrito</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Morning Smash Burrito</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="smash-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Ricky Martin Burrito -->
+    <div class="change-card is-recipe">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-recipe" data-key="tag-recipe"></span></div>
+        <div class="card-old" data-key="ricky-old"></div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new" data-key="ricky-new"></div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="ricky-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Mediterranean Bagel -->
+    <div class="change-card is-recipe">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-recipe" data-key="tag-recipe"></span></div>
+        <div class="card-old" data-key="medi-bagel-old"></div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new" data-key="medi-bagel-new"></div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="medi-bagel-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Humina Humina Toast -->
+    <div class="change-card is-recipe">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-recipe" data-key="tag-recipe"></span></div>
+        <div class="card-old" data-key="humina-old"></div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new" data-key="humina-new"></div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="humina-detail"></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SALADS
+  ══════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="section-rule-label" id="sec-salads">Salads</div>
+    <div class="section-rule-line"></div>
+  </div>
+  <div class="cards-grid">
+
+    <!-- Medi Kale Salad -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Medi Kale Salad</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Medi Tuna Kale 2.0</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="generic-both-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Chicken Spinach Goat Cheese Salad -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Chicken Spinach Goat Cheese Salad</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Chicken &amp; Goat Cheese Salad</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="chicken-salad-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Cobb Salad -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Cobb Salad</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">California Cobb Salad</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="generic-both-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Strawberry Fields Salad -->
+    <div class="change-card is-recipe">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-recipe" data-key="tag-recipe"></span></div>
+        <div class="card-old">Strawberry Fields Salad</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Strawberry Fields Salad</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="acai-detail"></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       PANINIS & SANDWICHES
+  ══════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="section-rule-label" id="sec-paninis">Paninis &amp; Sandwiches</div>
+    <div class="section-rule-line"></div>
+  </div>
+  <div class="cards-grid">
+
+    <!-- Veggie Ciabatta -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Veggie Ciabatta</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Market Veggie Wrap</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="ciabatta-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Zohan / Lulu / Tel Aviv -->
+    <div class="change-card is-recipe">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-recipe" data-key="tag-recipe"></span></div>
+        <div class="card-old" data-key="challah-old"></div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Zohan / Lulu / Tel Aviv</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="challah-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Medi Kale Tuna -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Medi Kale Tuna</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Medi Tuna 2.0</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="generic-both-detail"></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       BOWLS
+  ══════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="section-rule-label" id="sec-bowls">Bowls</div>
+    <div class="section-rule-line"></div>
+  </div>
+  <div class="cards-grid">
+
+    <!-- Medi Salmon Bowl -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Medi Salmon Bowl</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Medi Grain Bowl</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="generic-both-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Sweet and Spicy Bowl -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Sweet and Spicy Bowl</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Sweet and Spicy Bowl</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="spicy-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Backyard BBQ Bowl -->
+    <div class="change-card is-recipe">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-recipe" data-key="tag-recipe"></span></div>
+        <div class="card-old">Backyard BBQ Bowl</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Backyard BBQ Bowl</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="bbq-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Red Dragon Bowl -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Red Dragon Bowl</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Enter the Dragon</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="generic-both-detail"></span></div>
+      </div>
+    </div>
+
+    <!-- Vegan Middle East -->
+    <div class="change-card is-recipe">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-recipe" data-key="tag-recipe"></span></div>
+        <div class="card-old">Vegan Middle East</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Vegan Middle East</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="vegan-me-detail"></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SIDES & OTHER
+  ══════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="section-rule-label" id="sec-sides">Sides &amp; Other</div>
+    <div class="section-rule-line"></div>
+  </div>
+  <div class="cards-grid">
+
+    <!-- Beets & Labneh -->
+    <div class="change-card is-both">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag tag-both" data-key="tag-both"></span></div>
+        <div class="card-old">Beets &amp; Labneh</div>
+        <div class="card-arrow">&darr;</div>
+        <div class="card-new">Warm Roasted Beets &amp; Labneh</div>
+        <div class="card-detail"><strong data-key="what-changed"></strong> <span data-key="beets-detail"></span></div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer id="footer">
+  &copy; Pressed Cafe &nbsp;&bull;&nbsp; <span>Training Portal</span> &nbsp;&bull;&nbsp; Spring 2026 &mdash; Menu Item Changes &nbsp;&bull;&nbsp; For internal use only
+</footer>
+
+<script>
+  var LANG = 'en';
+
+  var STRINGS = {
+    en: {
+      'hdr-label':          'Training Portal',
+      'hero-title-prefix':  'Spring 2026 \u2014 ',
+      'hero-span':          'Menu Item Changes',
+      'hero-sub':           'Section 4 \u2022 New names, updated recipes, and what\u2019s brand new',
+      'hero-badge':         'Reference Guide',
+      'back-label':         'Back to Training Portal',
+      'legend-label':       'Key',
+      'leg-new':            'Brand new item',
+      'leg-recipe':         'Recipe changed',
+      'leg-name':           'Name changed',
+      'leg-both':           'Recipe + Name changed',
+      'tag-new':            'New',
+      'tag-recipe':         'Recipe',
+      'tag-name':           'Name',
+      'tag-both':           'Both',
+      'intro-strong':       'How to use this guide:',
+      'intro-body':         'Each card shows what an item \u2018used to be called\u2019 (struck through) and what it is \u2018now\u2019. Badge tags indicate whether the change is a recipe update, a name change, or both. Study before your shift \u2014 guests may ask about familiar items that have changed.',
+      'sec-breakfast':      'Breakfast',
+      'sec-salads':         'Salads',
+      'sec-paninis':        'Paninis & Sandwiches',
+      'sec-bowls':          'Bowls',
+      'sec-sides':          'Sides & Other',
+      'what-changed':       'What changed:',
+      'no-predecessor':     '\u2014 no predecessor \u2014',
+      'chia-detail':        'Flavor: Chocolate Coconut. Brand new Spring 2026 addition to the menu.',
+      'santorini-detail':   'New name + now comes with blueberries added to the recipe.',
+      'acai-detail':        'Now comes with blueberries added.',
+      'oatmeal-old':        'Hot Oatmeal',
+      'oatmeal-new':        'Hot Oatmeal',
+      'oatmeal-detail':     'Completely new recipe. Same name, fresh preparation.',
+      'smash-detail':       'Name only \u2014 use the new name at POS and when describing to guests.',
+      'ricky-old':          'Ricky Martin Burrito',
+      'ricky-new':          'Ricky Martin Burrito',
+      'ricky-detail':       'Now comes with jack cheese.',
+      'medi-bagel-old':     'Mediterranean Bagel',
+      'medi-bagel-new':     'Mediterranean Bagel',
+      'medi-bagel-detail':  'Now comes with za\u2019atar.',
+      'humina-old':         'Humina Humina Toast',
+      'humina-new':         'Humina Humina Toast',
+      'humina-detail':      'Now comes with pickled carrots.',
+      'generic-both-detail':'New name and updated recipe.',
+      'chicken-salad-detail':'Shorter name, updated recipe.',
+      'ciabatta-detail':    'New name, new format (wrap vs. ciabatta), updated recipe.',
+      'challah-old':        'Zohan / Lulu / Tel Aviv \u2014 on ciabatta',
+      'challah-detail':     'All three now served on challah bread instead of ciabatta.',
+      'spicy-detail':       'Now offers choice of protein. Recipe and name updated.',
+      'bbq-detail':         'Corn added to the bowl.',
+      'vegan-me-detail':    'Now comes with eggplant added. (Note: eggplant is no longer breaded \u2014 GF + Vegan.)',
+      'beets-detail':       'Now served warm. New name and updated preparation.',
+      'footer-txt':         '&copy; Pressed Cafe &nbsp;&bull;&nbsp; <span>Training Portal</span> &nbsp;&bull;&nbsp; Spring 2026 \u2014 Menu Item Changes &nbsp;&bull;&nbsp; For internal use only'
+    },
+    es: {
+      'hdr-label':          'Portal de Capacitaci\u00f3n',
+      'hero-title-prefix':  'Primavera 2026 \u2014 ',
+      'hero-span':          'Cambios en el Men\u00fa',
+      'hero-sub':           'Secci\u00f3n 4 \u2022 Nuevos nombres, recetas actualizadas y novedades',
+      'hero-badge':         'Gu\u00eda de Referencia',
+      'back-label':         'Volver al Portal de Capacitaci\u00f3n',
+      'legend-label':       'Clave',
+      'leg-new':            'Artículo nuevo',
+      'leg-recipe':         'Receta cambiada',
+      'leg-name':           'Nombre cambiado',
+      'leg-both':           'Receta + Nombre cambiados',
+      'tag-new':            'Nuevo',
+      'tag-recipe':         'Receta',
+      'tag-name':           'Nombre',
+      'tag-both':           'Ambos',
+      'intro-strong':       'C\u00f3mo usar esta gu\u00eda:',
+      'intro-body':         'Cada tarjeta muestra c\u00f3mo se \u2018llamaba antes\u2019 el art\u00edculo (tachado) y c\u00f3mo se llama \u2018ahora\u2019. Las etiquetas indican si el cambio es de receta, de nombre, o ambos. Estu\u00edialo antes de tu turno \u2014 los clientes pueden preguntar por art\u00edculos conocidos que han cambiado.',
+      'sec-breakfast':      'Desayuno',
+      'sec-salads':         'Ensaladas',
+      'sec-paninis':        'Paninis y S\u00e1ndwiches',
+      'sec-bowls':          'Bowls',
+      'sec-sides':          'Acompa\u00f1amientos y Otros',
+      'what-changed':       'Qu\u00e9 cambi\u00f3:',
+      'no-predecessor':     '\u2014 sin predecesor \u2014',
+      'chia-detail':        'Sabor: Chocolate y Coco. Nueva adici\u00f3n al men\u00fa de Primavera 2026.',
+      'santorini-detail':   'Nuevo nombre + ahora incluye ar\u00e1ndanos en la receta.',
+      'acai-detail':        'Ahora incluye ar\u00e1ndanos.',
+      'oatmeal-old':        'Avena Caliente',
+      'oatmeal-new':        'Avena Caliente',
+      'oatmeal-detail':     'Receta completamente nueva. Mismo nombre, preparaci\u00f3n renovada.',
+      'smash-detail':       'Solo nombre \u2014 usa el nuevo nombre en el POS y al describir a los clientes.',
+      'ricky-old':          'Burrito Ricky Martin',
+      'ricky-new':          'Burrito Ricky Martin',
+      'ricky-detail':       'Ahora incluye queso jack.',
+      'medi-bagel-old':     'Bagel Mediterr\u00e1neo',
+      'medi-bagel-new':     'Bagel Mediterr\u00e1neo',
+      'medi-bagel-detail':  'Ahora incluye za\u2019atar.',
+      'humina-old':         'Humina Humina Toast',
+      'humina-new':         'Humina Humina Toast',
+      'humina-detail':      'Ahora incluye zanahorias encurtidas.',
+      'generic-both-detail':'Nuevo nombre y receta actualizada.',
+      'chicken-salad-detail':'Nombre m\u00e1s corto, receta actualizada.',
+      'ciabatta-detail':    'Nuevo nombre, nuevo formato (wrap en lugar de ciabatta), receta actualizada.',
+      'challah-old':        'Zohan / Lulu / Tel Aviv \u2014 en ciabatta',
+      'challah-detail':     'Los tres ahora se sirven en pan challah en lugar de ciabatta.',
+      'spicy-detail':       'Ahora ofrece elecci\u00f3n de prote\u00edna. Receta y nombre actualizados.',
+      'bbq-detail':         'Se agreg\u00f3 ma\u00edz al bowl.',
+      'vegan-me-detail':    'Ahora incluye berenjena. (Nota: la berenjena ya no est\u00e1 empanizada \u2014 sin gluten y vegano.)',
+      'beets-detail':       'Ahora se sirve caliente. Nuevo nombre y preparaci\u00f3n actualizada.',
+      'footer-txt':         '&copy; Pressed Cafe &nbsp;&bull;&nbsp; <span>Portal de Capacitaci\u00f3n</span> &nbsp;&bull;&nbsp; Primavera 2026 \u2014 Cambios en el Men\u00fa &nbsp;&bull;&nbsp; Solo para uso interno'
+    }
+  };
+
+  function t(key) {
+    return STRINGS[LANG][key] || STRINGS['en'][key] || '';
+  }
+
+  function setLang(lang) {
+    LANG = lang;
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    document.documentElement.lang = lang;
+    render();
+  }
+
+  function render() {
+    // Simple ID-mapped elements
+    var ids = ['hdr-label','hero-span','hero-sub','back-label','legend-label',
+               'leg-new','leg-recipe','leg-name','leg-both',
+               'intro-strong','intro-body',
+               'sec-breakfast','sec-salads','sec-paninis','sec-bowls','sec-sides'];
+    ids.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = t(id);
+    });
+
+    // Hero title (prefix + span combo)
+    document.getElementById('hero-title').innerHTML =
+      t('hero-title-prefix') + '<span id="hero-span">' + t('hero-span') + '</span>';
+
+    // Hero badge (has an SVG inside — rebuild carefully)
+    document.getElementById('hero-badge').innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ' +
+      t('hero-badge');
+
+    // Section labels with special chars
+    document.getElementById('sec-paninis').innerHTML = t('sec-paninis');
+    document.getElementById('sec-sides').innerHTML   = t('sec-sides');
+
+    // Footer
+    document.getElementById('footer').innerHTML = t('footer-txt');
+
+    // data-key elements (tags + card details)
+    document.querySelectorAll('[data-key]').forEach(function(el) {
+      var key = el.getAttribute('data-key');
+      el.innerHTML = t(key);
+    });
+  }
+
+  // Init
+  render();
+</script>
+</body>
+</html>
