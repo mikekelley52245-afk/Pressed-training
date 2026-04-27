@@ -1335,6 +1335,43 @@
             quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUNUpMNksyOUhIS0hLU1I5NFVYN0xGQTM0Ri4u"
               }
             ]
+          },
+          {
+            id: "menu-item-changes",
+            title: "Menu Item Changes",
+            title_es: "Cambios en el Menú",
+            desc: "Spring 2026 name changes, recipe updates, and what's brand new — reference guide, training video, and knowledge check.",
+            desc_es: "Cambios de nombre, actualizaciones de recetas y novedades para primavera 2026 — guía de referencia, video de capacitación y cuestionario.",
+            videos: [
+              {
+                type: "link",
+                url: "spring2026-menu-changes.html",
+                title: "Menu Item Changes — Reference Guide",
+                title_es: "Guía de Referencia — Cambios en el Menú",
+                desc: "Interactive reference guide covering all Spring 2026 name changes, recipe updates, and the new Chia Pudding. Browse by category with badge tags.",
+                desc_es: "Guía de referencia interactiva con todos los cambios de nombre, actualizaciones de recetas y el nuevo Chia Pudding. Navega por categoría con etiquetas.",
+                tag: "Reference Guide",
+                tag_es: "Guía de Referencia"
+              },
+              {
+                embed: "PLACEHOLDER_EMBED_URL",
+                title: "Spring 2026 Menu Item Changes",
+                title_es: "Cambios en el Menú de Primavera 2026",
+                desc: "A full walkthrough of every Spring 2026 menu item change — new names, updated recipes, and the brand new Chia Pudding.",
+                desc_es: "Un recorrido completo por todos los cambios de artículos del menú de primavera 2026 — nuevos nombres, recetas actualizadas y el nuevo Chia Pudding.",
+                duration: "TBD",
+                pdf: "PLACEHOLDER_PDF_URL",
+                quiz: "PLACEHOLDER_QUIZ_URL"
+              },
+              {
+                type: "quiz-only",
+                title: "Menu Item Changes Quiz",
+                title_es: "Cuestionario — Cambios en el Menú",
+                desc: "10-question knowledge check covering Spring 2026 name changes, recipe updates, new items, and ingredient additions.",
+                desc_es: "Cuestionario de 10 preguntas sobre cambios de nombre, recetas actualizadas, nuevos artículos y adiciones de ingredientes.",
+                quiz: "PLACEHOLDER_QUIZ_URL"
+              }
+            ]
           }
         ]
       },
@@ -1855,6 +1892,31 @@
       }
 
       item.videos.forEach(function(video, i) {
+
+        // Link-type tile (reference guide / HTML page)
+        if (video.type === 'link') {
+          var linkTitle = LANG === 'es' && video.title_es ? video.title_es : video.title;
+          var linkDesc  = LANG === 'es' && video.desc_es  ? video.desc_es  : video.desc;
+          var linkTag   = LANG === 'es' && video.tag_es   ? video.tag_es   : (video.tag || t.referenceTool);
+          var lcard = document.createElement('a');
+          lcard.className = 'quiz-card';
+          lcard.href = video.url;
+          lcard.setAttribute('target', '_blank');
+          lcard.innerHTML =
+            '<div class="quiz-card-icon">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>' +
+            '</div>' +
+            '<div class="quiz-card-tag">' + linkTag + '</div>' +
+            '<div class="quiz-card-title">' + linkTitle + '</div>' +
+            '<div class="quiz-card-desc">'  + linkDesc  + '</div>' +
+            '<div class="quiz-card-footer">' +
+              '<div class="quiz-card-btn">' + t.viewTool + ' ' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+              '</div>' +
+            '</div>';
+          grid.appendChild(lcard);
+          return;
+        }
 
         // Quiz-only tile
         if (video.type === 'quiz-only') {
