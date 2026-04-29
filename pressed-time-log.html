@@ -276,7 +276,7 @@
 
     <!-- Photo upload -->
     <div class="field">
-      <label>Photos <span style="font-size:10px;font-weight:300;text-transform:none;letter-spacing:0">(optional · up to 5)</span></label>
+      <label>Photos <span style="font-size:10px;font-weight:300;text-transform:none;letter-spacing:0">(optional · up to 10)</span></label>
       <!-- Camera + Library buttons -->
       <div class="photo-buttons">
         <div class="photo-btn" id="cameraBtn">
@@ -359,7 +359,7 @@
   });
 
   function handleFiles(files) {
-    const slots = 5 - selectedPhotos.length;
+    const slots = 10 - selectedPhotos.length;
     if (slots <= 0) return;
     files.slice(0, slots).forEach(file => {
       const reader = new FileReader();
@@ -390,9 +390,9 @@
     });
 
     countNote.style.display = selectedPhotos.length > 0 ? 'block' : 'none';
-    countNote.textContent = selectedPhotos.length + ' of 5 photos selected';
+    countNote.textContent = selectedPhotos.length + ' of 10 photos selected';
     // Hide add buttons when at limit
-    const atLimit = selectedPhotos.length >= 5;
+    const atLimit = selectedPhotos.length >= 10;
     document.getElementById('cameraBtn').style.display = atLimit ? 'none' : '';
     document.getElementById('libraryBtn').style.display = atLimit ? 'none' : '';
     photoDrop.style.display = atLimit ? 'none' : '';
