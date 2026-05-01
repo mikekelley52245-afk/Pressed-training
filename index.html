@@ -1359,7 +1359,7 @@
                 title_es: "Cambios en el Menú de Primavera 2026",
                 desc: "A full walkthrough of every Spring 2026 menu item change — new names, updated recipes, and the brand new Chia Pudding.",
                 desc_es: "Un recorrido completo por todos los cambios de artículos del menú de primavera 2026 — nuevos nombres, recetas actualizadas y el nuevo Chia Pudding.",
-                duration: "TBD",
+                duration: "",
                 pdf: "PLACEHOLDER_PDF_URL",
                 quiz: "PLACEHOLDER_QUIZ_URL"
               },
@@ -1585,6 +1585,55 @@
             tag: "Menu Update",
             tag_es: "Actualización del Menú",
             quiz: "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUMFJIUjBPVjI2TTVWTkoyQ0g5ODlRM0I4MS4u"
+          }
+        ]
+      },
+      {
+        id: "new-hire-gm-training",
+        title: "New Hire GM Training",
+        title_es: "Capacitación para Nuevos Gerentes",
+        desc: "An introduction to the Pressed Cafe brand, culture, and guest experience — essential viewing for all new General Managers.",
+        desc_es: "Una introducción a la marca, cultura y experiencia del cliente de Pressed Cafe — visualización esencial para todos los nuevos Gerentes Generales.",
+        videos: [
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Pressed Cafe Food Tasting Plate with Chef",
+            title_es: "Plato de Degustación de Comida de Pressed Cafe con el Chef",
+            desc: "An overview of some of the ingredients that separate us from the rest, accompanied by a tasting plate for you to enjoy!",
+            desc_es: "Una introducción a algunos de los ingredientes que nos distinguen del resto, acompañada de un plato de degustación para disfrutar.",
+            duration: ""
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Pressed Cafe Beverage Tasting Plate with our Head Barista",
+            title_es: "Plato de Degustación de Bebidas de Pressed Cafe con nuestro Barista Principal",
+            desc: "An overview of our beverage options and some of the details that separate us from the competitors!",
+            desc_es: "Una descripción general de nuestras opciones de bebidas y los detalles que nos distinguen de la competencia.",
+            duration: ""
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Pressed Cafe Flyby!",
+            title_es: "¡Recorrido Rápido por Pressed Cafe!",
+            desc: "A quick fly-through of one of our restaurants during the rush! Get an idea of what to expect in your restaurant.",
+            desc_es: "Un recorrido rápido por uno de nuestros restaurantes en hora pico. ¡Una idea de lo que puedes esperar en tu restaurante!",
+            duration: ""
+          },
+          {
+            embed: "PLACEHOLDER_EMBED_URL",
+            title: "Pressed Cafe Fans!",
+            title_es: "¡Fans de Pressed Cafe!",
+            desc: "A quick video from one of our fans sharing her experience at Pressed — and what we strive for every day from a customer satisfaction standpoint.",
+            desc_es: "Un video rápido de una de nuestras fans compartiendo su experiencia en Pressed y lo que buscamos lograr cada día en materia de satisfacción al cliente.",
+            duration: ""
+          },
+          {
+            embed: "PLACEHOLDER_YOUTUBE_URL",
+            title: "Pressed Cafe Phantom Gourmet",
+            title_es: "Pressed Cafe en Phantom Gourmet",
+            desc: "A little history of Pressed as a brand, highlighted by this Phantom Gourmet visit to our (then-new!) Burlington location.",
+            desc_es: "Un poco de historia de Pressed como marca, destacada por esta visita de Phantom Gourmet a nuestra (entonces nueva) ubicación en Burlington.",
+            duration: ""
           }
         ]
       }
@@ -1978,10 +2027,10 @@
           pdfHtml +
           quizHtml +
           '<div class="video-footer">' +
-            '<div class="video-duration">' +
+            (video.duration ? '<div class="video-duration">' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
               video.duration +
-            '</div>' +
+            '</div>' : '<div></div>') +
             '<div class="watch-btn">' + t.watch + ' ' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
             '</div>' +
@@ -2039,11 +2088,14 @@
 
     // ── Modal ──────────────────────────────────────
     function launchVideo(video) {
-      // Convert embed URL to direct SharePoint view URL and open in new tab
       var url = video.embed;
-      if (url && url !== 'PLACEHOLDER_EMBED_URL') {
-        // Convert embed.aspx to the standard SharePoint video viewer
-        var directUrl = url.replace('/_layouts/15/embed.aspx', '/_layouts/15/stream.aspx');
+      if (url && url !== 'PLACEHOLDER_EMBED_URL' && url !== 'PLACEHOLDER_YOUTUBE_URL') {
+        var directUrl;
+        if (url.indexOf('youtube.com') !== -1 || url.indexOf('youtu.be') !== -1) {
+          directUrl = url;
+        } else {
+          directUrl = url.replace('/_layouts/15/embed.aspx', '/_layouts/15/stream.aspx');
+        }
         window.open(directUrl, '_blank');
       }
     }
