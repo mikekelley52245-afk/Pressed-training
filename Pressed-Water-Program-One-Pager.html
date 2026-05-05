@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pressed Cafe — Water Program One Pager</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  :root{
+    --cream:#f5f0e8;
+    --cream-dk:#ede6d6;
+    --paper:#ffffff;
+    --ink:#1a1a18;
+    --ink-lt:#3d3d38;
+    --ink-mute:#5a574f;
+    --coral:#c94f37;
+    --coral-lt:#e06b52;
+    --tan:#a89772;
+    --border:rgba(26,26,24,0.14);
+    --border-strong:rgba(26,26,24,0.26);
+    /* shelf accents - muted so text is legible */
+    --shelf-top:#ead8c6;
+    --shelf-prep:#d6dec7;
+    --shelf-juice:#f1d6a8;
+    --shelf-cans:#c9dcd0;
+    --shelf-water:#c4d5e4;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:#e6ded1;}
+  body{
+    font-family:'Source Sans 3',sans-serif;
+    color:var(--ink);
+    padding:28px 20px 60px;
+    min-height:100vh;
+    font-size:15px;
+    line-height:1.55;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size:200px 200px;pointer-events:none;z-index:0;
+  }
+
+  .sheet{
+    position:relative;z-index:1;
+    max-width:1120px;margin:0 auto;
+    background:var(--cream);
+    border:1px solid var(--border);
+    box-shadow:0 24px 60px rgba(26,26,24,0.14);
+    overflow:hidden;
+  }
+
+  /* ── Header ── */
+  .head{
+    display:flex;align-items:stretch;justify-content:space-between;
+    background:var(--cream-dk);
+    border-bottom:3px solid var(--coral);
+    padding:22px 40px;gap:24px;
+  }
+  .head-left{display:flex;align-items:center;gap:20px;}
+  .head-logo{height:58px;width:auto;}
+  .head-div{width:1px;background:var(--border);align-self:stretch;}
+  .head-kicker{
+    font-size:11px;font-weight:700;letter-spacing:0.22em;
+    text-transform:uppercase;color:var(--tan);margin-bottom:5px;
+    white-space:nowrap;
+  }
+  .head-title{
+    font-family:'Playfair Display',serif;
+    font-size:24px;font-weight:900;color:var(--ink);line-height:1;
+  }
+  .head-right{text-align:right;display:flex;flex-direction:column;justify-content:center;gap:7px;flex-shrink:0;}
+  .head-pill{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--coral);background:rgba(201,79,55,0.08);
+    border:1px solid rgba(201,79,55,0.22);
+    border-radius:20px;padding:5px 13px;align-self:flex-end;
+    white-space:nowrap;flex-shrink:0;
+  }
+  .head-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--coral);flex-shrink:0;}
+  .head-meta{font-size:12px;color:var(--ink-mute);letter-spacing:0.06em;white-space:nowrap;}
+
+  /* ── Hero ── */
+  .hero{
+    padding:34px 40px 24px;
+    display:flex;align-items:flex-end;justify-content:space-between;gap:32px;
+    border-bottom:1px solid var(--border);
+  }
+  .hero-title{
+    font-family:'Playfair Display',serif;
+    font-size:52px;font-weight:900;line-height:0.98;color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  .hero-title em{font-style:italic;color:var(--coral);font-weight:700;}
+  .hero-lede{
+    font-size:16px;line-height:1.6;color:var(--ink-lt);font-weight:400;
+    max-width:400px;
+  }
+
+  /* ── Section rule ── */
+  .rule{
+    display:flex;align-items:center;gap:16px;
+    padding:30px 40px 14px;
+  }
+  .rule-num{
+    font-family:'Playfair Display',serif;
+    font-size:15px;font-weight:900;color:var(--coral);
+    width:30px;height:30px;border-radius:50%;
+    border:1.5px solid var(--coral);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .rule-label{
+    font-size:13px;font-weight:700;letter-spacing:0.2em;
+    text-transform:uppercase;color:var(--ink);white-space:nowrap;
+  }
+  .rule-line{flex:1;height:1px;background:var(--border);}
+
+  /* ── SKU grid ── */
+  .sku-intro{
+    padding:0 40px 18px;
+    font-size:15px;color:var(--ink-lt);line-height:1.6;
+    max-width:900px;
+  }
+  .sku-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:12px;
+    padding:0 40px 32px;
+  }
+  .sku{
+    background:var(--paper);
+    border:1px solid var(--border);
+    display:flex;flex-direction:column;overflow:hidden;position:relative;
+    border-radius:4px;
+  }
+  .sku-img{
+    background:#fafafa;aspect-ratio:3/4;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .sku-img img{width:100%;height:100%;object-fit:contain;object-position:center;}
+  .sku-body{padding:10px 10px 11px;border-top:1px solid var(--border);}
+  .sku-name{
+    font-family:'Playfair Display',serif;
+    font-size:13px;font-weight:700;color:var(--ink);line-height:1.18;margin-bottom:4px;
+  }
+  .sku-meta{
+    font-size:10.5px;font-weight:600;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--tan);
+  }
+  .sku-type{
+    position:absolute;top:8px;left:8px;
+    font-size:9.5px;font-weight:700;letter-spacing:0.12em;
+    text-transform:uppercase;padding:3px 7px;border-radius:3px;
+    background:rgba(255,255,255,0.94);border:1px solid var(--border);
+    color:var(--ink-lt);
+  }
+  .sku-type.new{background:var(--coral);color:#fff;border-color:var(--coral);}
+
+  /* ── Planogram section ── */
+  .plan-wrap{padding:6px 40px 32px;}
+  .plan-note{
+    font-size:15px;color:var(--ink-lt);line-height:1.6;
+    max-width:900px;margin-bottom:22px;
+  }
+
+  .plan-layout{
+    display:grid;
+    grid-template-columns:1.15fr 1fr;
+    gap:22px;
+    align-items:start;
+    break-inside:avoid;
+    page-break-inside:avoid;
+  }
+  .plan-layout.stacked{grid-template-columns:1fr;}
+
+  /* Clean planogram diagram */
+  .cooler{
+    background:#fafaf7;
+    border:2px solid var(--ink);
+    border-radius:8px;
+    padding:14px;
+    position:relative;
+  }
+  .cooler-top{
+    background:var(--ink);
+    border-radius:4px;
+    padding:10px 14px;
+    margin:-4px -4px 12px;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+  }
+  .cooler-top-mark{
+    width:18px;height:18px;border-radius:50%;
+    background:var(--coral);display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:900;font-size:11px;
+  }
+  .cooler-top-title{
+    font-family:'Playfair Display',serif;
+    font-size:15px;font-weight:700;color:#fff;letter-spacing:0.08em;text-transform:uppercase;
+    white-space:nowrap;
+  }
+
+  .door-heads{
+    display:grid;
+    grid-template-columns:var(--door-cols,1fr 1fr 1fr);
+    gap:6px;margin-bottom:8px;padding:0 2px;
+  }
+  .door-head{
+    text-align:center;
+    font-size:12px;font-weight:700;letter-spacing:0.18em;
+    text-transform:uppercase;color:var(--ink-mute);
+    padding:4px 0;
+  }
+
+  .shelves{
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .shelf-row{
+    display:grid;
+    grid-template-columns:78px 1fr 64px;
+    gap:8px;align-items:stretch;
+  }
+  .shelf-pos-left,.shelf-pos-right{
+    display:flex;align-items:center;
+    font-size:11px;font-weight:700;letter-spacing:0.16em;
+    text-transform:uppercase;color:var(--ink-mute);
+    line-height:1.1;
+  }
+  .shelf-pos-left{justify-content:flex-end;text-align:right;}
+  .shelf-pos-right{justify-content:flex-start;}
+  .shelf-pos-left strong,.shelf-pos-right strong{
+    display:block;color:var(--ink);font-size:14px;
+    font-family:'Playfair Display',serif;letter-spacing:0;text-transform:none;
+    font-weight:700;margin-bottom:1px;
+  }
+
+  .shelf{
+    border-radius:4px;
+    padding:13px 16px;
+    border:1px solid rgba(0,0,0,0.1);
+    display:flex;flex-direction:column;justify-content:center;gap:3px;
+    min-height:72px;
+  }
+  .shelf.top{background:var(--shelf-top);}
+  .shelf.prep{background:var(--shelf-prep);}
+  .shelf.juice{background:var(--shelf-juice);border:2px solid #b67d2a;}
+  .shelf.cans{background:var(--shelf-cans);}
+  .shelf.water{background:var(--shelf-water);}
+  .shelf-title{
+    font-family:'Playfair Display',serif;
+    font-size:16px;font-weight:700;color:var(--ink);
+    display:flex;align-items:center;gap:7px;line-height:1.15;
+  }
+  .shelf-title .star{color:var(--coral);font-size:15px;}
+  .shelf-items{
+    font-size:13px;color:var(--ink-lt);line-height:1.45;font-weight:400;
+  }
+  .shelf-items b{font-weight:600;color:var(--ink);}
+
+  /* Water row column detail */
+  .water-shelf{padding-top:10px;padding-bottom:10px;}
+  .water-cols{
+    display:grid;
+    grid-template-columns:var(--door-cols,1fr 1fr 1fr);
+    gap:6px;margin-top:8px;
+  }
+  .water-col{
+    background:rgba(255,255,255,0.6);
+    border:1px solid rgba(26,26,24,0.12);
+    border-radius:3px;
+    padding:7px 9px;
+    font-size:12px;line-height:1.35;
+  }
+  .water-col-door{
+    font-size:10px;font-weight:700;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--ink-mute);margin-bottom:3px;
+  }
+  .water-col-skus{color:var(--ink);font-weight:500;}
+
+  /* Salem photo callout */
+  .photo-card{
+    background:var(--paper);
+    border:1px solid var(--border);
+    border-radius:6px;overflow:hidden;
+    display:flex;flex-direction:column;
+    break-inside:avoid;
+    page-break-inside:avoid;
+  }
+  .photo-card img{width:100%;height:auto;display:block;}
+  .photo-cap{
+    padding:12px 16px 14px;
+    border-top:1px solid var(--border);
+  }
+  .photo-cap-tag{
+    font-size:10.5px;font-weight:700;letter-spacing:0.18em;
+    text-transform:uppercase;color:var(--coral);margin-bottom:4px;
+  }
+  .photo-cap-title{
+    font-family:'Playfair Display',serif;
+    font-size:17px;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.2;
+  }
+  .photo-cap-desc{
+    font-size:13px;color:var(--ink-lt);line-height:1.5;
+  }
+
+  /* ── Rules ── */
+  .rules{padding:4px 40px 28px;}
+  .rules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .rule-card{
+    background:var(--paper);
+    border:1px solid var(--border);
+    border-top:3px solid var(--coral);
+    padding:18px 20px 16px;border-radius:0 0 4px 4px;
+  }
+  .rule-card-num{
+    font-family:'Playfair Display',serif;
+    font-size:12px;font-weight:700;color:var(--coral);
+    letter-spacing:0.18em;text-transform:uppercase;margin-bottom:7px;
+  }
+  .rule-card-title{
+    font-family:'Playfair Display',serif;
+    font-size:17px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:8px;
+  }
+  .rule-card-desc{
+    font-size:13.5px;color:var(--ink-lt);line-height:1.55;font-weight:400;
+  }
+
+  /* ── Do / Don't ── */
+  .dos{padding:0 40px 32px;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;}
+  .do-card{
+    background:var(--paper);border:1px solid var(--border);
+    padding:18px 20px 18px;position:relative;border-radius:4px;
+    display:flex;flex-direction:column;
+  }
+  .do-card.good{border-left:4px solid #4a7a4a;}
+  .do-card.bad{border-left:4px solid var(--coral);}
+  .do-head{
+    display:flex;align-items:center;gap:9px;
+    font-size:12px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .do-head.good{color:#4a7a4a;}
+  .do-head.bad{color:var(--coral);}
+  .do-icon{
+    width:22px;height:22px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:900;color:#fff;line-height:1;
+  }
+  .do-icon.good{background:#4a7a4a;}
+  .do-icon.bad{background:var(--coral);}
+  .do-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;flex:1;}
+  .do-list li{
+    font-size:13.5px;color:var(--ink-lt);line-height:1.5;
+    padding-left:16px;position:relative;
+    flex-shrink:0;
+  }
+  .do-list li::before{
+    content:'';position:absolute;left:0;top:10px;
+    width:7px;height:1.5px;background:var(--border-strong);
+  }
+  .do-list li b{color:var(--ink);font-weight:600;}
+
+  /* ── Footer ── */
+  .foot{
+    background:var(--ink);
+    padding:16px 40px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .foot-left{
+    font-size:11px;font-weight:700;letter-spacing:0.16em;
+    text-transform:uppercase;color:var(--tan);white-space:nowrap;
+  }
+  .foot-left span{color:var(--coral);}
+  .foot-right{
+    font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;white-space:nowrap;
+  }
+
+  @media (max-width:880px){
+    .sku-grid{grid-template-columns:repeat(3,1fr);}
+    .rules-grid{grid-template-columns:1fr;}
+    .dos{grid-template-columns:1fr;}
+    .plan-layout{grid-template-columns:1fr;}
+    .hero{flex-direction:column;align-items:flex-start;}
+    .hero-title{font-size:36px;}
+    .shelf-row{grid-template-columns:60px 1fr;}
+    .shelf-pos-right{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<script type="text/babel">
+const { useState } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "coolerType": "3-door",
+  "showSalemPhoto": true,
+  "showNewBadges": true,
+  "density": "compact",
+  "bodyFontSize": 15
+}/*EDITMODE-END*/;
+
+// ── SKU data ─────────────────────────────────────────
+const SKUS = [
+  { img:'assets/Poland-Spring-25oz.jpg', name:'Poland Spring', meta:'Still · 25 oz', isNew:true },
+  { img:'assets/Saratoga-Still.jpg', name:'Saratoga Still', meta:'Still · 16 oz', isNew:false },
+  { img:'assets/Saratoga-Sparkling.jpg', name:'Saratoga Sparkling', meta:'Sparkling · 16 oz', isNew:false },
+  { img:'assets/Saratoga-Berry.jpg', name:'Untitled Berry No. 3', meta:'Sparkling · 12 oz', isNew:true },
+  { img:'assets/Saratoga-Peach.jpg', name:'Anatomy of a Peach', meta:'Sparkling · 12 oz', isNew:true },
+  { img:'assets/Saratoga-Lime.jpg', name:'Abstraction of Lime', meta:'Sparkling · 12 oz', isNew:true },
+  { img:'assets/Saratoga-Mango.jpg', name:'Mango Dragon Fruit', meta:'Sparkling · 12 oz', isNew:true },
+];
+
+// ── Planogram configs ────────────────────────────────
+const PLANOGRAMS = {
+  '3-door': {
+    doors: ['Door 1','Door 2','Door 3'],
+    waterCols: [
+      { door:'Door 1', skus:'Smartwater + Saratoga Still — 2 rows each' },
+      { door:'Door 2', skus:'Saratoga Sparkling + Poland Spring 25oz — 2 rows each' },
+      { door:'Door 3', skus:'Sprite · Coke · Diet Coke — one row per flavor' },
+    ],
+  },
+  '2-door': {
+    doors: ['Door 1','Door 2'],
+    waterCols: [
+      { door:'Door 1', skus:'Smartwater · Saratoga Still · Saratoga Sparkling — 2 rows each' },
+      { door:'Door 2', skus:'Poland Spring 25oz · Sprite · Coke · Diet Coke — one row each' },
+    ],
+  },
+};
+
+// ── App ──────────────────────────────────────────────
+function App(){
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const plan = PLANOGRAMS[t.coolerType] || PLANOGRAMS['3-door'];
+  const doorColTemplate = `repeat(${plan.doors.length}, 1fr)`;
+
+  const showSalem = !!t.showSalemPhoto;
+  const layoutStyle = showSalem ? {} : { gridTemplateColumns:'1fr' };
+
+  const densityPad = t.density === 'compact' ? 10 : t.density === 'comfortable' ? 13 : 16;
+
+  return (
+    <React.Fragment>
+    <div className="sheet" style={{ fontSize: t.bodyFontSize }}>
+
+      {/* Header */}
+      <div className="head">
+        <div className="head-left">
+          <img className="head-logo" src="assets/Pressed-Logo.png" alt="Pressed Cafe" />
+          <div className="head-div"></div>
+          <div>
+            <div className="head-kicker">Operations · Store Bulletin</div>
+            <div className="head-title">Water Program &amp; Cooler Reset</div>
+          </div>
+        </div>
+        <div className="head-right">
+          <span className="head-pill">Effective Now</span>
+          <span className="head-meta">Spring 2026 · v1.1 · All stores</span>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div className="hero">
+        <div className="hero-title">
+          New water SKUs,<br/>
+          <em>one shelf</em> to run them.
+        </div>
+        <div className="hero-lede">
+          Poland Spring and the Saratoga Collection are now part of the Pressed Cafe water lineup. This bulletin shows what's new and how to reset the Juice Market cooler — shelf by shelf, door by door.
+        </div>
+      </div>
+
+      {/* Section 1 — SKUs */}
+      <div className="rule">
+        <div className="rule-num">1</div>
+        <div className="rule-label">The Water Lineup</div>
+        <div className="rule-line"></div>
+      </div>
+      <p className="sku-intro">
+        Seven water SKUs sit on the bottom shelf. Poland Spring 25 oz and the Saratoga Collection are the <b>new additions</b> — Saratoga Still &amp; Sparkling glass remain on program. Face every label forward; no mixed flavors in a single column.
+      </p>
+      <div className="sku-grid">
+        {SKUS.map((s,i)=>(
+          <div className="sku" key={i}>
+            {t.showNewBadges && (
+              <span className={`sku-type ${s.isNew?'new':''}`}>{s.isNew?'New':'Core'}</span>
+            )}
+            <div className="sku-img"><img src={s.img} alt={s.name}/></div>
+            <div className="sku-body">
+              <div className="sku-name">{s.name}</div>
+              <div className="sku-meta">{s.meta}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Section 2 — Planogram */}
+      <div className="rule">
+        <div className="rule-num">2</div>
+        <div className="rule-label">{t.coolerType==='2-door'?'2-Door':'3-Door'} Cooler Planogram</div>
+        <div className="rule-line"></div>
+      </div>
+
+      <div className="plan-wrap">
+        <p className="plan-note">
+          Five shelves, {plan.doors.length} doors. Categories span <b>all {plan.doors.length} doors</b> — never split a category by door panel. The middle shelf is the <b>Juice Market hero row</b> at eye level. Water &amp; Soda always sits at floor level.
+        </p>
+
+        <div className="plan-layout" style={layoutStyle}>
+          {/* Planogram diagram */}
+          <div className="cooler" style={{ '--door-cols': doorColTemplate }}>
+            <div className="cooler-top">
+              <div className="cooler-top-mark">P</div>
+              <div className="cooler-top-title">Juice Market</div>
+            </div>
+            <div className="door-heads" style={{ '--door-cols': doorColTemplate }}>
+              {plan.doors.map(d=><div className="door-head" key={d}>{d}</div>)}
+            </div>
+
+            <div className="shelves">
+              {/* Top */}
+              <div className="shelf-row">
+                <div className="shelf-pos-left"><span><strong>Top</strong>Shelf</span></div>
+                <div className="shelf top" style={{padding:`${densityPad}px 16px`}}>
+                  <div className="shelf-title">Specialty &amp; Jarred Items</div>
+                  <div className="shelf-items">Jams · sauces · condiments · premium bottled drinks. <b>Consolidate across all doors</b> — never split left/right. Face labels outward uniformly.</div>
+                </div>
+                <div className="shelf-pos-right"><span><strong>Top</strong></span></div>
+              </div>
+
+              {/* Prep */}
+              <div className="shelf-row">
+                <div className="shelf-pos-left"><span><strong>High</strong></span></div>
+                <div className="shelf prep" style={{padding:`${densityPad}px 16px`}}>
+                  <div className="shelf-title">Prepared Foods</div>
+                  <div className="shelf-items">Salads · grain bowls · packaged meals. One section across all doors. <b>Remove from top shelf.</b></div>
+                </div>
+                <div className="shelf-pos-right"><span><strong>High</strong></span></div>
+              </div>
+
+              {/* Juice */}
+              <div className="shelf-row">
+                <div className="shelf-pos-left"><span><strong>Eye</strong>Level</span></div>
+                <div className="shelf juice" style={{padding:`${densityPad}px 16px`}}>
+                  <div className="shelf-title"><span className="star">★</span> Juices &amp; Jarred Drinks — Hero Shelf</div>
+                  <div className="shelf-items">All juice varieties grouped by color or type. <b>Premium placement</b> — face every label, refill first, keep pristine.</div>
+                </div>
+                <div className="shelf-pos-right"><span><strong>★ Eye</strong></span></div>
+              </div>
+
+              {/* Cans */}
+              <div className="shelf-row">
+                <div className="shelf-pos-left"><span><strong>Low</strong></span></div>
+                <div className="shelf cans" style={{padding:`${densityPad}px 16px`}}>
+                  <div className="shelf-title">Canned Beverages</div>
+                  <div className="shelf-items">Energy drinks · sparkling water · <b>Saratoga Collection cans</b> — full width, one type per row, 2 facings minimum per flavor.</div>
+                </div>
+                <div className="shelf-pos-right"><span><strong>Low</strong></span></div>
+              </div>
+
+              {/* Water */}
+              <div className="shelf-row">
+                <div className="shelf-pos-left"><span><strong>Floor</strong>Level</span></div>
+                <div className="shelf water water-shelf">
+                  <div className="shelf-title">Water &amp; Soda</div>
+                  <div className="shelf-items">Spread across all doors, <b>one SKU per column</b>:</div>
+                  <div className="water-cols" style={{ '--door-cols': doorColTemplate }}>
+                    {plan.waterCols.map((c,i)=>(
+                      <div className="water-col" key={i}>
+                        <div className="water-col-door">{c.door}</div>
+                        <div className="water-col-skus">{c.skus}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="shelf-pos-right"><span><strong>Floor</strong></span></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Salem photo reference */}
+          {showSalem && (
+            <div className="photo-card">
+              <img src="assets/Salem-Two-Door-Cooler.jpg" alt="Salem 2-door Juice Market cooler reference"/>
+              <div className="photo-cap">
+                <div className="photo-cap-tag">Live Reference · Salem Store</div>
+                <div className="photo-cap-title">What the reset looks like in-store</div>
+                <div className="photo-cap-desc">
+                  The Salem 2-door cooler shows the program in action: Juice Market hero shelf at eye level, Saratoga Collection cans on the canned row, waters and soda at floor level with clean column separation.
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Section 3 — Rules */}
+      <div className="rule">
+        <div className="rule-num">3</div>
+        <div className="rule-label">Merchandising Rules</div>
+        <div className="rule-line"></div>
+      </div>
+      <div className="rules">
+        <div className="rules-grid">
+          <div className="rule-card">
+            <div className="rule-card-num">Rule 01</div>
+            <div className="rule-card-title">Categories span doors, not the other way around.</div>
+            <div className="rule-card-desc">A shelf reads as one continuous section across all doors. Never use a door panel as a category divider.</div>
+          </div>
+          <div className="rule-card">
+            <div className="rule-card-num">Rule 02</div>
+            <div className="rule-card-title">Juice Market is the hero — eye level, always.</div>
+            <div className="rule-card-desc">Middle shelf is premium placement. Keep it faced, refilled, and grouped by color or type. First in, first filled.</div>
+          </div>
+          <div className="rule-card">
+            <div className="rule-card-num">Rule 03</div>
+            <div className="rule-card-title">One SKU per column on bottom shelf.</div>
+            <div className="rule-card-desc">Water and soda are vertical columns — never mix flavors in the same row. Two facings per SKU minimum.</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 4 — Do / Don't */}
+      <div className="rule">
+        <div className="rule-num">4</div>
+        <div className="rule-label">Do &amp; Don't</div>
+        <div className="rule-line"></div>
+      </div>
+      <div className="dos">
+        <div className="do-card good">
+          <div className="do-head good"><span className="do-icon good">✓</span> Do</div>
+          <ul className="do-list">
+            <li><b>Face every label forward</b> — aligned uniformly across the row.</li>
+            <li><b>Group Saratoga Collection cans</b> — two facings per flavor minimum.</li>
+            <li><b>Front-face after every rush</b> — Juice Market hero shelf first.</li>
+            <li><b>Rotate stock FIFO</b> — new behind, older in front.</li>
+            <li><b>Keep the Juice Market mosaic</b> light clean and unobstructed.</li>
+          </ul>
+        </div>
+        <div className="do-card bad">
+          <div className="do-head bad"><span className="do-icon bad">✕</span> Don't</div>
+          <ul className="do-list">
+            <li><b>Don't split a category</b> across doors — keep specialty items together.</li>
+            <li><b>Don't mix flavors in a column</b> — one SKU top to bottom.</li>
+            <li><b>Don't stock prepared foods</b> on the top shelf — High shelf only.</li>
+            <li><b>Don't leave Poland Spring 25 oz</b> on the side rack.</li>
+            <li><b>Don't use handwritten shelf labels</b> — printed cards only.</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="foot">
+        <div className="foot-left">Pressed Cafe · <span>Water Program Reset</span> · Internal Use Only</div>
+        <div className="foot-right">Questions? Contact your District Manager.</div>
+      </div>
+    </div>
+
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Cooler layout" />
+      <TweakRadio
+        label="Cooler type"
+        value={t.coolerType}
+        options={['3-door','2-door']}
+        onChange={(v)=>setTweak('coolerType', v)}
+      />
+      <TweakToggle
+        label="Show Salem store reference photo"
+        value={t.showSalemPhoto}
+        onChange={(v)=>setTweak('showSalemPhoto', v)}
+      />
+
+      <TweakSection label="Content" />
+      <TweakToggle
+        label="Show New / Core badges"
+        value={t.showNewBadges}
+        onChange={(v)=>setTweak('showNewBadges', v)}
+      />
+      <TweakRadio
+        label="Planogram density"
+        value={t.density}
+        options={['compact','comfortable','airy']}
+        onChange={(v)=>setTweak('density', v)}
+      />
+      <TweakSlider
+        label="Body font size"
+        value={t.bodyFontSize}
+        min={13} max={18} step={1} unit="px"
+        onChange={(v)=>setTweak('bodyFontSize', v)}
+      />
+    </TweaksPanel>
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+</body>
+</html>

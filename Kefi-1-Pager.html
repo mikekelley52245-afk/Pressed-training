@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kefi Yogurt Rollout — Pressed Cafe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  :root {
+    --cream:    #f5f0e8;
+    --cream-dk: #ede6d6;
+    --ink:      #1a1a18;
+    --ink-lt:   #3d3d38;
+    --coral:    #c94f37;
+    --coral-lt: #e06b52;
+    --tan:      #b8a98a;
+    --border:   rgba(26,26,24,0.12);
+    --border-strong: rgba(26,26,24,0.22);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: #d9d4cb;
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Letter page — 8.5 × 11 in at 96dpi → 816 × 1056 px */
+  .page {
+    width: 816px;
+    min-height: 1056px;
+    margin: 24px auto;
+    background: var(--cream);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header band ── */
+  .masthead {
+    position: relative;
+    z-index: 1;
+    background: var(--ink);
+    color: #fff;
+    padding: 18px 40px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--coral);
+  }
+  .masthead-left { display: flex; align-items: center; gap: 16px; }
+  .masthead-logo { height: 38px; width: auto; filter: brightness(0) invert(1); opacity: 0.95; }
+  .masthead-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.18); }
+  .masthead-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--tan);
+  }
+  .masthead-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: right;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--tan);
+  }
+  .masthead-right .doc-id { color: var(--coral-lt); }
+
+  /* ── Hero / title ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 30px 40px 22px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: end;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--coral);
+    margin-bottom: 8px;
+  }
+  .eyebrow .dot {
+    display: inline-block;
+    width: 5px; height: 5px;
+    background: var(--coral);
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 0 8px 3px;
+  }
+  h1.title {
+    font-family: 'Playfair Display', serif;
+    font-size: 46px; font-weight: 900;
+    line-height: 0.96;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  h1.title em {
+    font-style: italic;
+    color: var(--coral);
+    font-weight: 700;
+  }
+  .deck {
+    font-size: 13px; font-weight: 300;
+    color: var(--ink-lt);
+    margin-top: 10px;
+    max-width: 460px;
+    line-height: 1.55;
+  }
+  .deck strong { font-weight: 600; color: var(--ink); }
+
+  .hero-stamp {
+    text-align: right;
+    border-left: 1px solid var(--border);
+    padding-left: 22px;
+  }
+  .hero-stamp .stamp-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px; font-weight: 900;
+    color: var(--coral);
+    line-height: 0.85;
+  }
+  .hero-stamp .stamp-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--tan);
+    margin-top: 6px;
+  }
+
+  /* ── Calibration callout ── */
+  .callout {
+    position: relative;
+    z-index: 1;
+    margin: 18px 40px 0;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 4px;
+    padding: 14px 18px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+    overflow: hidden;
+  }
+  .callout::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 4px;
+    background: var(--coral);
+  }
+  .callout-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--coral);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .callout-icon svg { width: 18px; height: 18px; stroke: #fff; }
+  .callout-body { line-height: 1.35; }
+  .callout-tag {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--coral-lt);
+    margin-bottom: 3px;
+  }
+  .callout-text {
+    font-size: 13.5px; font-weight: 400; color: #fff;
+  }
+  .callout-text strong { font-weight: 700; color: #fff; }
+  .callout-text .name { color: var(--coral-lt); font-weight: 700; }
+  .callout-day {
+    text-align: center;
+    border-left: 1px solid rgba(255,255,255,0.15);
+    padding-left: 18px;
+  }
+  .callout-day .day {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700;
+    color: #fff;
+    line-height: 1;
+  }
+  .callout-day .when {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--tan);
+    margin-top: 3px;
+  }
+
+  /* ── Section rule ── */
+  .section-rule {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px 40px 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .section-rule-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--coral);
+    font-style: italic;
+  }
+  .section-rule-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink);
+    white-space: nowrap;
+  }
+  .section-rule-line { flex: 1; height: 1px; background: var(--border-strong); }
+
+  /* ── Build grid ── */
+  .builds {
+    position: relative;
+    z-index: 1;
+    margin: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .builds .row-2 { grid-column: span 1; }
+  .build {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .build-photo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    background: var(--ink);
+  }
+  .build-body {
+    padding: 12px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .build-cat {
+    font-size: 8.5px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--coral);
+    margin-bottom: 3px;
+  }
+  .build-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--ink);
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+  .build-name .accent {
+    color: var(--coral);
+    font-style: italic;
+    font-weight: 700;
+  }
+  .build-spec {
+    border-top: 1px dashed var(--border);
+    padding-top: 8px;
+    margin-top: auto;
+  }
+  .build-spec-label {
+    font-size: 8.5px; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--tan);
+    margin-bottom: 6px;
+  }
+  .build-spec ol {
+    list-style: none;
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .build-spec li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 8px;
+    font-size: 11.5px;
+    line-height: 1.3;
+    color: var(--ink-lt);
+  }
+  .build-spec li .qty {
+    font-weight: 700;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    text-align: right;
+    border-right: 1px solid var(--border);
+    padding-right: 8px;
+  }
+  .build-spec li .ing {
+    font-weight: 400;
+  }
+
+  /* signature flavor */
+  .build.signature {
+    border: 1px solid var(--coral);
+    box-shadow: 0 0 0 3px rgba(201,79,55,0.06);
+  }
+  .build.signature .build-cat { color: var(--coral); }
+  .build.signature::after {
+    content: 'SIGNATURE';
+    position: absolute;
+    top: 10px; right: 10px;
+    background: var(--coral);
+    color: #fff;
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 0.14em;
+    padding: 3px 7px;
+    border-radius: 3px;
+    z-index: 2;
+  }
+
+  /* ── Notes strip ── */
+  .notes {
+    position: relative;
+    z-index: 1;
+    margin: 18px 40px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    background: var(--cream-dk);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .note {
+    padding: 12px 16px;
+    border-right: 1px solid var(--border);
+  }
+  .note:last-child { border-right: none; }
+  .note-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--coral);
+    margin-bottom: 4px;
+  }
+  .note-text {
+    font-size: 11.5px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .note-text strong { font-weight: 700; }
+
+  /* ── Footer ── */
+  footer.foot {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+    padding: 16px 40px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tan);
+    border-top: 1px solid var(--border);
+  }
+  footer.foot .star { color: var(--coral); }
+
+  /* ── Lang toggle (inline in masthead) ── */
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(0,0,0,0.28);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 4px;
+    padding: 2px;
+  }
+  .lang-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.55);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    padding: 3px 7px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .lang-btn:hover { color: #fff; }
+  .lang-btn.active {
+    background: var(--coral);
+    color: #fff;
+  }
+
+  /* Spanish overrides for CSS-generated content */
+  html[lang="es"] .build.signature::after { content: 'ESPECIAL'; }
+
+  /* Print */
+  @page { size: letter; margin: 0; }
+  @media print {
+    html, body { background: #fff; }
+    .page {
+      margin: 0; box-shadow: none;
+      width: 8.5in; min-height: 11in;
+    }
+    .toolbar { display: none !important; }
+  }
+
+  /* Floating print button (screen only) */
+  .toolbar {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+  .tb-btn {
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.15s;
+  }
+  .tb-btn:hover { background: var(--coral); }
+  .tb-btn svg { width: 14px; height: 14px; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ─── Masthead ─── -->
+  <div class="masthead">
+    <div class="masthead-left">
+      <img class="masthead-logo" src="assets/Pressed-Logo.png" alt="Pressed Cafe" />
+      <div class="masthead-divider"></div>
+      <div class="masthead-label" data-en="Operations Bulletin" data-es="Boletín Operativo">Operations Bulletin</div>
+    </div>
+    <div class="masthead-right">
+      <div id="tw-effective" style="white-space:nowrap;" data-en="Effective &lt;span class=&quot;doc-id&quot;&gt;Mon&amp;nbsp;·&amp;nbsp;May&amp;nbsp;4,&amp;nbsp;2026&lt;/span&gt;" data-es="Vigente &lt;span class=&quot;doc-id&quot;&gt;Lun&amp;nbsp;·&amp;nbsp;4&amp;nbsp;de&amp;nbsp;mayo,&amp;nbsp;2026&lt;/span&gt;">Effective <span class="doc-id">Mon&nbsp;·&nbsp;May&nbsp;4,&nbsp;2026</span></div>
+      <!-- Language toggle -->
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Hero ─── -->
+  <div class="hero">
+    <div>
+      <div class="eyebrow" id="tw-eyebrow" data-en="Greek Frozen Yogurt &lt;span class=&quot;dot&quot;&gt;&lt;/span&gt; Store Rollout" data-es="Yogur Helado Griego &lt;span class=&quot;dot&quot;&gt;&lt;/span&gt; Lanzamiento en Tienda">Greek Frozen Yogurt <span class="dot"></span> Store Rollout</div>
+      <h1 class="title" id="tw-title" data-en="Kefi &lt;em&gt;is&lt;/em&gt;&lt;br/&gt;on the line." data-es="Kefi &lt;em&gt;está&lt;/em&gt;&lt;br/&gt;en la línea.">Kefi <em>is</em><br/>on the line.</h1>
+      <p class="deck" id="tw-deck" data-en="&lt;strong&gt;Five new builds&lt;/strong&gt; hit the case this week. Hold to spec, hold to portion, hold the swirl tight. The photos below are the bar — your bowl should leave the pass looking like the photo." data-es="&lt;strong&gt;Cinco nuevas recetas&lt;/strong&gt; entran a la vitrina esta semana. Cumple con la receta, cumple con la porción, mantén el swirl firme. Las fotos de abajo son el estándar — tu bowl debe salir del pase idéntico a la foto.">
+        <strong>Five new builds</strong> hit the case this week. Hold to spec, hold to portion,
+        hold the swirl tight. The photos below are the bar — your bowl should leave the pass
+        looking like the photo.
+      </p>
+    </div>
+    <div class="hero-stamp">
+      <div class="stamp-num">5</div>
+      <div class="stamp-label" data-en="New Builds" data-es="Recetas Nuevas">New Builds</div>
+    </div>
+  </div>
+
+  <!-- ─── Calibration callout ─── -->
+  <div class="callout" id="tw-callout">
+    <div class="callout-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 7v5l3 2"/>
+      </svg>
+    </div>
+    <div class="callout-body">
+      <div class="callout-tag" data-en="Heads-Up · Equipment" data-es="Aviso · Equipo">Heads-Up · Equipment</div>
+      <div class="callout-text" data-en="Soft-serve machines will be &lt;strong&gt;calibrated throughout the day&lt;/strong&gt; by &lt;span class=&quot;name&quot;&gt;Taylor&lt;/span&gt;. Expect short pauses on the line — coordinate orders accordingly and check consistency before each pour." data-es="Las máquinas de soft-serve serán &lt;strong&gt;calibradas durante todo el día&lt;/strong&gt; por &lt;span class=&quot;name&quot;&gt;Taylor&lt;/span&gt;. Habrá pausas cortas en la línea — coordina los pedidos y verifica la consistencia antes de cada servida.">
+        Soft-serve machines will be <strong>calibrated throughout the day</strong> by
+        <span class="name">Taylor</span>. Expect short pauses on the line —
+        coordinate orders accordingly and check consistency before each pour.
+      </div>
+    </div>
+    <div class="callout-day">
+      <div class="day" id="tw-day" data-en="Monday" data-es="Lunes">Monday</div>
+      <div class="when" data-en="All Day" data-es="Todo el día">All Day</div>
+    </div>
+  </div>
+
+  <!-- ─── Section rule ─── -->
+  <div class="section-rule">
+    <span class="section-rule-num">01 —</span>
+    <span class="section-rule-label" data-en="Build Boards" data-es="Tableros de Recetas">Build Boards</span>
+    <div class="section-rule-line"></div>
+  </div>
+
+  <!-- ─── Build grid (3 across, 2 rows = 5 cards + 1 notes block in last cell) ─── -->
+  <div class="builds">
+
+    <div class="build signature">
+      <img class="build-photo" src="assets/Plain-Kefi.jpg" alt="Plain Kefi" />
+      <div class="build-body">
+        <div class="build-cat" data-en="Base" data-es="Base">Base</div>
+        <div class="build-name" data-en="Plain &lt;span class=&quot;accent&quot;&gt;Kefi&lt;/span&gt;" data-es="Kefi &lt;span class=&quot;accent&quot;&gt;Natural&lt;/span&gt;">Plain <span class="accent">Kefi</span></div>
+        <div class="build-spec">
+          <div class="build-spec-label" data-en="Build · Per Cup" data-es="Receta · Por Vaso">Build · Per Cup</div>
+          <ol>
+            <li><span class="qty">8 oz</span><span class="ing" data-en="Kefi frozen base" data-es="Base helada Kefi">Kefi frozen base</span></li>
+            <li><span class="qty">—</span><span class="ing" data-en="No toppings · clean swirl" data-es="Sin toppings · swirl limpio">No toppings · clean swirl</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="build">
+      <img class="build-photo" src="assets/Straw-Banana.jpg" alt="Strawberry Banana Kefi" />
+      <div class="build-body">
+        <div class="build-cat" data-en="Classic" data-es="Clásico">Classic</div>
+        <div class="build-name" data-en="Strawberry &lt;span class=&quot;accent&quot;&gt;Banana&lt;/span&gt;" data-es="Fresa con &lt;span class=&quot;accent&quot;&gt;Plátano&lt;/span&gt;">Strawberry <span class="accent">Banana</span></div>
+        <div class="build-spec">
+          <div class="build-spec-label" data-en="Build · Per Cup" data-es="Receta · Por Vaso">Build · Per Cup</div>
+          <ol>
+            <li><span class="qty">8 oz</span><span class="ing" data-en="Kefi frozen base" data-es="Base helada Kefi">Kefi frozen base</span></li>
+            <li><span class="qty">½</span><span class="ing" data-en="Banana, sliced" data-es="Plátano, en rodajas">Banana, sliced</span></li>
+            <li><span class="qty">3 oz</span><span class="ing" data-en="Strawberries" data-es="Fresas">Strawberries</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="build">
+      <img class="build-photo" src="assets/Pina-Colada.jpg" alt="Piña Colada Kefi" />
+      <div class="build-body">
+        <div class="build-cat" data-en="Tropical" data-es="Tropical">Tropical</div>
+        <div class="build-name" data-en="Piña &lt;span class=&quot;accent&quot;&gt;Colada&lt;/span&gt;" data-es="Piña &lt;span class=&quot;accent&quot;&gt;Colada&lt;/span&gt;">Piña <span class="accent">Colada</span></div>
+        <div class="build-spec">
+          <div class="build-spec-label" data-en="Build · Per Cup" data-es="Receta · Por Vaso">Build · Per Cup</div>
+          <ol>
+            <li><span class="qty">8 oz</span><span class="ing" data-en="Kefi frozen base" data-es="Base helada Kefi">Kefi frozen base</span></li>
+            <li><span class="qty">2 oz</span><span class="ing" data-en="Diced pineapple" data-es="Piña en cubos">Diced pineapple</span></li>
+            <li><span class="qty">1 oz </span><span class="ing" data-en="Toasted coconut" data-es="Coco tostado">Toasted coconut</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="build">
+      <img class="build-photo" src="assets/Middle-East-Crunch.jpg" alt="Middle Eastern Crunch Kefi" />
+      <div class="build-body">
+        <div class="build-cat" data-en="Signature" data-es="Especial">Signature</div>
+        <div class="build-name" data-en="Middle Eastern &lt;span class=&quot;accent&quot;&gt;Crunch&lt;/span&gt;" data-es="Crunch &lt;span class=&quot;accent&quot;&gt;Medio Oriente&lt;/span&gt;">Middle Eastern <span class="accent">Crunch</span></div>
+        <div class="build-spec">
+          <div class="build-spec-label" data-en="Build · Per Cup" data-es="Receta · Por Vaso">Build · Per Cup</div>
+          <ol>
+            <li><span class="qty">8 oz</span><span class="ing" data-en="Kefi frozen base" data-es="Base helada Kefi">Kefi frozen base</span></li>
+            <li><span class="qty">1 oz </span><span class="ing" data-en="Honey tahini drizzle" data-es="Drizzle de tahini con miel">Honey tahini drizzle</span></li>
+            <li><span class="qty">1 oz </span><span class="ing" data-en="Crushed pistachio" data-es="Pistache molido">Crushed pistachio</span></li>
+            <li><span class="qty">½ oz</span><span class="ing" data-en="Black &amp;amp; white sesame" data-es="Ajonjolí negro y blanco">Black &amp; white sesame</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="build">
+      <img class="build-photo" src="assets/Plain-and-Acia.jpg" alt="Plain and Acai Swirl Kefi" />
+      <div class="build-body">
+        <div class="build-cat" data-en="Swirl" data-es="Swirl">Swirl</div>
+        <div class="build-name" data-en="Plain &amp;amp; &lt;span class=&quot;accent&quot;&gt;Açaí Swirl&lt;/span&gt;" data-es="Natural y &lt;span class=&quot;accent&quot;&gt;Swirl de Açaí&lt;/span&gt;">Plain &amp; <span class="accent">Açaí Swirl</span></div>
+        <div class="build-spec">
+          <div class="build-spec-label" data-en="Build · Per Cup" data-es="Receta · Por Vaso">Build · Per Cup</div>
+          <ol>
+            <li><span class="qty">8 oz</span><span class="ing" data-en="Kefi &amp;amp; açaí, swirled" data-es="Kefi y açaí, en swirl">Kefi &amp; açaí, swirled</span></li>
+            <li><span class="qty">½</span><span class="ing" data-en="Banana" data-es="Plátano">Banana</span></li>
+            <li><span class="qty">5 sl</span><span class="ing" data-en="Strawberry slices" data-es="Rodajas de fresa">Strawberry slices</span></li>
+            <li><span class="qty">6–8</span><span class="ing" data-en="Blueberries" data-es="Arándanos">Blueberries</span></li>
+            <li><span class="qty">2 oz</span><span class="ing" data-en="Granola" data-es="Granola">Granola</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6th cell — line standards -->
+    <div class="build" style="background: var(--cream-dk); border-style: dashed;">
+      <div class="build-body" style="justify-content: space-between; padding: 16px 16px 14px;">
+        <div>
+          <div class="build-cat" style="color: var(--ink);" data-en="Line Standards" data-es="Estándares de Línea">Line Standards</div>
+          <div class="build-name" style="font-size: 16px; line-height: 1.1; margin-bottom: 10px;" data-en="&lt;span class=&quot;accent&quot;&gt;House rules&lt;/span&gt; for every cup." data-es="&lt;span class=&quot;accent&quot;&gt;Reglas de la casa&lt;/span&gt; para cada vaso.">
+            <span class="accent">House rules</span> for every cup.
+          </div>
+        </div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 7px; font-size: 11.5px; color: var(--ink-lt); line-height: 1.35;">
+          <li style="display:grid; grid-template-columns: 14px 1fr; gap: 8px;">
+            <span style="color: var(--coral); font-weight: 700;">→</span>
+            <span data-en="&lt;strong&gt;Swirl tight&lt;/strong&gt; — peak above the rim, no sag." data-es="&lt;strong&gt;Swirl firme&lt;/strong&gt; — punta sobre el borde, sin caer."><strong>Swirl tight</strong> — peak above the rim, no sag.</span>
+          </li>
+          <li style="display:grid; grid-template-columns: 14px 1fr; gap: 8px;">
+            <span style="color: var(--coral); font-weight: 700;">→</span>
+            <span data-en="&lt;strong&gt;Toppings on top.&lt;/strong&gt; Layer in the order listed." data-es="&lt;strong&gt;Toppings encima.&lt;/strong&gt; Coloca en el orden indicado."><strong>Toppings on top.</strong> Layer in the order listed.</span>
+          </li>
+          <li style="display:grid; grid-template-columns: 14px 1fr; gap: 8px;">
+            <span style="color: var(--coral); font-weight: 700;">→</span>
+            <span data-en="&lt;strong&gt;Drizzle last&lt;/strong&gt; — finish with sesame for crunch." data-es="&lt;strong&gt;Drizzle al final&lt;/strong&gt; — termina con ajonjolí para el crunch."><strong>Drizzle last</strong> — finish with sesame for crunch.</span>
+          </li>
+          <li style="display:grid; grid-template-columns: 14px 1fr; gap: 8px;">
+            <span style="color: var(--coral); font-weight: 700;">→</span>
+            <span data-en="&lt;strong&gt;Weigh fruit&lt;/strong&gt; on the prep scale, not by eye." data-es="&lt;strong&gt;Pesa la fruta&lt;/strong&gt; en la báscula, no a ojo."><strong>Weigh fruit</strong> on the prep scale, not by eye.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── Notes strip ─── -->
+  <div class="notes">
+    <div class="note">
+      <div class="note-label" data-en="Cup &amp;amp; Lid" data-es="Vaso y Tapa">Cup &amp; Lid</div>
+      <div class="note-text" data-en="Branded &lt;strong&gt;Kefi 8 oz&lt;/strong&gt; cup only. No clear cups, no swaps. Lid in bag for to-go." data-es="Solo vaso de marca &lt;strong&gt;Kefi de 8 oz&lt;/strong&gt;. No vasos transparentes, sin cambios. Tapa en la bolsa para llevar.">Branded <strong>Kefi 8 oz</strong> cup only. No clear cups, no swaps. Lid in bag for to-go.</div>
+    </div>
+    <div class="note">
+      <div class="note-label" data-en="Hold &amp;amp; Serve" data-es="Pase y Servicio">Hold &amp; Serve</div>
+      <div class="note-text" data-en="Pour-to-pass under &lt;strong&gt;90 seconds&lt;/strong&gt;. If swirl drops, re-pour — do not patch with toppings." data-es="Del servido al pase en menos de &lt;strong&gt;90 segundos&lt;/strong&gt;. Si el swirl cae, vuelve a servir — no lo cubras con toppings.">Pour-to-pass under <strong>90 seconds</strong>. If swirl drops, re-pour — do not patch with toppings.</div>
+    </div>
+    <div class="note">
+      <div class="note-label" data-en="Questions?" data-es="¿Preguntas?">Questions?</div>
+      <div class="note-text" data-en="Flag your &lt;strong&gt;Shift Lead&lt;/strong&gt;. Calibration questions Monday → &lt;strong&gt;Taylor&lt;/strong&gt;." data-es="Avisa a tu &lt;strong&gt;Shift Lead&lt;/strong&gt;. Dudas de calibración el lunes → &lt;strong&gt;Taylor&lt;/strong&gt;.">Flag your <strong>Shift Lead</strong>. Calibration questions Monday → <strong>Taylor</strong>.</div>
+    </div>
+  </div>
+
+  <!-- ─── Footer ─── -->
+  <footer class="foot">
+    <div data-en="Pressed Cafe &lt;span class=&quot;star&quot;&gt;★&lt;/span&gt; Food &lt;span class=&quot;star&quot;&gt;★&lt;/span&gt; Love &lt;span class=&quot;star&quot;&gt;★&lt;/span&gt; Community" data-es="Pressed Cafe &lt;span class=&quot;star&quot;&gt;★&lt;/span&gt; Comida &lt;span class=&quot;star&quot;&gt;★&lt;/span&gt; Amor &lt;span class=&quot;star&quot;&gt;★&lt;/span&gt; Comunidad">Pressed Cafe <span class="star">★</span> Food <span class="star">★</span> Love <span class="star">★</span> Community</div>
+    <div data-en="Internal · Not for Guest Distribution · Page 1 of 1" data-es="Uso Interno · No Distribuir a Clientes · Página 1 de 1">Internal · Not for Guest Distribution · Page 1 of 1</div>
+  </footer>
+
+</div>
+
+<!-- Tweaks mount -->
+<div id="tweaks-root"></div>
+
+<!-- ─── Language toggle ─── -->
+<script>
+  (function () {
+    var STORAGE_KEY = 'kefi-lang';
+    function applyLang(lang) {
+      var nodes = document.querySelectorAll('[data-en][data-es]');
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        var val = node.getAttribute('data-' + lang);
+        if (val != null) node.innerHTML = val;
+      }
+      var en = document.getElementById('lang-en');
+      var es = document.getElementById('lang-es');
+      if (en) en.classList.toggle('active', lang === 'en');
+      if (es) es.classList.toggle('active', lang === 'es');
+      document.documentElement.setAttribute('lang', lang);
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+      // Notify Tweaks panel that DOM was rewritten — let it re-apply
+      window.dispatchEvent(new CustomEvent('kefi-lang-change', { detail: { lang: lang } }));
+    }
+    window.setLang = applyLang;
+    // Initialize from URL ?lang=es, then localStorage, then default en
+    var params = new URLSearchParams(window.location.search);
+    var initial = params.get('lang') || (function () {
+      try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+    })() || 'en';
+    if (initial !== 'en' && initial !== 'es') initial = 'en';
+    applyLang(initial);
+  })();
+</script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const KEFI_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "eyebrow": "Greek Frozen Yogurt \u2022 Store Rollout",
+    "title_line1": "Kefi is",
+    "title_line2": "on the line.",
+    "deck": "Five new builds hit the case this week. Hold to spec, hold to portion, hold the swirl tight. The photos below are the bar \u2014 your bowl should leave the pass looking like the photo.",
+    "effective": "Mon \u00b7 May 4, 2026",
+    "bulletinId": "OPS-26-K01",
+    "showCallout": true,
+    "calloutDay": "Monday"
+  }/*EDITMODE-END*/;
+
+  function KefiTweaks() {
+    const [tweaks, setTweak] = window.useTweaks(KEFI_TWEAK_DEFAULTS);
+
+    // Apply tweaks to DOM
+    React.useEffect(() => {
+      const eyebrow = document.getElementById('tw-eyebrow');
+      if (eyebrow) {
+        // Preserve the dot separator
+        const parts = tweaks.eyebrow.split(/\s*[\u2022\u00b7]\s*/);
+        if (parts.length === 2) {
+          eyebrow.innerHTML = parts[0] + ' <span class="dot"></span> ' + parts[1];
+        } else {
+          eyebrow.textContent = tweaks.eyebrow;
+        }
+      }
+      const title = document.getElementById('tw-title');
+      if (title) {
+        // Detect 'is' or last word for italic accent
+        const l1 = tweaks.title_line1;
+        const m = l1.match(/^(.*?)\s+(\S+)$/);
+        if (m) {
+          title.innerHTML = m[1] + ' <em>' + m[2] + '</em><br/>' + tweaks.title_line2;
+        } else {
+          title.innerHTML = l1 + '<br/>' + tweaks.title_line2;
+        }
+      }
+      const deck = document.getElementById('tw-deck');
+      if (deck) {
+        // Bold the first phrase up to the first period or em-dash if it starts with a count-like phrase
+        const text = tweaks.deck;
+        const m2 = text.match(/^([A-Z][^.\u2014]*?(builds?|items?|flavors?|specs?))\b/);
+        if (m2) {
+          deck.innerHTML = '<strong>' + m2[1] + '</strong>' + text.slice(m2[1].length);
+        } else {
+          deck.textContent = text;
+        }
+      }
+      const eff = document.getElementById('tw-effective');
+      if (eff) eff.innerHTML = 'Effective <span class="doc-id">' + tweaks.effective.replace(/ /g, '\u00a0') + '</span>';
+      const callout = document.getElementById('tw-callout');
+      if (callout) callout.style.display = tweaks.showCallout ? '' : 'none';
+      const day = document.getElementById('tw-day');
+      if (day) day.textContent = tweaks.calloutDay;
+    }, [tweaks]);
+
+    const { TweaksPanel, TweakSection, TweakText, TweakToggle } = window;
+    const deckTextareaStyle = {
+      width: '100%',
+      minHeight: 88,
+      padding: '6px 8px',
+      fontFamily: 'inherit',
+      fontSize: 11.5,
+      border: '0.5px solid rgba(0,0,0,0.15)',
+      borderRadius: 6,
+      background: 'rgba(255,255,255,0.6)',
+      color: '#29261b',
+      resize: 'vertical',
+      boxSizing: 'border-box',
+    };
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Header copy">
+          <TweakText label="Eyebrow" value={tweaks.eyebrow} onChange={v => setTweak('eyebrow', v)} />
+          <TweakText label="Title — line 1" value={tweaks.title_line1} onChange={v => setTweak('title_line1', v)} />
+          <TweakText label="Title — line 2" value={tweaks.title_line2} onChange={v => setTweak('title_line2', v)} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 4 }}>
+            <label style={{ fontSize: 10.5, fontWeight: 600, color: 'rgba(41,38,27,0.7)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Deck (intro paragraph)</label>
+            <textarea
+              style={deckTextareaStyle}
+              value={tweaks.deck}
+              onChange={e => setTweak('deck', e.target.value)}
+            />
+          </div>
+        </TweakSection>
+        <TweakSection label="Masthead">
+          <TweakText label="Effective date" value={tweaks.effective} onChange={v => setTweak('effective', v)} />
+        </TweakSection>
+        <TweakSection label="Calibration callout">
+          <TweakToggle label="Show callout" value={tweaks.showCallout} onChange={v => setTweak('showCallout', v)} />
+          <TweakText label="Day label" value={tweaks.calloutDay} onChange={v => setTweak('calloutDay', v)} />
+        </TweakSection>
+      </TweaksPanel>
+    );
+  }
+
+  // Mount once tweaks-panel.jsx has registered globals
+  function mountTweaks() {
+    if (!window.useTweaks || !window.TweaksPanel) {
+      return setTimeout(mountTweaks, 50);
+    }
+    const root = ReactDOM.createRoot(document.getElementById('tweaks-root'));
+    root.render(<KefiTweaks />);
+  }
+  mountTweaks();
+</script>
+
+<!-- Print toolbar (screen only) -->
+<div class="toolbar">
+  <button class="tb-btn" onclick="window.print()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 6 2 18 2 18 9"/>
+      <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+      <rect x="6" y="14" width="12" height="8"/>
+    </svg>
+    Print / Save PDF
+  </button>
+</div>
+
+</body>
+</html>
