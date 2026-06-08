@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pressed Cafe — Summer 2026 Beverage Training</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream:    #f5f0e8;
+      --cream-dk: #ede6d6;
+      --ink:      #1a1a18;
+      --ink-lt:   #3d3d38;
+      --coral:    #c94f37;
+      --coral-lt: #e06b52;
+      --tan:      #b8a98a;
+      --green:    #4a7c59;
+      --border:   rgba(26,26,24,0.12);
+      --radius:   8px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      background-size: 200px 200px; pointer-events: none; z-index: 0;
+    }
+
+    header {
+      position: relative; z-index: 1; background: var(--cream-dk); padding: 0 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 90px; border-bottom: 3px solid var(--coral);
+      box-shadow: 0 2px 12px rgba(26,26,24,0.08);
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 20px; }
+    .logo-img { height: 64px; width: auto; }
+    .header-divider { width: 1px; height: 40px; background: var(--border); }
+    .header-label { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tan); }
+
+    .hero { position: relative; z-index: 1; background: var(--ink); padding: 32px 48px; }
+    .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); margin-bottom: 8px; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 900; line-height: 1; color: #fff; }
+    .hero-title span { color: var(--coral); }
+    .hero-sub { font-size: 13px; font-weight: 300; color: var(--tan); margin-top: 10px; letter-spacing: 0.04em; }
+
+    .announcement {
+      position: relative; z-index: 1; background: #fff;
+      border-bottom: 1px solid var(--border); padding: 20px 48px;
+      display: flex; gap: 40px; flex-wrap: wrap;
+    }
+    .ann-block { flex: 1; min-width: 240px; }
+    .ann-label { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--coral); margin-bottom: 8px; }
+    .ann-text { font-size: 13px; color: var(--ink-lt); line-height: 1.7; }
+    .ann-text ul { padding-left: 16px; }
+    .ann-text li { margin-bottom: 3px; }
+    .flavors-list { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.9; }
+    .flavor-new { color: var(--coral); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; vertical-align: middle; margin-left: 3px; }
+    .flavor-note { font-size: 12px; font-weight: 300; color: var(--tan); display: block; margin-top: 4px; }
+
+    .breadcrumb-bar {
+      position: relative; z-index: 1; background: var(--cream-dk);
+      padding: 10px 48px; border-bottom: 1px solid var(--border);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--tan); display: flex; align-items: center; gap: 8px;
+    }
+    .breadcrumb-bar span.active { color: var(--ink); }
+
+    /* Section tabs */
+    .section-tabs {
+      position: relative; z-index: 1; background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex; gap: 0;
+    }
+    .tab-btn {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 14px 20px; cursor: pointer; border: none; background: none;
+      color: var(--tan); border-bottom: 3px solid transparent; margin-bottom: -1px;
+      transition: color 0.15s, border-color 0.15s; font-family: 'Source Sans 3', sans-serif;
+    }
+    .tab-btn:hover { color: var(--ink); }
+    .tab-btn.active { color: var(--coral); border-bottom-color: var(--coral); }
+
+    main { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 48px 80px; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .section-rule { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+    .section-rule-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tan); white-space: nowrap; }
+    .section-rule-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* Cards grid — align-items:start prevents height stretching */
+    .bev-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; align-items: start; }
+
+    .bev-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      display: flex; flex-direction: column; overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      animation: fadeUp 0.35s ease both;
+    }
+    .bev-card:hover { border-color: rgba(201,79,55,0.3); box-shadow: 0 8px 28px rgba(26,26,24,0.1); transform: translateY(-2px); }
+
+    /* Media */
+    .card-media {
+      width: 100%; aspect-ratio: 4/3; background: var(--ink);
+      position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card-media .media-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.25); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .card-media .media-placeholder svg { width: 32px; height: 32px; opacity: 0.3; }
+    .play-overlay {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: rgba(26,26,24,0.35); opacity: 0; transition: opacity 0.2s; cursor: pointer;
+    }
+    .card-media:hover .play-overlay { opacity: 1; }
+    .play-circle { width: 52px; height: 52px; border-radius: 50%; background: var(--coral); display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+    .play-circle:hover { transform: scale(1.1); }
+    .play-circle svg { width: 20px; height: 20px; margin-left: 3px; }
+    .card-badge {
+      position: absolute; top: 10px; left: 10px;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 4px; z-index: 2;
+    }
+    .badge-new { background: var(--coral); color: #fff; }
+    .badge-returning { background: var(--ink); color: #fff; }
+    .badge-peach { background: #d4843a; color: #fff; }
+    .badge-prep { background: var(--green); color: #fff; }
+
+    /* Card header */
+    .card-header { padding: 18px 20px 12px; border-bottom: 1px solid var(--border); }
+    .card-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; line-height: 1.2; color: var(--ink); margin-bottom: 6px; }
+    .card-size { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tan); margin-bottom: 6px; }
+    .card-desc { font-size: 13px; font-weight: 300; color: var(--ink-lt); line-height: 1.65; margin-bottom: 10px; }
+    .card-allergy {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 20px;
+    }
+    .allergy-none { background: rgba(74,124,89,0.1); color: var(--green); border: 1px solid rgba(74,124,89,0.25); }
+    .allergy-warn { background: rgba(201,79,55,0.08); color: var(--coral); border: 1px solid rgba(201,79,55,0.2); }
+
+    /* Build section */
+    .card-build { padding: 18px 20px 18px; background: var(--cream); }
+    .build-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .build-title { display: flex; align-items: center; gap: 8px; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--ink); }
+    .glass-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--ink-lt); background: #fff; white-space: nowrap; }
+    .build-divider { height: 1px; background: var(--border); margin-bottom: 14px; }
+    .build-steps { display: flex; flex-direction: column; gap: 10px; }
+    .build-step { display: flex; align-items: flex-start; gap: 12px; }
+    .step-num { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+    .step-text { font-size: 13.5px; color: var(--ink); line-height: 1.5; padding-top: 4px; }
+    .step-text .qty { color: var(--coral); font-weight: 600; }
+    .step-sub { font-size: 12px; color: var(--tan); font-style: italic; display: block; margin-top: 2px; }
+    .build-garnish-label { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tan); margin: 14px 0 8px; }
+    .garnish-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .garnish-tag { font-size: 12px; color: var(--ink); padding: 4px 12px; border: 1px solid var(--border); border-radius: 20px; background: #fff; }
+
+    /* Notes */
+    .card-notes { padding: 12px 20px 18px; background: rgba(201,79,55,0.04); border-top: 1px solid var(--border); }
+    .card-notes-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--coral); margin-bottom: 6px; }
+    .card-notes p { font-size: 12.5px; color: var(--ink-lt); line-height: 1.65; margin-bottom: 4px; }
+    .card-notes p:last-child { margin-bottom: 0; }
+
+    /* Footer */
+    .card-footer { display: flex; align-items: center; gap: 8px; padding: 12px 20px 14px; flex-wrap: wrap; border-top: 1px solid var(--border); }
+    .action-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; padding: 6px 12px; border-radius: 5px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .action-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+    .btn-video { background: var(--ink); border: 1px solid var(--ink); color: #fff; }
+    .btn-video:hover { background: var(--ink-lt); }
+    .btn-quiz { background: var(--coral); border: 1px solid var(--coral); color: #fff; }
+    .btn-quiz:hover { background: var(--coral-lt); }
+    .btn-placeholder { opacity: 0.4; cursor: default; pointer-events: none; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    footer { position: relative; z-index: 1; text-align: center; padding: 24px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tan); border-top: 1px solid var(--border); }
+
+    @media (max-width: 700px) {
+      header { padding: 0 20px; height: 72px; }
+      .hero, .announcement, main { padding-left: 20px; padding-right: 20px; }
+      .breadcrumb-bar, .section-tabs { padding-left: 20px; padding-right: 20px; }
+      .hero-title { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <img class="logo-img" src="logo.jpg" alt="Pressed Cafe" />
+    <div class="header-divider"></div>
+    <div class="header-label">Training Portal</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Summer 2026 &bull; June 23 – August 21</div>
+  <div class="hero-title">Summer <span>Beverage</span> Training</div>
+  <div class="hero-sub">New builds &bull; Summer flavors &bull; Seasonal menu updates</div>
+</div>
+
+<div class="announcement">
+  <div class="ann-block">
+    <div class="ann-label">2026 Summer Flavors</div>
+    <div class="flavors-list">
+      Blackberry Puree <span class="flavor-new">New!</span><br>
+      Salted Rum Vanilla <span class="flavor-new">New!</span><br>
+      Yuzu Pineapple &bull; Coconut Puree<br>
+      Peach Puree <span class="flavor-new" style="color:var(--tan)">End of Summer Only</span>
+    </div>
+    <span class="flavor-note">Can be added to: Lattes, Coffees, Teas, Flash, Cold Foams, etc.</span>
+  </div>
+  <div class="ann-block">
+    <div class="ann-label">86'd Spring Menu</div>
+    <div class="ann-text">
+      <ul>
+        <li>All spring flavors: Grapefruit, Strawberry Puree, Ube</li>
+        <li>All spring barista specials <strong>except Americoco</strong></li>
+        <li>Spring Forward Juice & Goodbelly Sunshine</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="breadcrumb-bar">
+  <span>Training Portal</span>
+  <span>/</span>
+  <span class="active">Summer Beverages 2026</span>
+</div>
+
+<div class="section-tabs">
+  <button class="tab-btn active" onclick="switchTab('barista')">Summer Barista</button>
+  <button class="tab-btn" onclick="switchTab('prep')">Prep Recipes</button>
+</div>
+
+<main>
+  <div class="tab-panel active" id="tab-barista">
+    <div class="section-rule">
+      <div class="section-rule-label">New Summer Barista Drinks</div>
+      <div class="section-rule-line"></div>
+    </div>
+    <div class="bev-grid" id="grid-barista"></div>
+  </div>
+
+
+  <div class="tab-panel" id="tab-prep">
+    <div class="section-rule">
+      <div class="section-rule-label">Prep Recipes</div>
+      <div class="section-rule-line"></div>
+    </div>
+    <div class="bev-grid" id="grid-prep"></div>
+  </div>
+</main>
+
+<footer>&copy; Pressed Cafe &nbsp;&bull;&nbsp; Training Portal &nbsp;&bull;&nbsp; For internal use only</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+//  PASTE YOUR LINKS BELOW — same workflow as index.html
+//
+//  For each beverage, fill in:
+//    video : URL to the training video (SharePoint stream link)
+//    quiz  : URL to the Microsoft Forms quiz
+//
+//  Leave "PASTE_..._URL_HERE" as-is until links are ready.
+//  Buttons will only appear once a URL is filled in.
+// ═══════════════════════════════════════════════════════════════════
+
+// ── SUMMER BARISTA ────────────────────────────────────────────────
+var BARISTA = [
+  {
+    name: "Blackberry Lemon-Cheesecake Matcha",
+    badge: "New!", badgeClass: "badge-new",
+    size: "Iced Only &bull; Small / Medium",
+    allergy: "⚠ Tree Nut · Dairy · Gluten", allergyClass: "allergy-warn",
+    desc: "A layered blackberry vanilla matcha finished with house lemon cheesecake foam, graham cracker crumble, and bright lemon zest.",
+    steps: [
+      { qty: "1–2 pumps", text: "Blackberry Puree" },
+      { qty: "1–2 pumps", text: "Vanilla syrup" },
+      { qty: "",          text: "Add Almond Milk to the bar line" },
+      { qty: "2–3 oz",    text: "Matcha" },
+      { qty: "",          text: "Stir all ingredients together" },
+      { qty: "",          text: "Add ice with room for foam" },
+      { qty: "4–5 oz",    text: "Lemon Cheesecake Cold Foam (Sm/Md)", sub: "Measure foam, blend with 1/2 tbsp graham crackers for 10 seconds, then top" },
+    ],
+    garnish: ["Fresh lemon zest", "2 blackberries", "Sip lid"],
+    notes: [
+      "Remove graham crackers for gluten-free. Sub almond milk for tree-nut free. Cannot be made dairy-free.",
+      "Lemon Cheesecake Foam: made at commissary with heavy cream, skim milk, mascarpone, lemon & salted vanilla syrup."
+    ],
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/BlackberryLemonCheesecakeMatcha.jpg", imagePosition: "center 65%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=72c0ef2d-65df-4b8c-915c-9b261ee9dbc0&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUNU04R1Y1MVNQTUhaOFBZWEo0WjUwRVJZMi4u"
+  },
+  {
+    name: "Salted Rum Vanilla Latte",
+    badge: "New!", badgeClass: "badge-new",
+    size: "Iced or Hot &bull; Small / Medium",
+    allergy: "No Allergies", allergyClass: "allergy-none",
+    desc: "House salted rum-vanilla syrup, espresso, and milk with notes of vanilla bean, caramel, and warm baking spice. Finished with fresh orange zest and Sichuan-spiced sugar.",
+    steps: [
+      { qty: "3–5 pumps", text: "Salted Rum Vanilla Syrup (Sm / Md / Lg)" },
+      { qty: "",          text: "If iced: measure milk to bar line, add espresso, then ice" },
+      { qty: "",          text: "If hot: steam and pour milk, add espresso" },
+    ],
+    garnish: ["Chinese 5-spice dusting", "Fresh orange zest"],
+    notes: [
+      "Salted Rum Vanilla syrup: made at commissary with white & brown sugar, water, sea salt, vanilla bean paste, and rum (alcohol removed). Dairy/tree-nut free.",
+      "Sichuan-spiced sugar: primarily granulated sugar blended with toasted Sichuan pepper — adds subtle warmth and complexity."
+    ],
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/SaltedRumVanillaLatte.jpg", imagePosition: "center 75%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=4c2d1064-daa9-469d-a2e9-ac8ec03d8c96&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUMThNSktQTENYVDVQOVFZQkdKRE5SNDNWNi4u"
+  },
+  {
+    name: "Cafe Horchata",
+    badge: "Returning", badgeClass: "badge-returning",
+    size: "Iced Only &bull; All Sizes",
+    allergy: "⚠ Dairy", allergyClass: "allergy-warn",
+    desc: "Our house horchata paired with your choice of iced coffee, cold brew, or matcha, topped with a fresh dusting of cinnamon.",
+    steps: [
+      { qty: "",  text: "If iced: measure horchata to bar line" },
+      { qty: "",  text: "Add espresso / cold brew / matcha" },
+      { qty: "",  text: "Add ice" },
+      { qty: "",  text: "If hot: steam horchata milk, pour into cup with espresso" },
+    ],
+    garnish: ["Cinnamon dusting"],
+    notes: [
+      "There are NO milk substitutes, mods, or additions for the horchata — the horchata IS the milk for this beverage.",
+      "Although made mostly with oat & rice milk, it cannot be made 100% dairy-free."
+    ],
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/CafeHorchata.jpg", imagePosition: "center 75%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=4a67ae97-634d-485f-9971-8c36b758f2a6&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUQ1Y4NlZWRFY3UVVVRDNHSjNBWDRDSVlCRi4u"
+  },
+  {
+    name: "Summer Blackberry Hibiscus Refresher",
+    badge: "New!", badgeClass: "badge-new",
+    size: "Iced Only &bull; Small / Medium",
+    allergy: "No Allergies", allergyClass: "allergy-none",
+    desc: "A vibrant blend of sangria hibiscus tea, coconut water, watermelon agua fresca, lime, blackberry puree, and fresh basil — topped with your choice of a lemonade or coconut milk float.",
+    steps: [
+      { qty: "2–3 pumps", text: "Blackberry Puree (Sm / Md)" },
+      { qty: "",          text: "Add Summer Refresher Mix to top of bean line" },
+      { qty: "",          text: "Stir all ingredients to combine" },
+      { qty: "",          text: "Add ice with room for float" },
+      { qty: "1–2 oz",    text: "Guest's choice float: Lemonade or Coconut Milk (Sm / Md)", sub: "Float on top" },
+    ],
+    garnish: ["1–2 full stems of basil", "2–3 fresh blackberries", "Dehydrated lime"],
+    notes: [
+      "Refresher mix cannot be modified — barista preps this daily. See Prep Recipes tab for the mix recipe.",
+      "This refresher is caffeine-free!"
+    ],
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/BlackberryHibiscusRefresher.jpg", imagePosition: "center 70%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=620452ba-faff-4d13-906b-9cf9fca8e549&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUOUhGSVIyVDZKWEtMM0NVT1JSRlcyUktIVC4u"
+  },
+  {
+    name: "Hibiscus Sangria Tea",
+    badge: "New!", badgeClass: "badge-new",
+    size: "Iced Only &bull; All Sizes",
+    allergy: "No Allergies", allergyClass: "allergy-none",
+    desc: "Inspired by traditional Spanish sangria — a caffeine-free herbal blend of premium Nigerian hibiscus flowers with fruity natural flavors. Our first and only caffeine-free iced tea!",
+    steps: [
+      { qty: "", text: "Pour hibiscus sangria tea over ice" },
+      { qty: "", text: "Naturally unsweetened — guest can modify with flavor syrups, fresh mint, and/or citrus" },
+    ],
+    garnish: [],
+    notes: [
+      "Completely caffeine-free.",
+      "Health benefits: Rich in antioxidants, supports heart health, and may help lower blood pressure."
+    ],
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/HibiscusSangriaTea.jpg", imagePosition: "center 70%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=4c2da50f-df60-4494-9975-254a5c23000d&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZURDRXMUU3OFo0Rk4wSFNBRFJOV1IyQlhPMS4u"
+  },
+  {
+    name: "Piña-Coquito Flash",
+    badge: "Returning", badgeClass: "badge-returning",
+    size: "Iced Only &bull; All Sizes",
+    allergy: "No Allergies", allergyClass: "allergy-none",
+    desc: "Our signature summer flash — a refreshing blend of Coconut Puree and Yuzu Pineapple with fresh-squeezed lime juice and mint.",
+    steps: [
+      { qty: "2 / 3 / 4 pumps", text: "Monin Brilliance (Sm / Md / Lg)" },
+      { qty: "",                 text: "Add Coconut Puree + Yuzu Pineapple:", sub: "Sm: 2 Pine / 1 Coco  |  Md: 2 Pine / 2 Coco  |  Lg: 3 Pine / 2 Coco" },
+      { qty: "1/2 lime (Sm/Md) or 1 lime (Lg)", text: "Fresh-pressed lime juice" },
+      { qty: "",                 text: "Fill with soda water to top of bean line" },
+      { qty: "",                 text: "Stir ingredients" },
+      { qty: "",                 text: "Ice beverage" },
+    ],
+    garnish: ["1–3 stems fresh mint (Sm / Md / Lg)", "1 tbsp diced pineapple", "1 tbsp shredded coconut"],
+    notes: [
+      "Flash can be modified: less sweet, light ice, etc."
+    ],
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/PinaCoquitoFlash.jpg", imagePosition: "center 45%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=633a6b87-853f-4f20-b79d-ad068199ed23&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUNklINzY2MzFYRUVBWlM2REhWSEZMTVdUTS4u"
+  },
+  {
+    name: "Peach Aura Smoothie",
+    badge: "New!", badgeClass: "badge-new",
+    size: "One Size",
+    allergy: "⚠ Dairy (Non-Fat Fro Yo)", allergyClass: "allergy-warn",
+    desc: "A tropical peach-coconut smoothie with blue spirulina, collagen, and a creamy peach kefir yogurt swirl.",
+    steps: [
+      { qty: "", text: "Blend peach, coconut, kefir yogurt, blue spirulina & collagen per recipe" },
+      { qty: "", text: "Pour into cup" },
+    ],
+    garnish: [],
+    notes: [
+      "Not available in kids' size.",
+      "Included supplements: Collagen & Blue Spirulina.",
+      "Blue Spirulina: antioxidant & anti-inflammatory, heart health, immune support.",
+      "Collagen: improves skin, joint & cartilage health, aids muscle recovery & bone strength.",
+      "Can remove upon request: peaches, kefir, spirulina, and/or collagen."
+    ],
+    video: "PASTE_VIDEO_URL_HERE",
+    quiz:  "PASTE_QUIZ_URL_HERE"
+  }
+];
+
+// ── PREP RECIPES ─────────────────────────────────────────────────
+var PREP = [
+  {
+    name: "Summer Refresher Mix",
+    badge: "", badgeClass: "",
+    size: "Large 4 Qt Pitcher",
+    allergy: "No Allergies", allergyClass: "allergy-none",
+    desc: "The base mix used for the Summer Blackberry Hibiscus Refresher. Prep daily.",
+    steps: [
+      { qty: "32 oz (1 qt)", text: "Watermelon Agua Fresca" },
+      { qty: "24 oz",        text: "Hibiscus Sangria Tea" },
+      { qty: "24 oz",        text: "Coconut Water" },
+      { qty: "4 oz",         text: "Lime Juice" },
+      { qty: "",             text: "Stir all ingredients together" },
+    ],
+    garnish: [],
+    notes: [
+      "Use within 3 days of prepared date.",
+      "Yields approximately 8 servings."
+    ],
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=2b450999-0a8c-4dec-87f8-35b2384b39ce&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUODlJOVYzMDVKVFM1Mk83SDA0S09RUk5DUi4u",
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/BlackberryHibiscusRefresher.jpg",
+    imagePosition: "center 70%"
+  }
+];
+
+// ═══════════════════════════════════════════════════════════════════
+//  END OF EDITABLE DATA — do not edit below this line
+// ═══════════════════════════════════════════════════════════════════
+
+function buildGrid(data, gridId) {
+  var grid = document.getElementById(gridId);
+
+  data.forEach(function(c) {
+    var card = document.createElement('div');
+    card.className = 'bev-card';
+
+    var hasImage = c.image && c.image !== 'PASTE_IMAGE_URL_HERE';
+    var hasVideo = c.video && c.video !== 'PASTE_VIDEO_URL_HERE';
+    var hasQuiz  = c.quiz  && c.quiz  !== 'PASTE_QUIZ_URL_HERE';
+
+    // Media
+    var mediaHtml;
+    if (hasImage) {
+      mediaHtml =
+        '<div class="card-media"' + (hasVideo ? ' onclick="window.open(\'' + c.video + '\',\'_blank\')" style="cursor:pointer"' : '') + '>' +
+          '<img src="' + c.image + '" alt="' + c.name + '" style="object-position:' + (c.imagePosition || 'center center') + '" />' +
+          (hasVideo ? '<div class="play-overlay"><div class="play-circle"><svg viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5,3 19,12 5,21"/></svg></div></div>' : '') +
+          (c.badge ? '<span class="card-badge ' + c.badgeClass + '">' + c.badge + '</span>' : '') +
+        '</div>';
+    } else {
+      mediaHtml =
+        '<div class="card-media"' + (hasVideo ? ' onclick="window.open(\'' + c.video + '\',\'_blank\')" style="cursor:pointer"' : '') + '>' +
+          '<div class="media-placeholder">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+            '<span>Image coming soon</span>' +
+          '</div>' +
+          (hasVideo ? '<div class="play-overlay"><div class="play-circle"><svg viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5,3 19,12 5,21"/></svg></div></div>' : '') +
+          (c.badge ? '<span class="card-badge ' + c.badgeClass + '">' + c.badge + '</span>' : '') +
+        '</div>';
+    }
+
+    // Steps
+    var stepsHtml = '';
+    c.steps.forEach(function(step, i) {
+      var textHtml = step.qty ? '<span class="qty">' + step.qty + '</span> ' + step.text : step.text;
+      var subHtml  = step.sub ? '<span class="step-sub">' + step.sub + '</span>' : '';
+      stepsHtml += '<div class="build-step"><div class="step-num">' + (i + 1) + '</div><div class="step-text">' + textHtml + subHtml + '</div></div>';
+    });
+
+    // Garnish
+    var garnishHtml = '';
+    if (c.garnish && c.garnish.length) {
+      garnishHtml = '<div class="build-garnish-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M12 22C12 22 3 16 3 9a9 9 0 0 1 18 0c0 7-9 13-9 13z"/></svg>Garnish</div><div class="garnish-tags">';
+      c.garnish.forEach(function(g) { garnishHtml += '<span class="garnish-tag">' + g + '</span>'; });
+      garnishHtml += '</div>';
+    }
+
+    // Notes
+    var notesHtml = '';
+    if (c.notes && c.notes.length) {
+      notesHtml = '<div class="card-notes"><div class="card-notes-label">Barista Notes</div>';
+      c.notes.forEach(function(n) { notesHtml += '<p>' + n + '</p>'; });
+      notesHtml += '</div>';
+    }
+
+    // Footer — only rendered if links exist
+    var videoBtn = hasVideo
+      ? '<a class="action-btn btn-video" href="' + c.video + '" target="_blank"><svg viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>Watch Video</a>'
+      : '<span class="action-btn btn-video btn-placeholder"><svg viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>Watch Video</span>';
+    var quizBtn = hasQuiz
+      ? '<a class="action-btn btn-quiz" href="' + c.quiz + '" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Take Quiz</a>'
+      : '<span class="action-btn btn-quiz btn-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 012-2h11"/></svg>Take Quiz</span>';
+    var footerHtml = '<div class="card-footer">' + videoBtn + quizBtn + '</div>';
+
+    card.innerHTML =
+      mediaHtml +
+      '<div class="card-header">' +
+        '<div class="card-size">' + c.size + '</div>' +
+        '<div class="card-name">' + c.name + '</div>' +
+        '<div class="card-desc">' + c.desc + '</div>' +
+        '<span class="card-allergy ' + c.allergyClass + '">' + c.allergy + '</span>' +
+      '</div>' +
+      '<div class="card-build">' +
+        '<div class="build-header">' +
+          '<div class="build-title">The Build</div>' +
+        '</div>' +
+        '<div class="build-divider"></div>' +
+        '<div class="build-steps">' + stepsHtml + '</div>' +
+        garnishHtml +
+      '</div>' +
+      notesHtml +
+      footerHtml;
+
+    grid.appendChild(card);
+  });
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+buildGrid(BARISTA, 'grid-barista');
+buildGrid(PREP,    'grid-prep');
+</script>
+</body>
+</html>
