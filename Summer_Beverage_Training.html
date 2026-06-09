@@ -65,28 +65,9 @@
     }
     .breadcrumb-bar span.active { color: var(--ink); }
 
-    /* Section tabs */
-    .section-tabs {
-      position: relative; z-index: 1; background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 0 48px;
-      display: flex; gap: 0;
-    }
-    .tab-btn {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 14px 20px; cursor: pointer; border: none; background: none;
-      color: var(--tan); border-bottom: 3px solid transparent; margin-bottom: -1px;
-      transition: color 0.15s, border-color 0.15s; font-family: 'Source Sans 3', sans-serif;
-    }
-    .tab-btn:hover { color: var(--ink); }
-    .tab-btn.active { color: var(--coral); border-bottom-color: var(--coral); }
+
 
     main { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 48px 80px; }
-
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    .section-rule { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
     .section-rule-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tan); white-space: nowrap; }
     .section-rule-line { flex: 1; height: 1px; background: var(--border); }
 
@@ -187,7 +168,7 @@
     @media (max-width: 700px) {
       header { padding: 0 20px; height: 72px; }
       .hero, .announcement, main { padding-left: 20px; padding-right: 20px; }
-      .breadcrumb-bar, .section-tabs { padding-left: 20px; padding-right: 20px; }
+      .breadcrumb-bar { padding-left: 20px; padding-right: 20px; }
       .hero-title { font-size: 28px; }
     }
   </style>
@@ -237,28 +218,20 @@
   <span class="active">Summer Beverages 2026</span>
 </div>
 
-<div class="section-tabs">
-  <button class="tab-btn active" onclick="switchTab('barista')">Summer Barista</button>
-  <button class="tab-btn" onclick="switchTab('prep')">Prep Recipes</button>
-</div>
+
 
 <main>
-  <div class="tab-panel active" id="tab-barista">
-    <div class="section-rule">
-      <div class="section-rule-label">New Summer Barista Drinks</div>
-      <div class="section-rule-line"></div>
-    </div>
-    <div class="bev-grid" id="grid-barista"></div>
+  <div class="section-rule">
+    <div class="section-rule-label">New Summer Barista Drinks</div>
+    <div class="section-rule-line"></div>
   </div>
+  <div class="bev-grid" id="grid-barista"></div>
 
-
-  <div class="tab-panel" id="tab-prep">
-    <div class="section-rule">
-      <div class="section-rule-label">Prep Recipes</div>
-      <div class="section-rule-line"></div>
-    </div>
-    <div class="bev-grid" id="grid-prep"></div>
+  <div class="section-rule" style="margin-top: 48px;">
+    <div class="section-rule-label">Prep Recipes</div>
+    <div class="section-rule-line"></div>
   </div>
+  <div class="bev-grid" id="grid-prep"></div>
 </main>
 
 <footer>&copy; Pressed Cafe &nbsp;&bull;&nbsp; Training Portal &nbsp;&bull;&nbsp; For internal use only</footer>
@@ -554,13 +527,6 @@ function buildGrid(data, gridId) {
 
     grid.appendChild(card);
   });
-}
-
-function switchTab(name) {
-  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-  document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
 }
 
 buildGrid(BARISTA, 'grid-barista');
