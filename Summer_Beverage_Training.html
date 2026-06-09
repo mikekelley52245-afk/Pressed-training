@@ -131,6 +131,9 @@
     .glass-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--ink-lt); background: #fff; white-space: nowrap; }
     .build-divider { height: 1px; background: var(--border); margin-bottom: 14px; }
     .build-steps { display: flex; flex-direction: column; gap: 10px; }
+    .step-divider { display: flex; align-items: center; gap: 10px; margin: 6px 0 2px; }
+    .step-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); white-space: nowrap; }
+    .step-divider-line { flex: 1; height: 1px; background: var(--border); }
     .build-step { display: flex; align-items: flex-start; gap: 12px; }
     .step-num { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
     .step-text { font-size: 13.5px; color: var(--ink); line-height: 1.5; padding-top: 4px; }
@@ -295,10 +298,16 @@ var BARISTA = [
     allergy: "⚠ Dairy", allergyClass: "allergy-warn",
     desc: "Our house horchata paired with your choice of iced coffee, cold brew, or matcha, topped with a fresh dusting of cinnamon.",
     steps: [
-      { qty: "",  text: "If iced: measure horchata to bar line" },
-      { qty: "",  text: "Add espresso / cold brew / matcha" },
+      { divider: "If Coffee" },
+      { qty: "",  text: "Measure horchata to bottom of orange drop" },
+      { qty: "",  text: "Add iced coffee or cold brew to top of bean line" },
       { qty: "",  text: "Add ice" },
-      { qty: "",  text: "If hot: steam horchata milk, pour into cup with espresso" },
+      { qty: "",  text: "Top with cinnamon" },
+      { divider: "If Matcha" },
+      { qty: "",  text: "Measure horchata to the bar line" },
+      { qty: "",  text: "Add ice with room for matcha" },
+      { qty: "2 / 3 / 4 oz", text: "Matcha (Sm / Md / Lg)" },
+      { qty: "",  text: "Top with cinnamon" },
     ],
     garnish: ["Cinnamon dusting"],
     notes: [
@@ -338,8 +347,11 @@ var BARISTA = [
     allergy: "No Allergies", allergyClass: "allergy-none",
     desc: "Inspired by traditional Spanish sangria — a caffeine-free herbal blend of premium Nigerian hibiscus flowers with fruity natural flavors. Our first and only caffeine-free iced tea!",
     steps: [
-      { qty: "", text: "Pour hibiscus sangria tea over ice" },
-      { qty: "", text: "Naturally unsweetened — guest can modify with flavor syrups, fresh mint, and/or citrus" },
+      { qty: "10 quarts", text: "Ice into 22 quart container" },
+      { qty: "",          text: "Insert paper filter into Tea Basket" },
+      { qty: "3",         text: "Hibiscus Tea Bags into filter" },
+      { qty: "",          text: "Brew 1 Full Cycle over ice" },
+      { qty: "",          text: "Brew 1 Iced Cycle over ice" },
     ],
     garnish: [],
     notes: [
@@ -469,10 +481,17 @@ function buildGrid(data, gridId) {
 
     // Steps
     var stepsHtml = '';
-    c.steps.forEach(function(step, i) {
-      var textHtml = step.qty ? '<span class="qty">' + step.qty + '</span> ' + step.text : step.text;
-      var subHtml  = step.sub ? '<span class="step-sub">' + step.sub + '</span>' : '';
-      stepsHtml += '<div class="build-step"><div class="step-num">' + (i + 1) + '</div><div class="step-text">' + textHtml + subHtml + '</div></div>';
+    var stepNum = 0;
+    c.steps.forEach(function(step) {
+      if (step.divider) {
+        stepNum = 0;
+        stepsHtml += '<div class="step-divider"><div class="step-divider-label">' + step.divider + '</div><div class="step-divider-line"></div></div>';
+      } else {
+        stepNum++;
+        var textHtml = step.qty ? '<span class="qty">' + step.qty + '</span> ' + step.text : step.text;
+        var subHtml  = step.sub ? '<span class="step-sub">' + step.sub + '</span>' : '';
+        stepsHtml += '<div class="build-step"><div class="step-num">' + stepNum + '</div><div class="step-text">' + textHtml + subHtml + '</div></div>';
+      }
     });
 
     // Garnish
