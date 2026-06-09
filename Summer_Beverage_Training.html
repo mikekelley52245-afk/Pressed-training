@@ -225,7 +225,7 @@
       <ul>
         <li>All spring flavors: Grapefruit, Strawberry Puree, Ube</li>
         <li>All spring barista specials <strong>except Americoco</strong></li>
-        <li>Spring Forward Juice & Goodbelly Sunshine</li>
+        <li>Spring Forward Juice & Goodbelly Sunshine <em>(Until Supplies Last)</em></li>
       </ul>
     </div>
   </div>
@@ -287,9 +287,9 @@ var BARISTA = [
       { qty: "1–2 pumps", text: "Blackberry Puree" },
       { qty: "1–2 pumps", text: "Vanilla syrup" },
       { qty: "",          text: "Add Almond Milk to the bar line" },
+      { qty: "",          text: "Stir ingredients together" },
+      { qty: "",          text: "Add ice with room for matcha + foam" },
       { qty: "2–3 oz",    text: "Matcha" },
-      { qty: "",          text: "Stir all ingredients together" },
-      { qty: "",          text: "Add ice with room for foam" },
       { qty: "4–5 oz",    text: "Lemon Cheesecake Cold Foam (Sm/Md)", sub: "Measure foam, blend with 1/2 tbsp graham crackers for 10 seconds, then top" },
     ],
     garnish: ["Fresh lemon zest", "2 blackberries", "Sip lid"],
@@ -312,7 +312,7 @@ var BARISTA = [
       { qty: "",          text: "If iced: measure milk to bar line, add espresso, then ice" },
       { qty: "",          text: "If hot: steam and pour milk, add espresso" },
     ],
-    garnish: ["Chinese 5-spice dusting", "Fresh orange zest"],
+    garnish: ["Sichuan Sugar Dust", "Fresh orange zest"],
     notes: [
       "Salted Rum Vanilla syrup: made at commissary with white & brown sugar, water, sea salt, vanilla bean paste, and rum (alcohol removed). Dairy/tree-nut free.",
       "Sichuan-spiced sugar: primarily granulated sugar blended with toasted Sichuan pepper — adds subtle warmth and complexity."
@@ -406,14 +406,21 @@ var BARISTA = [
     quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUNklINzY2MzFYRUVBWlM2REhWSEZMTVdUTS4u"
   },
   {
-    name: "Peach Aura Smoothie",
+    name: "Blue Aura Smoothie",
     badge: "New!", badgeClass: "badge-new",
     size: "One Size",
     allergy: "⚠ Dairy (Non-Fat Fro Yo)", allergyClass: "allergy-warn",
     desc: "A tropical peach-coconut smoothie with blue spirulina, collagen, and a creamy peach kefir yogurt swirl.",
     steps: [
-      { qty: "", text: "Blend peach, coconut, kefir yogurt, blue spirulina & collagen per recipe" },
-      { qty: "", text: "Pour into cup" },
+      { qty: "10 oz (20oz) / 12 oz (24oz)", text: "Tropical Island Base", sub: "In blender" },
+      { qty: "1 grey scoop", text: "Frozen peaches" },
+      { qty: "1/2 tsp",      text: "Blue Spirulina" },
+      { qty: "1 tbsp",       text: "Collagen" },
+      { qty: "3 oz",         text: "Coconut milk" },
+      { qty: "",             text: "Blend on \"2\"" },
+      { qty: "splash",       text: "Peach Kefir to bottom of cup", sub: "In cup" },
+      { qty: "",             text: "Pour smoothie into cup" },
+      { qty: "",             text: "Fill rest of cup with Peach Kefir" },
     ],
     garnish: [],
     notes: [
@@ -423,8 +430,10 @@ var BARISTA = [
       "Collagen: improves skin, joint & cartilage health, aids muscle recovery & bone strength.",
       "Can remove upon request: peaches, kefir, spirulina, and/or collagen."
     ],
-    video: "PASTE_VIDEO_URL_HERE",
-    quiz:  "PASTE_QUIZ_URL_HERE"
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/BlueAuraSmoothie.jpg",
+    imagePosition: "center 50%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=406a7520-e20f-4750-8a91-ce8ff22da1a8&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUOTBFTEVNV0lRUFVNS1VQNDlVWk4zWFRPSy4u"
   }
 ];
 
