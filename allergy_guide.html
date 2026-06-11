@@ -5,46 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pressed Cafe — Allergen Reference Guide</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Source+Sans+3:wght@300;400;600;700&display=swap');
 
   :root {
-    --eggplant: #3d2040;
-    --melon: #e8694a;
-    --eggshell: #f5f0e8;
-    --charcoal: #2a2a2a;
-    --melon-light: #fde8e2;
-    --eggplant-light: #f0eaf2;
+    --cream:     #f7f3ec;
+    --cream-dk:  #efe9dd;
+    --surface:   #fffdf9;
+    --ink:       #211f1c;
+    --ink-lt:    #56524b;
+    --coral:     #c94f37;
+    --coral-lt:  #e06b52;
+    --coral-bg:  rgba(201,79,55,0.06);
+    --tan:       #a89a7e;
+    --green:     #4a7c59;
+    --border:    rgba(33,31,28,0.08);
+    --border-md: rgba(33,31,28,0.14);
+    --radius:    14px;
+    --shadow-sm: 0 1px 2px rgba(33,31,28,0.04), 0 2px 8px rgba(33,31,28,0.04);
+    --shadow-md: 0 2px 4px rgba(33,31,28,0.05), 0 12px 32px rgba(33,31,28,0.09);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'Space Mono', monospace;
-    background: var(--eggshell);
-    color: var(--charcoal);
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* HEADER */
   header {
-    background: var(--eggplant);
-    padding: 28px 32px 24px;
+    background: var(--ink);
+    padding: 30px 32px 26px;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 12px rgba(61,32,64,0.25);
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(33,31,28,0.25);
+  }
+  header::after {
+    content: ''; position: absolute; right: -120px; top: -80px;
+    width: 380px; height: 380px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,79,55,0.2) 0%, transparent 65%);
+    pointer-events: none;
   }
 
   .header-inner {
-    max-width: 1100px;
+    max-width: 1140px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
   }
 
   .brand-row {
     display: flex;
     align-items: baseline;
-    gap: 14px;
-    margin-bottom: 16px;
+    gap: 16px;
+    margin-bottom: 14px;
     flex-wrap: wrap;
   }
 
@@ -52,47 +71,50 @@
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
   }
-  .lang-sep { color: rgba(245,240,232,0.3); font-size: 14px; }
+  .lang-sep { color: rgba(255,255,255,0.2); font-size: 13px; }
   .lang-btn {
     background: none;
     border: none;
-    font-family: 'Space Mono', monospace;
+    font-family: 'Source Sans 3', sans-serif;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.14em;
-    color: rgba(245,240,232,0.5);
+    letter-spacing: 0.16em;
+    color: rgba(255,255,255,0.45);
     cursor: pointer;
-    padding: 4px 2px;
+    padding: 5px 4px;
     transition: color 0.15s;
     border-bottom: 2px solid transparent;
   }
-  .lang-btn:hover { color: var(--eggshell); }
-  .lang-btn.active { color: var(--melon); border-bottom-color: var(--melon); }
+  .lang-btn:hover { color: #fff; }
+  .lang-btn.active { color: var(--coral-lt); border-bottom-color: var(--coral-lt); }
 
   .brand-name {
-    font-family: 'Anton', sans-serif;
-    font-size: 28px;
-    color: var(--melon);
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.01em;
   }
 
   .brand-sub {
     font-size: 11px;
-    color: rgba(245,240,232,0.55);
-    letter-spacing: 3px;
+    font-weight: 600;
+    color: var(--coral-lt);
+    letter-spacing: 0.24em;
     text-transform: uppercase;
   }
 
   .disclaimer {
-    font-size: 11px;
-    color: rgba(245,240,232,0.6);
-    line-height: 1.6;
-    margin-bottom: 16px;
-    border-left: 3px solid var(--melon);
-    padding-left: 10px;
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    margin-bottom: 18px;
+    border-left: 2px solid var(--coral);
+    padding-left: 12px;
+    max-width: 760px;
   }
 
   /* SEARCH + FILTERS */
@@ -106,232 +128,261 @@
   .search-wrap {
     position: relative;
     flex: 1;
-    min-width: 200px;
+    min-width: 220px;
   }
 
   .search-wrap svg {
     position: absolute;
-    left: 12px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.45;
   }
 
   #search {
     width: 100%;
-    padding: 10px 12px 10px 38px;
-    background: rgba(245,240,232,0.1);
-    border: 1.5px solid rgba(245,240,232,0.2);
-    border-radius: 6px;
-    color: var(--eggshell);
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
+    padding: 11px 16px 11px 42px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 100px;
+    color: #fff;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13.5px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background 0.2s;
   }
 
-  #search::placeholder { color: rgba(245,240,232,0.4); }
-  #search:focus { border-color: var(--melon); }
+  #search::placeholder { color: rgba(255,255,255,0.35); }
+  #search:focus { border-color: var(--coral-lt); background: rgba(255,255,255,0.1); }
 
   .allergen-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 7px;
   }
 
   .filter-btn {
-    padding: 6px 12px;
-    border-radius: 4px;
-    border: 1.5px solid rgba(245,240,232,0.2);
+    padding: 7px 15px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.16);
     background: transparent;
-    color: rgba(245,240,232,0.7);
-    font-family: 'Space Mono', monospace;
+    color: rgba(255,255,255,0.65);
+    font-family: 'Source Sans 3', sans-serif;
     font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.15s ease;
     white-space: nowrap;
   }
 
-  .filter-btn:hover { border-color: var(--melon); color: var(--eggshell); }
-  .filter-btn.active { background: var(--melon); border-color: var(--melon); color: #fff; }
+  .filter-btn:hover { border-color: var(--coral-lt); color: #fff; }
+  .filter-btn.active { background: var(--coral); border-color: var(--coral); color: #fff; }
 
   /* CATEGORY TABS */
   .cat-tabs {
-    background: var(--eggplant);
-    border-top: 1px solid rgba(245,240,232,0.1);
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.08);
     padding: 0 32px;
     overflow-x: auto;
     display: flex;
     gap: 0;
     scrollbar-width: none;
+    position: relative;
+    z-index: 1;
   }
   .cat-tabs::-webkit-scrollbar { display: none; }
 
   .cat-tab {
-    padding: 10px 16px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1px;
+    padding: 13px 18px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(245,240,232,0.5);
+    color: rgba(255,255,255,0.42);
     cursor: pointer;
-    border-bottom: 3px solid transparent;
+    border-bottom: 2px solid transparent;
     white-space: nowrap;
-    transition: all 0.15s;
+    transition: all 0.15s ease;
     background: none;
     border-top: none;
     border-left: none;
     border-right: none;
   }
 
-  .cat-tab:hover { color: var(--eggshell); }
-  .cat-tab.active { color: var(--melon); border-bottom-color: var(--melon); }
+  .cat-tab:hover { color: #fff; }
+  .cat-tab.active { color: var(--coral-lt); border-bottom-color: var(--coral-lt); }
 
   /* MAIN */
   main {
-    max-width: 1100px;
+    max-width: 1140px;
     margin: 0 auto;
-    padding: 28px 24px;
+    padding: 32px 28px 64px;
   }
 
   .results-count {
-    font-size: 11px;
-    color: var(--eggplant);
-    opacity: 0.55;
-    letter-spacing: 1px;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--tan);
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    margin-bottom: 18px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .results-count::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-md);
   }
 
   /* CARDS GRID */
   .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 20px;
+    align-items: start;
   }
 
   .card {
-    background: #fff;
-    border-radius: 8px;
-    border: 1.5px solid rgba(61,32,64,0.1);
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
-    transition: box-shadow 0.15s, transform 0.15s;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
   }
 
   .card:hover {
-    box-shadow: 0 4px 18px rgba(61,32,64,0.12);
-    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
   }
 
   .card-header {
-    padding: 14px 16px 10px;
-    border-bottom: 1px solid rgba(61,32,64,0.08);
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 8px;
+    gap: 10px;
   }
 
   .card-name {
-    font-family: 'Anton', sans-serif;
-    font-size: 15px;
-    color: var(--eggplant);
-    letter-spacing: 0.5px;
+    font-family: 'Playfair Display', serif;
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
     line-height: 1.25;
   }
 
   .card-cat {
-    font-size: 10px;
-    background: var(--eggplant-light);
-    color: var(--eggplant);
-    padding: 3px 7px;
-    border-radius: 3px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--cream);
+    color: var(--tan);
+    padding: 4px 10px;
+    border-radius: 100px;
     white-space: nowrap;
-    letter-spacing: 0.5px;
     flex-shrink: 0;
   }
 
   .card-body {
-    padding: 12px 16px 14px;
+    padding: 14px 20px 16px;
   }
 
   .no-allergens {
-    font-size: 12px;
-    color: #5a8a5a;
+    font-size: 12.5px;
+    color: var(--green);
     font-style: italic;
   }
 
   .allergen-row {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 6px;
+    gap: 9px;
+    margin-bottom: 8px;
   }
 
   .allergen-row:last-child { margin-bottom: 0; }
 
   .allergen-badge {
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 700;
-    padding: 3px 7px;
-    border-radius: 3px;
+    padding: 4px 10px;
+    border-radius: 100px;
     white-space: nowrap;
     flex-shrink: 0;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  .badge-Dairy { background: #e8f0fd; color: #2255bb; }
-  .badge-Egg { background: #fef8e1; color: #856a00; }
-  .badge-Wheat { background: #fff0e0; color: #a05000; }
-  .badge-Soy { background: #e8f5e8; color: #2a6a2a; }
-  .badge-Peanut { background: #fce8e8; color: #aa2222; }
-  .badge-TreeNut { background: #f5ece0; color: #7a4a10; }
-  .badge-Sesame { background: #f5f0d8; color: #7a6600; }
-  .badge-Fish { background: #e0f0fa; color: #1a5577; }
-  .badge-Coconut { background: #e8f5f0; color: #1a6644; }
-  .badge-Other { background: #f0eaf2; color: #5a3a6a; }
-  .badge-None { background: #eaf5ea; color: #2d6e2d; }
+  .badge-Dairy   { background: #e9eff9; color: #2f5594; }
+  .badge-Egg     { background: #faf3da; color: #7d6510; }
+  .badge-Wheat   { background: #f9ecdb; color: #93551a; }
+  .badge-Soy     { background: #e7f1e4; color: #34672e; }
+  .badge-Peanut  { background: #f9e4e0; color: #a32e22; }
+  .badge-TreeNut { background: #f3ead9; color: #6f4a1c; }
+  .badge-Sesame  { background: #f4efd6; color: #6f5e10; }
+  .badge-Fish    { background: #e2eef6; color: #20567a; }
+  .badge-Coconut { background: #e4f1ea; color: #1f6446; }
+  .badge-Other   { background: #efe9dd; color: #6b5d49; }
+  .badge-None    { background: #e7f1e4; color: #34672e; }
 
   .ingredient-text {
-    font-size: 11px;
-    color: #888;
-    line-height: 1.4;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--ink-lt);
+    line-height: 1.55;
+    padding-top: 2px;
   }
 
   /* NO RESULTS */
   .no-results {
     text-align: center;
-    padding: 60px 20px;
-    color: var(--eggplant);
-    opacity: 0.4;
+    padding: 72px 20px;
+    color: var(--tan);
   }
 
   .no-results .nr-title {
-    font-family: 'Anton', sans-serif;
-    font-size: 22px;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink-lt);
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
   }
 
-  .no-results .nr-sub { font-size: 13px; }
+  .no-results .nr-sub { font-size: 13.5px; font-weight: 300; }
 
   /* UPDATED NOTE */
   .updated-note {
     text-align: center;
-    font-size: 11px;
-    color: rgba(61,32,64,0.4);
-    margin-top: 32px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(61,32,64,0.1);
-    letter-spacing: 0.5px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tan);
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
   }
 
   @media (max-width: 600px) {
-    header { padding: 20px 16px 16px; }
-    main { padding: 20px 16px; }
-    .cat-tabs { padding: 0 16px; }
-    .brand-name { font-size: 22px; }
+    header { padding: 22px 18px 18px; }
+    main { padding: 24px 18px 48px; }
+    .cat-tabs { padding: 0 18px; }
+    .brand-name { font-size: 24px; }
     .cards-grid { grid-template-columns: 1fr; }
   }
 </style>
@@ -349,7 +400,7 @@
         <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
       </div>
     </div>
-    <p class="disclaimer" id="disclaimer">Our suppliers may send substitute brands. All recipes and allergens are subject to change without notice. Always verify with a manager for guests with severe allergies. Updated 03/2026.</p>
+    <p class="disclaimer" id="disclaimer">Our suppliers may send substitute brands. All recipes and allergens are subject to change without notice. Always verify with a manager for guests with severe allergies. Updated 05/2026.</p>
     <div class="controls">
       <div class="search-wrap">
         <svg width="16" height="16" fill="none" stroke="#f5f0e8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -369,18 +420,18 @@
     <div class="nr-title">No items found</div>
     <div class="nr-sub">Try a different search or clear your filters</div>
   </div>
-  <p class="updated-note">Pressed Cafe &mdash; Internal Training Reference &mdash; Modified 03/2026</p>
+  <p class="updated-note">Pressed Cafe &mdash; Internal Training Reference &mdash; Modified 05/2026</p>
 </main>
 
 <script>
 const UI = {
   en: {
     brandSub:       'Allergen Reference Guide',
-    disclaimer:     'Our suppliers may send substitute brands. All recipes and allergens are subject to change without notice. Always verify with a manager for guests with severe allergies. Updated 03/2026.',
+    disclaimer:     'Our suppliers may send substitute brands. All recipes and allergens are subject to change without notice. Always verify with a manager for guests with severe allergies. Updated 05/2026.',
     searchPlaceholder: 'Search menu items...',
     noResultsTitle: 'No items found',
     noResultsSub:   'Try a different search or clear your filters',
-    updatedNote:    'Pressed Cafe \u2014 Internal Training Reference \u2014 Modified 03/2026',
+    updatedNote:    'Pressed Cafe \u2014 Internal Training Reference \u2014 Modified 05/2026',
     itemSingular:   'item',
     itemPlural:     'items',
     noAllergens:    'No known major allergens',
@@ -413,11 +464,11 @@ const UI = {
   },
   es: {
     brandSub:       'Guía de Referencia de Alérgenos',
-    disclaimer:     'Nuestros proveedores pueden enviar marcas sustitutivas. Todas las recetas y alérgenos están sujetos a cambios sin previo aviso. Siempre verifique con un gerente para clientes con alergias graves. Actualizado 03/2026.',
+    disclaimer:     'Nuestros proveedores pueden enviar marcas sustitutivas. Todas las recetas y alérgenos están sujetos a cambios sin previo aviso. Siempre verifique con un gerente para clientes con alergias graves. Actualizado 05/2026.',
     searchPlaceholder: 'Buscar artículos del menú...',
     noResultsTitle: 'No se encontraron artículos',
     noResultsSub:   'Intenta una búsqueda diferente o elimina los filtros',
-    updatedNote:    'Pressed Cafe \u2014 Referencia Interna de Capacitación \u2014 Modificado 03/2026',
+    updatedNote:    'Pressed Cafe \u2014 Referencia Interna de Capacitación \u2014 Modificado 05/2026',
     itemSingular:   'artículo',
     itemPlural:     'artículos',
     noAllergens:    'Sin alérgenos principales conocidos',
