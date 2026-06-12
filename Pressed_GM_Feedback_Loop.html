@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GM Training Feedback — Pressed Café</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#f5f0e8; --cream-dk:#ede6d6; --ink:#1a1a18; --ink-lt:#3d3d38;
+    --coral:#c94f37; --coral-lt:#e06b52; --tan:#b8a98a;
+    --border:#e2dccd; --white:#fff; --ok:#4c8d6b;
+    --radius:10px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream); color:var(--ink);
+    font-family:'Source Sans 3',sans-serif; font-weight:400;
+    line-height:1.55; min-height:100vh;
+  }
+
+  /* ── Hero ── */
+  header{ background:var(--ink); padding:28px 40px; border-bottom:3px solid var(--coral); }
+  .hero-title{ font-family:'Playfair Display',serif; font-weight:900; font-size:30px; color:#fff; line-height:1; letter-spacing:-0.01em; }
+  .hero-title span{ color:var(--coral); }
+  .hero-sub{ font-size:12px; font-weight:300; color:var(--tan); margin-top:8px; letter-spacing:0.06em; text-transform:uppercase; }
+
+  /* ── Layout ── */
+  .wrap{ max-width:820px; margin:0 auto; padding:32px 20px 96px; }
+  .intro{ font-size:14px; color:var(--ink-lt); line-height:1.7; margin-bottom:24px; }
+  .intro strong{ color:var(--coral); font-weight:600; }
+
+  /* ── Cards ── */
+  .card{ background:var(--white); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:20px; overflow:hidden; box-shadow:0 1px 3px rgba(26,26,24,0.05); }
+  .card-head{ padding:14px 22px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .card-head h2{ font-family:'Playfair Display',serif; font-weight:700; font-size:18px; color:var(--ink); }
+  .card-head .eyebrow{ font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--coral); }
+  .card-body{ padding:20px 22px; }
+
+  /* ── Role toggle ── */
+  .role-row{ display:grid; grid-template-columns:1fr 1fr; gap:0; }
+  .role-btn{
+    appearance:none; border:none; cursor:pointer; padding:18px 14px; background:var(--white);
+    font-family:'Source Sans 3',sans-serif; font-size:14px; font-weight:600; color:var(--ink-lt);
+    letter-spacing:0.04em; transition:.15s; border-bottom:3px solid transparent;
+  }
+  .role-btn:first-child{ border-right:1px solid var(--border); }
+  .role-btn .role-lbl{ display:block; font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--ink); margin-bottom:2px; }
+  .role-btn .role-hint{ display:block; font-size:11px; font-weight:400; text-transform:uppercase; letter-spacing:0.1em; color:var(--tan); }
+  .role-btn[aria-pressed="true"]{ background:var(--cream); border-bottom-color:var(--coral); }
+  .role-btn[aria-pressed="true"] .role-lbl{ color:var(--coral); }
+  .role-btn:focus-visible{ outline:2px solid var(--coral); outline-offset:-3px; }
+
+  /* ── Fields ── */
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:560px){ .grid2{ grid-template-columns:1fr; } }
+  .field{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+  .field:last-child{ margin-bottom:0; }
+  label.lbl, .q-label{ font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-lt); }
+  input[type=text], input[type=date], select, textarea{
+    font-family:'Source Sans 3',sans-serif; font-size:15px; color:var(--ink);
+    background:var(--cream); border:1px solid var(--border); border-radius:6px; padding:11px 13px; width:100%;
+    transition:.15s;
+  }
+  textarea{ min-height:96px; resize:vertical; line-height:1.6; }
+  input:focus, select:focus, textarea:focus{ outline:none; border-color:var(--coral); background:#fff; box-shadow:0 0 0 3px rgba(201,79,55,0.12); }
+  select{ cursor:pointer; }
+
+  /* ── Question blocks ── */
+  .q{ padding:16px 0; border-top:1px solid var(--border); }
+  .q:first-child{ padding-top:0; border-top:none; }
+  .q .prompt{ font-size:14px; color:var(--ink); line-height:1.6; margin-bottom:10px; }
+  .q .prompt em{ color:var(--ink-lt); font-style:italic; }
+
+  /* ── Yes/No segmented ── */
+  .seg{ display:inline-flex; border:1px solid var(--border); border-radius:7px; overflow:hidden; }
+  .seg label{ cursor:pointer; padding:8px 18px; font-size:13px; font-weight:600; color:var(--ink-lt); background:var(--white); transition:.12s; border-left:1px solid var(--border); }
+  .seg label:first-of-type{ border-left:none; }
+  .seg input{ position:absolute; opacity:0; pointer-events:none; }
+  .seg input:checked + label{ background:var(--coral); color:#fff; }
+  .seg input:focus-visible + label{ outline:2px solid var(--ink); outline-offset:-2px; }
+  .toggle-row{ display:flex; align-items:center; justify-content:space-between; gap:14px; padding:12px 0; border-top:1px solid var(--border); }
+  .toggle-row:first-child{ border-top:none; padding-top:0; }
+  .toggle-row .q-label{ flex:1; }
+
+  /* ── Checkboxes ── */
+  .check{ display:flex; align-items:flex-start; gap:11px; padding:10px 0; cursor:pointer; font-size:14px; color:var(--ink); line-height:1.5; }
+  .check input{ margin-top:3px; width:17px; height:17px; accent-color:var(--coral); flex-shrink:0; cursor:pointer; }
+
+  .note{ font-size:13px; color:var(--ink-lt); background:var(--cream); border-left:3px solid var(--tan); padding:12px 14px; border-radius:0 6px 6px 0; line-height:1.6; margin-bottom:14px; }
+
+  /* ── Gate ── */
+  .gate-row{ padding:14px 0; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:10px; }
+  .gate-row:first-of-type{ border-top:none; }
+  .gate-row .crit{ font-size:14px; color:var(--ink); line-height:1.55; }
+
+  /* ── Submit / status ── */
+  .actions{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:8px; }
+  .btn{
+    appearance:none; cursor:pointer; border:none; background:var(--coral); color:#fff;
+    font-family:'Source Sans 3',sans-serif; font-size:14px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    padding:14px 30px; border-radius:7px; transition:.15s;
+  }
+  .btn:hover{ background:var(--coral-lt); }
+  .btn:disabled{ opacity:.5; cursor:not-allowed; }
+  .btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .status{ font-size:14px; font-weight:600; display:none; }
+  .status.show{ display:inline-flex; align-items:center; gap:7px; }
+  .status.err{ color:var(--coral); }
+  .status.load{ color:var(--ink-lt); }
+
+  /* ── Success ── */
+  #done{ display:none; text-align:center; padding:48px 24px; }
+  #done .mark{ font-size:40px; }
+  #done h2{ font-family:'Playfair Display',serif; font-size:26px; margin:14px 0 8px; }
+  #done p{ color:var(--ink-lt); font-size:15px; max-width:440px; margin:0 auto 22px; line-height:1.7; }
+
+  .ctx-bar{ display:inline-block; font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--tan); }
+
+  @media (prefers-reduced-motion:reduce){ *{ transition:none!important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero-title">PRESSED<span>.</span> GM Training</div>
+  <div class="hero-sub">General Manager Program · Feedback Loop</div>
+</header>
+
+<div class="wrap">
+
+  <p class="intro" id="intro">
+    Capture end-of-shift feedback for the GM Training Program. Choose whether you're submitting as a
+    <strong>Facilitator</strong> or a <strong>Trainee</strong>, pick the week and day, and your responses
+    are routed to the right shared Google Doc automatically.
+  </p>
+
+  <!-- FORM -->
+  <div id="form">
+
+    <!-- Role -->
+    <div class="card">
+      <div class="card-head"><span class="eyebrow">Step 1</span><h2>Who's filling this out?</h2></div>
+      <div class="role-row">
+        <button type="button" class="role-btn" data-role="facilitator" aria-pressed="true">
+          <span class="role-lbl">Facilitator</span>
+          <span class="role-hint">GM observing the trainee</span>
+        </button>
+        <button type="button" class="role-btn" data-role="trainee" aria-pressed="false">
+          <span class="role-lbl">Trainee</span>
+          <span class="role-hint">GM in training</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Week & Day -->
+    <div class="card">
+      <div class="card-head"><span class="eyebrow">Step 2</span><h2>Which week and day?</h2></div>
+      <div class="card-body">
+        <div class="grid2">
+          <div class="field">
+            <label class="lbl" for="weekSel">Training week</label>
+            <select id="weekSel"></select>
+          </div>
+          <div class="field">
+            <label class="lbl" for="daySel">Day</label>
+            <select id="daySel"></select>
+          </div>
+        </div>
+        <p class="ctx-bar" id="weekCtx" style="margin-top:4px;"></p>
+      </div>
+    </div>
+
+    <!-- Identity -->
+    <div class="card">
+      <div class="card-head"><span class="eyebrow">Step 3</span><h2 id="idTitle">Your details</h2></div>
+      <div class="card-body" id="identity"></div>
+    </div>
+
+    <!-- Dynamic feedback -->
+    <div id="dynamic"></div>
+
+    <!-- Submit -->
+    <div class="actions">
+      <button type="button" class="btn" id="submitBtn">Submit feedback</button>
+      <span class="status" id="status"></span>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="done">
+    <div class="mark">✓</div>
+    <h2>Feedback submitted</h2>
+    <p id="doneMsg">Your entry has been added to the shared Google Doc.</p>
+    <button type="button" class="btn" id="againBtn">Submit another entry</button>
+  </div>
+
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   PRESSED CAFÉ — GM TRAINING FEEDBACK
+   ────────────────────────────────────────────────────────────────────────
+   TO CONNECT THIS FORM:
+   Paste your deployed Google Apps Script Web App URL between the quotes below.
+   (Setup steps are in the Apps Script file that came with this page.)
+   ════════════════════════════════════════════════════════════════════════ */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8uvMop5PbERWqVWgN2lK-hXtMP03ovjiJtFT9ZtBi9H4pyhfse5537r5jwPmIwUAa/exec';
+
+/* ── Locations (edit freely) ─────────────────────────────────────────────*/
+const LOCATIONS = ["Salem","Bedford","Burlington","Chelmsford","Lawrence","Newton",
+  "North Nashua","Prudential","Seaport","South Nashua","Woburn"];
+
+/* ── Facilitator daily blocks (same every day, both weeks) ───────────────*/
+const FAC_CONDUCT = ["Uniform / dress code compliant","Personal hygiene & grooming",
+  "Arrived on time & prepared","Overall energy & presence"];
+const FAC_CHECKLIST = [
+  "All items for today checked off and training sheets signed and dated",
+  "Checked in with trainee — gauged energy, confidence, and any concerns",
+  "Reviewed reflection prompts — did the trainee engage meaningfully?",
+  "Notes recorded for the next facilitator or next day"];
+
+/* ── Week / day content ──────────────────────────────────────────────────
+   Edit prompts, add days, or add new weeks here without touching layout.   */
+const WEEKS = {
+  "1": {
+    label: "Week 1 — Floor Foundations",
+    theme: "Immersion, Product Identity & Floor Foundations · Brand, Runner & Register",
+    days: [
+      { id:"d1",  label:"Day 1 — Brand Immersion" },
+      { id:"d2",  label:"Day 2 — Runner Training" },
+      { id:"d35", label:"Days 3–5 — Register Training", final:true }
+    ],
+    trainee: {
+      intention: "What is one thing you want to understand about Pressed Café by the end of this week that you don't know yet?",
+      reflections: {
+        d1: ["After the tour: what surprised you? What felt familiar? What feels like the most important thing to protect about this place?",
+             "After the tasting: how would you describe what makes Pressed Café different in your own words — the way you'd explain it to a new hire on their first day?",
+             "What did you notice about the prep process? Where does quality get protected — or lost — before service even starts?"],
+        d2: ["Where did the floor break down today — even slightly? What was the root cause? What would you do differently if you were directing the team?",
+             "Which guests were served well today? Which ones waited too long? What was the difference?"],
+        d35:["What do guests ask about most? What questions caught you off guard? These are the things you'll need to build into training when you're running this team.",
+             "What slows down the register? What creates friction for the guest? What's one thing you'd change about how register is currently run?"]
+      },
+      gate: ["I can describe how a single shift at the register connects to the weekly P&L",
+             "I have reviewed a sales/labor report and can identify the key line items",
+             "I can describe what makes Pressed Café different from competitors in my own words",
+             "I showed up with a hospitality-forward, team-first mindset this week"],
+      weekClose: ["What is one thing from Week 1 that you want to carry into Week 2 as a leader — not just as a trainee?"]
+    },
+    facilitator: {
+      gate: ["Can articulate the relationship between speed, accuracy, and guest retention",
+             "Has reviewed a sales/labor report and can identify the key line items",
+             "Can describe what makes Pressed Café different from competitors in their own words",
+             "Demonstrates cultural alignment: hospitality-forward, team-first mindset"]
+    }
+  },
+
+  "2": {
+    label: "Week 2 — Register & Ownership",
+    theme: "Register Mastery, Product Depth & Opening/Closing Ownership",
+    days: [
+      { id:"d1",  label:"Day 1 — Week 1 Recap, P&L Overview & Week 2 Preview" },
+      { id:"d25", label:"Days 2–5 — Independent Register, Product & Operational Ownership", final:true }
+    ],
+    trainee: {
+      intention: "What does 'mastered' look like for you by the end of this week? Write your own definition of success before you start.",
+      reflections: {
+        d1: ["What did the report tell you that surprised you? What connection between last week on the floor and the numbers stood out most?",
+             "What is one question you are walking into Week 2 with? Write it here, then find the answer before the week is over."],
+        d25:["Pick one par level you worked with this week. What happens to the guest experience — and the P&L — when that par is set wrong? Write it out.",
+             "Walk through one opening step that would cause the most downstream damage if skipped or done poorly. What breaks? Who does it affect? What would you say to a new manager who skipped it?",
+             "After your teach-back: what felt confident? What did you realize you didn't know as well as you thought?"]
+      },
+      teachBack: { day:"d25", text:"Walk through one full opening as if you were training a brand-new team member. Narrate every step out loud — what you're doing and why. Your GM will observe and coach." },
+      gate: ["I can execute an opening and closing without being prompted",
+             "I understand catering order channels and can explain why catering matters to revenue",
+             "I can explain what a par level is and identify one that may need adjustment",
+             "I stayed in a situational-awareness mindset this week — not just task-focused"],
+      weekClose: ["What kind of GM do you want to be? After two weeks on the floor, write down three things you already know about your own leadership style."]
+    },
+    facilitator: {
+      gate: ["Can execute an opening and closing without prompting",
+             "Understands catering order channels and can explain the revenue context",
+             "Can explain the purpose of a par level and identify one that may need adjustment",
+             "Demonstrates situational awareness during shifts — not just task focus"]
+    }
+  },
+
+  "3": {
+    label: "Week 3 — Expo 2",
+    theme: "Order Accuracy, Food Quality & BOH-to-FOH Flow · Station: Expo 2",
+    days: [
+      { id:"d1",  label:"Day 1 — Introduction to Expo 2" },
+      { id:"d2",  label:"Day 2 — Order Accuracy Fundamentals" },
+      { id:"d34", label:"Days 3–4 — BOH-to-FOH Flow Management" },
+      { id:"d5",  label:"Day 5 — Supervised Solo & Teach-Back", final:true }
+    ],
+    trainee: {
+      intention: "What is one thing you want to understand about the Expo 2 position by the end of this week that you don't know yet?",
+      reflections: {
+        d1: ["After shadowing today: what surprised you about how the kitchen and floor connect? Where did things flow smoothly — and where did you see friction? What would you want to fix if this were your restaurant?",
+             "Which items seemed to generate the most errors or slowdowns at Expo? What do you think is the root cause?"],
+        d2: ["How many orders needed a correction or remake today? What was the most common error? What is the fix — and whose responsibility is it?",
+             "What does it feel like when an order leaves the station and you're not 100% sure it's right? What would a GM do in that moment?"],
+        d34:["Describe a moment this week when the flow between BOH and FOH broke down. What caused it? What would you do differently as the GM running this shift?",
+             "When does Expo feel in control vs. out of control? What are the early warning signs that service is about to break down?"],
+        d5: ["After your supervised solo: if you were the GM running this shift today, what feedback would you give yourself? Be specific — not just \u201Cit went well\u201D or \u201Cit was hard.\u201D",
+             "What is one thing about the Expo 2 position that a new team member would not figure out on their own — something you'd have to teach them? How would you teach it?"]
+      },
+      teachBack: { day:"d5", text:"Walk a trainer or your GM through the Expo 2 position as if they were a brand-new team member on Day 1 — explaining why each step matters, especially around order accuracy and BOH-to-FOH communication." },
+      gate: ["I can run the Expo 2 position independently, including full order verification on every ticket",
+             "I can explain what happens to the business — waste, cost, guest trust — when an order leaves the station wrong",
+             "I communicated proactively when flow or timing was off — I didn't wait to be asked",
+             "I can describe at least one recurring accuracy or flow issue and how I'd coach it as a GM",
+             "I showed up as a leader at Expo — corrections were immediate, respectful, and clear"],
+      weekClose: ["What is one thing from Week 3 that you want to carry into Week 4 — not just as a trainee, but as a developing GM?"]
+    },
+    facilitator: {
+      gate: ["Can run the Expo 2 position independently, including full order verification on every ticket",
+             "Can articulate the business impact of order accuracy — waste, COGS, guest retention — in their own words",
+             "Demonstrated proactive BOH-to-FOH communication: no partial orders released, timing issues flagged early",
+             "Can identify at least one systemic accuracy or flow issue and articulate a coaching response",
+             "Showed consistent leadership presence at Expo: corrections were immediate, respectful, and instructive"]
+    }
+  },
+
+  "4": {
+    label: "Week 4 — Bar 2",
+    theme: "Bar 2 — Barista Training · Station: Bar 2",
+    days: [
+      { id:"d1",  label:"Day 1 — Recap, Station Tour & Core Values" },
+      { id:"d2",  label:"Day 2 — Tools, Equipment & Cleanliness Standards" },
+      { id:"d3",  label:"Day 3 — Coffee Knowledge, Ticket Priority & Drink Setups" },
+      { id:"d45", label:"Days 4–5 — Hands-On Production & Supervised Solo", final:true }
+    ],
+    trainee: {
+      intention: "What does it mean to you to deliver a high-quality beverage experience? Write your own definition before the week starts.",
+      reflections: {
+        d1: ["After your station tour: what surprised you about how the bar is organised? What do you think is the most important thing a new team member would need to know on their first day here?"],
+        d2: ["Why does towel colour assignment matter? What happens to cleanliness and allergen safety if the towel system breaks down? How would you communicate and enforce this standard with your own team?"],
+        d3: ["Pick two syrup standards that were hardest to memorise. Write them here. Now write what goes wrong — for the guest and for the P&L — if these are done inconsistently across every drink in a busy week."],
+        d45:["After working Bar 2 live: where did you feel confident and where did you slow down? What was the hardest thing to hold simultaneously — accuracy, speed, or cleanliness? What would you coach first if you were training someone on this station at your own restaurant?",
+             "What did you notice about how Bar 1 and Bar 2 need to communicate to create a smooth service? What would break down first if that communication stopped? How would you build that communication standard with a brand-new bar team from scratch?"]
+      },
+      teachBack: { day:"d45", text:"Walk your GM through the Bar 2 position as if they are a new hire on Day 1 — station tour, tools, cleanliness standards, syrup counts, fill lines, ticket priority, and the difference between Bar 1 and Bar 2. Explain the why, not just the what." },
+      gate: ["I can name every Bar 2 responsibility and explain how it differs from Bar 1",
+             "I know the priority order of all ticket types and can explain the reasoning behind it",
+             "I can read any ticket accurately and set up the drink correctly — syrup counts, fill lines, milk type, modifiers",
+             "I can name all station tools, their purpose, and the correct cleaning procedure for each",
+             "I understand and can explain the allergen protocol for nut allergies at the bar",
+             "I can explain syrup pump standards for all syrups, sauces, and combo flavours by size",
+             "I held cleanliness and organisation standards continuously — not just at the end of the rush",
+             "I communicated proactively with Bar 1 — I was ahead, not reactive"],
+      weekClose: ["After four weeks on the floor, what do you notice about how each station connects to the others? How does the bar connect to Expo, and Expo to the guest? Write out how you'd explain this system to a new team member at your own location."]
+    },
+    facilitator: {
+      gate: ["Can name every Bar 2 responsibility and explain how it differs from Bar 1",
+             "Knows the priority order of all ticket types and can explain the reasoning",
+             "Can read any ticket accurately and execute the drink correctly — syrup counts, fill lines, milk type, modifiers",
+             "Can name all station tools, their purpose, and their cleaning procedure",
+             "Understands and can execute the allergen protocol for nut allergies at the bar",
+             "Can recite syrup pump standards for all syrups, sauces, and combo flavours by size — without referencing a guide",
+             "Maintained cleanliness and organisation continuously throughout the shift — not just at end of rush",
+             "Communicated proactively with Bar 1 — looked ahead, batched like items, did not wait to be directed"]
+    }
+  }
+};
+
+/* ════════════════════════════════════════════════════════════════════════
+   RENDERING  (no editing needed below this line for content changes)
+   ════════════════════════════════════════════════════════════════════════ */
+let ROLE = "facilitator";
+let gid = 0;
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+const weekSel = document.getElementById('weekSel');
+const daySel  = document.getElementById('daySel');
+const weekCtx = document.getElementById('weekCtx');
+
+function initWeeks(){
+  weekSel.innerHTML = Object.keys(WEEKS).map(k => `<option value="${k}">${esc(WEEKS[k].label)}</option>`).join('');
+  initDays();
+}
+function initDays(){
+  const w = WEEKS[weekSel.value];
+  daySel.innerHTML = w.days.map(d => `<option value="${d.id}">${esc(d.label)}</option>`).join('');
+  weekCtx.textContent = w.theme;
+}
+
+/* ── Field builders ──────────────────────────────────────────────────────*/
+function fText(section, prompt){
+  return `<div class="q" data-field="text" data-section="${esc(section)}" data-label="${esc(prompt)}">
+    <div class="prompt">${esc(prompt)}</div>
+    <textarea placeholder="Type here\u2026"></textarea></div>`;
+}
+function fToggle(section, label, opts){
+  const n = 'g'+(gid++);
+  const r = opts.map((o,i)=>`<input type="radio" name="${n}" id="${n}_${i}" value="${esc(o)}"><label for="${n}_${i}">${esc(o)}</label>`).join('');
+  return `<div class="toggle-row" data-field="toggle" data-section="${esc(section)}" data-label="${esc(label)}">
+    <span class="q-label">${esc(label)}</span><div class="seg">${r}</div></div>`;
+}
+function fCheck(section, label){
+  return `<label class="check" data-field="check" data-section="${esc(section)}" data-label="${esc(label)}">
+    <input type="checkbox"><span>${esc(label)}</span></label>`;
+}
+function card(eyebrow, title, inner){
+  return `<div class="card"><div class="card-head"><span class="eyebrow">${esc(eyebrow)}</span><h2>${esc(title)}</h2></div>
+    <div class="card-body">${inner}</div></div>`;
+}
+
+/* ── Identity (role-aware) ───────────────────────────────────────────────*/
+function renderIdentity(){
+  const today = new Date().toISOString().split('T')[0];
+  const locOpts = '<option value="">Select location…</option>' + LOCATIONS.map(l=>`<option>${esc(l)}</option>`).join('');
+  const isFac = ROLE === 'facilitator';
+  document.getElementById('idTitle').textContent = isFac ? 'Facilitator & trainee details' : 'Your details';
+  const extra = isFac
+    ? `<div class="field"><label class="lbl" for="counterpart">Trainee being observed</label><input type="text" id="counterpart" placeholder="Trainee name"></div>`
+    : `<div class="field"><label class="lbl" for="counterpart">Supervising GM</label><input type="text" id="counterpart" placeholder="GM name"></div>`;
+  document.getElementById('identity').innerHTML = `
+    <div class="grid2">
+      <div class="field"><label class="lbl" for="fName">${isFac?'Your name':'Trainee name'}</label><input type="text" id="fName" placeholder="Full name"></div>
+      <div class="field"><label class="lbl" for="fTitle">Job title</label><input type="text" id="fTitle" placeholder="${isFac?'e.g. General Manager':'e.g. GM Trainee'}" value="${isFac?'':'GM Trainee'}"></div>
+    </div>
+    <div class="grid2">
+      ${extra}
+      <div class="field"><label class="lbl" for="fLoc">Location</label><select id="fLoc">${locOpts}</select></div>
+    </div>
+    <div class="field"><label class="lbl" for="fDate">Shift date</label><input type="date" id="fDate" value="${today}"></div>`;
+}
+
+/* ── Dynamic feedback body ───────────────────────────────────────────────*/
+function renderDynamic(){
+  const w = WEEKS[weekSel.value];
+  const dayObj = w.days.find(d => d.id === daySel.value) || w.days[0];
+  const dayLabel = dayObj.label;
+  let html = '';
+
+  if(ROLE === 'facilitator'){
+    // Conduct toggles
+    let conduct = FAC_CONDUCT.map(c => fToggle('Trainee conduct today', c, ['Yes','No'])).join('');
+    html += card('Step 4', 'Trainee conduct today', conduct);
+    // Observations
+    html += card('Step 5', 'Observations & coaching notes',
+      fText('Observations & coaching notes', 'General observations, coaching notes, and anything to carry into tomorrow.'));
+    // End-of-shift checklist
+    let chk = FAC_CHECKLIST.map(c => fCheck('End-of-shift checklist', c)).join('');
+    html += card('Step 6', 'End-of-shift checklist', chk);
+    // Gate (final day)
+    if(dayObj.final){
+      const g = w.facilitator.gate.map(c =>
+        `<div class="gate-row" data-field="toggle" data-section="Week gate check — GM sign-off" data-label="${esc(c)}">
+          <div class="crit">${esc(c)}</div>${segOnly(['Met','Not yet'])}</div>`).join('');
+      const clearance = `<div class="gate-row" data-field="toggle" data-section="Week gate check — GM sign-off" data-label="Clearance to advance">
+          <div class="crit"><strong>Clearance to advance to next week?</strong></div>${segOnly(['Advance','Extend week'])}</div>`;
+      const gnote = fText('Week gate check — GM sign-off','Notes on readiness, gaps to document, or what you need to see before advancing.');
+      html += card('Gate check', `${w.label.split(' — ')[0]} gate check — GM sign-off`,
+        `<div class="note">All criteria must be confirmed before the trainee advances. This is competency-based, not calendar-based — if criteria aren't met, extend the week and document the gap.</div>${g}${clearance}${gnote}`);
+    }
+  } else {
+    const t = w.trainee;
+    // Intention on first day
+    if(dayObj.id === w.days[0].id){
+      html += card('Goal', 'Your goal / intention',
+        fText('Goal / intention', t.intention));
+    }
+    // Reflections for the day
+    const refs = (t.reflections[dayObj.id] || []);
+    if(refs.length){
+      html += card('Step 4', 'Reflections', refs.map(r => fText('Reflections',r)).join(''));
+    }
+    // Teach-back
+    if(t.teachBack && t.teachBack.day === dayObj.id){
+      html += card('Teach-back', 'Teach-back activity',
+        `<div class="note">${esc(t.teachBack.text)}</div>
+         ${fCheck('Teach-back activity','I completed the teach-back with my GM / trainer')}
+         ${fText('Teach-back activity','What you explained well, and what you want to tighten up.')}`);
+    }
+    // Day notes
+    html += card('Notes', 'Day notes',
+      fText('Day notes','Observations, questions, and things to follow up on.'));
+    // Gate self-assessment + week close (final day)
+    if(dayObj.final){
+      const g = t.gate.map(c =>
+        `<div class="gate-row" data-field="toggle" data-section="Week gate check — self-assessment" data-label="${esc(c)}">
+          <div class="crit">${esc(c)}</div>${segOnly(['Yes','Not yet'])}</div>`).join('');
+      html += card('Gate check', `${w.label.split(' — ')[0]} gate check — your self-assessment`,
+        `<div class="note">Be honest with yourself. If you can't confidently say yes to something, bring it to your end-of-week conversation with your GM.</div>${g}`);
+      if(t.weekClose && t.weekClose.length){
+        html += card('Week close', 'Closing reflection',
+          t.weekClose.map(r => fText('Closing reflection',r)).join(''));
+      }
+    }
+  }
+  document.getElementById('dynamic').innerHTML = html;
+}
+function segOnly(opts){
+  const n = 'g'+(gid++);
+  return `<div class="seg">${opts.map((o,i)=>`<input type="radio" name="${n}" id="${n}_${i}" value="${esc(o)}"><label for="${n}_${i}">${esc(o)}</label>`).join('')}</div>`;
+}
+
+/* ── Collect entries in document order ───────────────────────────────────*/
+function collect(){
+  const out = [];
+  document.querySelectorAll('#dynamic [data-field]').forEach(el => {
+    const section = el.getAttribute('data-section');
+    const label   = el.getAttribute('data-label');
+    const type    = el.getAttribute('data-field');
+    let value = '';
+    if(type === 'text'){ value = (el.querySelector('textarea').value || '').trim(); }
+    else if(type === 'toggle'){ const c = el.querySelector('input:checked'); value = c ? c.value : ''; }
+    else if(type === 'check'){ value = el.querySelector('input').checked ? 'Yes' : ''; }
+    out.push({ section, label, value });
+  });
+  return out;
+}
+
+/* ── Submit ──────────────────────────────────────────────────────────────*/
+const statusEl = document.getElementById('status');
+function setStatus(type, msg){ statusEl.className = 'status show ' + type; statusEl.innerHTML = (type==='load'?'\u23F3 ':type==='err'?'\u26A0 ':'') + msg; }
+function clearStatus(){ statusEl.className = 'status'; statusEl.textContent=''; }
+
+async function submitForm(){
+  clearStatus();
+  const w = WEEKS[weekSel.value];
+  const dayObj = w.days.find(d => d.id === daySel.value);
+  const name  = document.getElementById('fName').value.trim();
+  const title = document.getElementById('fTitle').value.trim();
+  const loc   = document.getElementById('fLoc').value;
+  const date  = document.getElementById('fDate').value;
+  const counterpart = (document.getElementById('counterpart').value || '').trim();
+
+  if(!name || !title || !loc || !date){
+    setStatus('err', 'Add your name, job title, location, and shift date first.');
+    return;
+  }
+  if(APPS_SCRIPT_URL === 'PASTE_YOUR_WEB_APP_URL_HERE'){
+    setStatus('err', 'This form isn\u2019t connected yet — paste your Web App URL into the file.');
+    return;
+  }
+
+  const payload = {
+    role: ROLE,
+    week: weekSel.value,
+    weekLabel: w.label,
+    day: dayObj.label,
+    name, jobTitle: title, location: loc, date,
+    counterpartLabel: ROLE === 'facilitator' ? 'Trainee observed' : 'Supervising GM',
+    counterpart,
+    submittedAt: new Date().toLocaleString('en-US', { timeZone:'America/New_York' }),
+    entries: collect()
+  };
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  setStatus('load', 'Saving to Google Doc\u2026');
+  try{
+    await fetch(APPS_SCRIPT_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    document.getElementById('form').style.display = 'none';
+    document.getElementById('done').style.display = 'block';
+    document.getElementById('doneMsg').textContent =
+      `Your ${ROLE} feedback for ${w.label.split(' — ')[0]}, ${dayObj.label.split(' — ')[0]} was added to the shared Google Doc.`;
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }catch(err){
+    console.error(err);
+    setStatus('err', 'Couldn\u2019t reach the server. Check your connection and try again.');
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+/* ── Events ──────────────────────────────────────────────────────────────*/
+document.querySelectorAll('.role-btn').forEach(b => b.addEventListener('click', () => {
+  ROLE = b.dataset.role;
+  document.querySelectorAll('.role-btn').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+  renderIdentity(); renderDynamic();
+}));
+weekSel.addEventListener('change', () => { initDays(); renderDynamic(); });
+daySel.addEventListener('change', renderDynamic);
+document.getElementById('submitBtn').addEventListener('click', submitForm);
+document.getElementById('againBtn').addEventListener('click', () => {
+  document.getElementById('done').style.display='none';
+  document.getElementById('form').style.display='block';
+  clearStatus();
+  renderIdentity(); renderDynamic();
+  window.scrollTo({ top:0, behavior:'smooth' });
+});
+
+/* ── Init ────────────────────────────────────────────────────────────────*/
+initWeeks();
+renderIdentity();
+renderDynamic();
+</script>
+</body>
+</html>
