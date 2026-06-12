@@ -161,6 +161,10 @@
     .glass-badge { font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; color: var(--ink-lt); background: var(--surface); border: 1px solid var(--border-md); white-space: nowrap; }
     .build-divider { display: none; }
     .build-steps { display: flex; flex-direction: column; gap: 0; }
+    .step-divider { display: flex; align-items: center; gap: 12px; margin: 14px 0 10px; }
+    .step-divider:first-child { margin-top: 0; }
+    .step-divider-label { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); white-space: nowrap; }
+    .step-divider-line { flex: 1; height: 1px; background: var(--border-md); }
     .build-step { display: flex; align-items: flex-start; gap: 14px; position: relative; padding: 5px 0; }
     .build-step:not(:last-child)::before {
       content: ''; position: absolute; left: 11px; top: 30px; bottom: -5px;
@@ -279,7 +283,7 @@
 
 <main>
   <div class="section-rule">
-    <div class="section-rule-label">New Summer Cocktails — 7 Builds</div>
+    <div class="section-rule-label">New Summer Cocktails — 7 Builds + Prep Recipe</div>
     <div class="section-rule-line"></div>
   </div>
   <div class="cocktail-grid" id="cocktail-grid"></div>
@@ -485,6 +489,35 @@ var COCKTAILS = [
     image: "PASTE_IMAGE_URL_HERE",
     video: "PASTE_VIDEO_URL_HERE",
     quiz:  "PASTE_QUIZ_URL_HERE"
+  },
+  {
+    id: "earths-harvest-essence",
+    name: "Earth's Harvest Essence (Tincture)",
+    badge: "Prep Recipe", badgeClass: "badge-na",
+    allergy: "⚠ Sesame", allergyClass: "allergy-warn",
+    desc: "Our house botanical tincture crafted from reclaimed juice pulp — used in the Garden State of Mind. Adds subtle savory depth and complexity, applied by the drop like bitters.",
+    glass: "Dropper Bottle",
+    steps: [
+      { divider: "In Quart Container" },
+      { qty: "8 oz",   text: "Ketel One Vodka" },
+      { qty: "2 oz",   text: "Earth's Harvest Broth" },
+      { qty: "2 drops", text: "Sesame Oil" },
+      { qty: "",       text: "Top with lid" },
+      { qty: "",       text: "Shake aggressively for 15–20 seconds" },
+      { qty: "",       text: "Label with date & time" },
+      { divider: "Let Infuse for 18–24 Hrs" },
+      { qty: "",       text: "After infusion, pour tincture through a coffee filter & mesh strainer into a clean container" },
+      { qty: "",       text: "Portion filtered tincture into dropper bottle" },
+      { qty: "",       text: "Label date on leftover tincture & refrigerate" }
+    ],
+    garnish: [],
+    notes: [
+      "Dropper bottle is shelf stable for 30 days.",
+      "Leftover tincture must be labeled with date and refrigerated."
+    ],
+    image: "PASTE_IMAGE_URL_HERE",
+    video: "PASTE_VIDEO_URL_HERE",
+    quiz:  "PASTE_QUIZ_URL_HERE"
   }
 ];
 
@@ -525,16 +558,23 @@ function buildCards() {
 
     // ── Build steps ──
     var stepsHtml = '';
-    c.steps.forEach(function(step, i) {
-      var textHtml = step.qty
-        ? '<span class="qty">' + step.qty + '</span> ' + step.text
-        : step.text;
-      var subHtml = step.sub ? '<span class="step-sub">' + step.sub + '</span>' : '';
-      stepsHtml +=
-        '<div class="build-step">' +
-          '<div class="step-num">' + (i + 1) + '</div>' +
-          '<div class="step-text">' + textHtml + subHtml + '</div>' +
-        '</div>';
+    var stepNum = 0;
+    c.steps.forEach(function(step) {
+      if (step.divider) {
+        stepNum = 0;
+        stepsHtml += '<div class="step-divider"><div class="step-divider-label">' + step.divider + '</div><div class="step-divider-line"></div></div>';
+      } else {
+        stepNum++;
+        var textHtml = step.qty
+          ? '<span class="qty">' + step.qty + '</span> ' + step.text
+          : step.text;
+        var subHtml = step.sub ? '<span class="step-sub">' + step.sub + '</span>' : '';
+        stepsHtml +=
+          '<div class="build-step">' +
+            '<div class="step-num">' + stepNum + '</div>' +
+            '<div class="step-text">' + textHtml + subHtml + '</div>' +
+          '</div>';
+      }
     });
 
     // ── Garnish ──
