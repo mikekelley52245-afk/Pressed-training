@@ -106,7 +106,7 @@
 
     /* ── Media ── */
     .card-media {
-      width: 100%; aspect-ratio: 4/3; background: linear-gradient(160deg, #2a2723, #1a1815);
+      width: 100%; aspect-ratio: 4/5; background: linear-gradient(160deg, #2a2723, #1a1815);
       position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
     }
     .card-media img {
@@ -240,7 +240,7 @@
 </header>
 
 <div class="hero">
-  <div class="hero-eyebrow">Summer 2026 &bull; June 16 – August 31</div>
+  <div class="hero-eyebrow">Summer 2026 &bull; June 23 – August 31</div>
   <div class="hero-title">Summer <span>Cocktail</span> Training</div>
   <div class="hero-sub">New builds &bull; Featured bottles &bull; Seasonal menu updates</div>
 </div>
@@ -269,7 +269,7 @@
       <ul>
         <li>Seasonal + year-round cocktails are now one synchronized menu</li>
         <li>Updated design to match current Pressed menu standards</li>
-        <li>New menus installed before June 16 launch — throw out old menus</li>
+        <li>New menus installed before June 23 launch — throw out old menus</li>
       </ul>
     </div>
   </div>
@@ -315,6 +315,7 @@ var COCKTAILS = [
     steps: [
       { qty: "1",        unit: "",   text: "demerara sugar cube + 2 lime wedges", sub: "Muddle in a small shaking tin" },
       { qty: "1 oz",     unit: "",   text: "Seedlip Spice" },
+      { qty: "1/4 oz",   unit: "",   text: "agave" },
       { qty: "splash",   unit: "",   text: "ginger beer" },
       { qty: "",         unit: "",   text: "Add ice and shake" },
       { qty: "",         unit: "",   text: "Dump all ingredients into a tall rocks glass" },
@@ -324,9 +325,9 @@ var COCKTAILS = [
     ],
     garnish: ["Fresh mint", "Clipped dehydrated lime"],
     notes: ["Mocktail is 0% alcohol. Seedlip is a 0% ABV spirit."],
-    image: "PASTE_IMAGE_URL_HERE",
-    video: "PASTE_VIDEO_URL_HERE",
-    quiz:  "PASTE_QUIZ_URL_HERE"
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/BEET%20BOX.jpg", imagePosition: "center 55%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=c0bcdfa9-fc58-4395-8bd0-299b87b98fb2&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUQUlRMjZLOE41U0M2TU9QWTNMOVMyV01ETy4u"
   },
   {
     id: "salsa-verde",
@@ -345,14 +346,14 @@ var COCKTAILS = [
       { qty: "",       unit: "", text: "Add ice, shake, strain" },
       { qty: "",       unit: "", text: "Double strain into short rocks glass, fill with fresh ice" }
     ],
-    garnish: ["Tajin rim (rim before building)", "Celery top", "Clipped dehydrated lime"],
+    garnish: ["Tajin rim (rim before building)", "Cilantro sprigs", "Clipped dehydrated lime"],
     notes: [
       "Mocktail contains celery bitters (minute alcohol). Still an N/A beverage — can be removed if guest wants completely 0%.",
       "Optional sub: add 1.5 oz tequila or mezcal in place of Seedlip. Great upsell opportunity."
     ],
-    image: "PASTE_IMAGE_URL_HERE",
-    video: "PASTE_VIDEO_URL_HERE",
-    quiz:  "PASTE_QUIZ_URL_HERE"
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/SALSA%20VERDE.jpg", imagePosition: "center 75%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=b8021e7e-6017-4949-9f9a-86216e069131&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUNFQwNzk2NDNINlJMVkpOU0NTMkpKSFRCWC4u"
   },
   {
     id: "pressed-on-the-beach",
@@ -375,9 +376,9 @@ var COCKTAILS = [
     ],
     garnish: ["Tiki umbrella picked through:", "Cherry & peach slices"],
     notes: ["Proper layering is key: Aperol first in the bottom, shake/strain spirits into glass, then float cherry juice and dark rum last."],
-    image: "PASTE_IMAGE_URL_HERE",
-    video: "PASTE_VIDEO_URL_HERE",
-    quiz:  "PASTE_QUIZ_URL_HERE"
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/Pressed%20on%20the%20Beach.jpg", imagePosition: "center 70%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=441d9855-3346-4462-b01f-bc6567c7f6f1&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUNlRSRFFPR1I2MVNaUEpaM0tPVzZBU1lQSC4u"
   },
   {
     id: "nanas-jam-jar",
@@ -390,8 +391,9 @@ var COCKTAILS = [
       { qty: "1.5 oz", unit: "", text: "Bar Hill Gin", sub: "In small shaking tin" },
       { qty: "1/2 oz", unit: "", text: "Limoncello" },
       { qty: "3/4 oz", unit: "", text: "hibiscus tea (caffeine-free)" },
-      { qty: "3/4 oz", unit: "", text: "blueberry compote" },
-      { qty: "1/2 oz", unit: "", text: "honey syrup" },
+      { qty: "1 oz",   unit: "", text: "blueberry compote" },
+      { qty: "3/4 oz", unit: "", text: "honey syrup" },
+      { qty: "3/4 oz", unit: "", text: "lemon juice" },
       { qty: "1",      unit: "", text: "bar spoon labne" },
       { qty: "",       unit: "", text: "Dry shake 10–15 seconds" },
       { qty: "",       unit: "", text: "Wet shake 10–15 seconds with ice" },
@@ -402,9 +404,9 @@ var COCKTAILS = [
       "Tea is caffeine-free in this beverage.",
       "Like egg white cocktails: labne is incorporated with a dry shake first, then a second wet shake with ice."
     ],
-    image: "PASTE_IMAGE_URL_HERE",
-    video: "PASTE_VIDEO_URL_HERE",
-    quiz:  "PASTE_QUIZ_URL_HERE"
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/Nanas%20Jam%20Jar.jpg", imagePosition: "center 90%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=96a44e69-dc62-443f-8d7b-c8855441303a&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUMDJDQzE1SkNFNUxRQTRMNjFMU1BCRkpMNi4u"
   },
   {
     id: "garden-state-of-mind",
@@ -431,9 +433,9 @@ var COCKTAILS = [
       "Describing Earth's Harvest Essence: \"A tincture made from reclaimed juice pulp — adds subtle savory depth and complexity.\"",
       "A tincture = concentrated flavor extract made by infusing ingredients into alcohol. Used like bitters, just a few drops."
     ],
-    image: "PASTE_IMAGE_URL_HERE",
-    video: "PASTE_VIDEO_URL_HERE",
-    quiz:  "PASTE_QUIZ_URL_HERE"
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/GardenStateofMind_1%20(use%20this%20one).jpg", imagePosition: "center 68%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=a307bf3a-a1a4-40d1-81fb-4fed9716dad6&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUQU5GTkk0OFcyWFRaVlJBUUo3UzlGMDhBMy4u"
   },
   {
     id: "banana-trade",
@@ -458,9 +460,9 @@ var COCKTAILS = [
       "Large ice rocks must always be stocked. Must be served over a large ice rock, not a full glass of ice.",
       "Light Sichuan pepper dusting only — it is very strong. Goal is subtle spice to complement, not overpower."
     ],
-    image: "PASTE_IMAGE_URL_HERE",
-    video: "PASTE_VIDEO_URL_HERE",
-    quiz:  "PASTE_QUIZ_URL_HERE"
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/Banana%20Trade.jpg", imagePosition: "center 80%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=388ce914-cff8-4b25-b2ef-48f0cc150bea&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUQ1VYOE5FQ0lZNk1SVTMyV0hETURQNUc1SS4u"
   },
   {
     id: "purple-rio-sangria",
@@ -486,9 +488,9 @@ var COCKTAILS = [
       "Muddling the lime and sugar cube is essential — it breaks down lime oils and sugar into the cocktail.",
       "What's cachaça? Brazil's national spirit, similar to rum but distilled from fermented sugarcane juice. Earthy, grassy, slightly funky."
     ],
-    image: "PASTE_IMAGE_URL_HERE",
-    video: "PASTE_VIDEO_URL_HERE",
-    quiz:  "PASTE_QUIZ_URL_HERE"
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/Purple%20Rio.jpg", imagePosition: "center 72%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=85746efa-ccea-4e0a-8dc2-2c6bd9e049ee&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUMUhBTkVINzVQRU0wVkhUMkJHQ0lSR1gzQS4u"
   },
   {
     id: "earths-harvest-essence",
@@ -515,9 +517,9 @@ var COCKTAILS = [
       "Dropper bottle is shelf stable for 30 days.",
       "Leftover tincture must be labeled with date and refrigerated."
     ],
-    image: "PASTE_IMAGE_URL_HERE",
-    video: "PASTE_VIDEO_URL_HERE",
-    quiz:  "PASTE_QUIZ_URL_HERE"
+    image: "https://raw.githubusercontent.com/mikekelley52245-afk/Pressed-training/main/assets/Harvest%20Prep.jpg", imagePosition: "center 88%",
+    video: "https://netorg3754994.sharepoint.com/sites/Corporate/_layouts/15/embed.aspx?UniqueId=aaf37bc1-b471-4f01-807d-6d8e0de78410&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create",
+    quiz:  "https://forms.office.com/Pages/ResponsePage.aspx?id=N8JKzXJ7oEqolOkzGQinD2cyFBD0fu1NkMbHKY7UnTZUN0YxTDBRWEE3WUVFVkgxQU00OTJNNkhHSi4u"
   }
 ];
 
@@ -541,7 +543,7 @@ function buildCards() {
     if (hasImage) {
       mediaHtml =
         '<div class="card-media"' + (hasVideo ? ' onclick="window.open(\'' + c.video + '\',\'_blank\')"' : '') + '>' +
-          '<img src="' + c.image + '" alt="' + c.name + ' build" />' +
+          '<img src="' + c.image + '" alt="' + c.name + ' build" style="object-position:' + (c.imagePosition || 'center center') + '" />' +
           (hasVideo ? '<div class="play-overlay"><div class="play-circle"><svg viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5,3 19,12 5,21"/></svg></div></div>' : '') +
           '<span class="card-badge ' + c.badgeClass + '">' + c.badge + '</span>' +
         '</div>';
